@@ -79,6 +79,7 @@ project(':job-dsl-core') {
         compile 'xmlunit:xmlunit:1.4' // for runtime use, not just for testing
         compile 'org.jenkins-ci:version-number:1.1'
         compile 'org.jvnet.hudson:xstream:1.4.7-jenkins-1'
+        compile 'org.pegdown:pegdown:1.4.2'
     }
 
     jar {
@@ -105,6 +106,12 @@ project(':job-dsl-core') {
 
     task oneJar(type: OneJar) {
         mainClass = project.mainClassName
+    }
+
+    task generateApiDoc (dependsOn: 'classes', type: JavaExec) {
+        main = 'javaposse.jobdsl.dsl.doc.ApiDocGenerator'
+        classpath = sourceSets.main.runtimeClasspath
+        args = [version]
     }
 
     run {
