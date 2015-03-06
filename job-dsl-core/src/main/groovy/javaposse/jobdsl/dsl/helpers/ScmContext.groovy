@@ -5,6 +5,7 @@ import javaposse.jobdsl.dsl.Context
 import javaposse.jobdsl.dsl.DslContext
 import javaposse.jobdsl.dsl.JobManagement
 import javaposse.jobdsl.dsl.WithXmlAction
+import javaposse.jobdsl.dsl.doc.DslMethodDoc
 import javaposse.jobdsl.dsl.helpers.scm.ClearCaseContext
 import javaposse.jobdsl.dsl.helpers.scm.GitContext
 import javaposse.jobdsl.dsl.helpers.scm.PerforcePasswordEncryptor
@@ -53,6 +54,7 @@ class ScmContext implements Context {
         </browser>
       </scm>
      */
+    @DslMethodDoc(plugin = 'mercurial')
     void hg(String url, String branch = null, Closure configure = null) {
         validateMulti()
         checkNotNull(url)
@@ -114,6 +116,7 @@ class ScmContext implements Context {
        <scmName/>
      </hudson.plugins.git.GitSCM>
      */
+    @DslMethodDoc(plugin = 'git')
     void git(@DslContext(GitContext) Closure gitClosure) {
         validateMulti()
 
@@ -223,6 +226,7 @@ class ScmContext implements Context {
         }
     }
 
+    @DslMethodDoc(plugin = 'git')
     void github(String ownerAndProject, String branch = null, String protocol = 'https', Closure closure) {
         github(ownerAndProject, branch, protocol, 'github.com', closure)
     }
@@ -260,6 +264,7 @@ class ScmContext implements Context {
      *     <workspaceUpdater class="hudson.scm.subversion.UpdateUpdater"/>
      * </scm>
      */
+    @DslMethodDoc(plugin = 'subversion')
     void svn(String svnUrl, Closure configure = null) {
         svn(svnUrl, '.', configure)
     }
@@ -337,6 +342,7 @@ class ScmContext implements Context {
        <pollOnlyOnMaster>true</pollOnlyOnMaster>
      </scm>
      */
+    @DslMethodDoc(plugin = 'perforce')
     void p4(String viewspec, Closure configure = null) {
         p4(viewspec, 'rolem', '', configure)
     }
@@ -400,6 +406,7 @@ class ScmContext implements Context {
      *   <criteria>Successful</criteria>
      * </scm>
      */
+    @DslMethodDoc(plugin = 'clone-workspace-scm')
     void cloneWorkspace(String parentProject, String criteriaArg = 'Any') {
         checkNotNull(parentProject)
         checkArgument(validCloneWorkspaceCriteria.contains(criteriaArg),
@@ -447,6 +454,7 @@ class ScmContext implements Context {
      *
      * See http://wiki.jenkins-ci.org/display/JENKINS/ClearCase+Plugin
      */
+    @DslMethodDoc(plugin = 'clearcase')
     void baseClearCase(@DslContext(ClearCaseContext) Closure closure = null) {
         validateMulti()
 
@@ -497,6 +505,7 @@ class ScmContext implements Context {
      *     <avoidUsingToolkit>false</avoidUsingToolkit>
      * </scm>
      */
+    @DslMethodDoc(plugin = 'teamconcert')
     void rtc(@DslContext(RTCContext) Closure closure) {
         validateMulti()
 

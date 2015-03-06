@@ -5,6 +5,7 @@ import javaposse.jobdsl.dsl.Context
 import javaposse.jobdsl.dsl.DslContext
 import javaposse.jobdsl.dsl.JobManagement
 import javaposse.jobdsl.dsl.WithXmlAction
+import javaposse.jobdsl.dsl.doc.DslMethodDoc
 
 import static javaposse.jobdsl.dsl.ContextHelper.executeInContext
 
@@ -35,6 +36,7 @@ class GitContext implements Context {
         this.withXmlActions = withXmlActions
     }
 
+    @DslMethodDoc
     void remote(@DslContext(RemoteContext) Closure remoteClosure) {
         RemoteContext remoteContext = new RemoteContext(withXmlActions)
         executeInContext(remoteClosure, remoteContext)
@@ -57,10 +59,12 @@ class GitContext implements Context {
         }
     }
 
+    @DslMethodDoc
     void strategy(@DslContext(StrategyContext) Closure strategyClosure) {
         executeInContext(strategyClosure, strategyContext)
     }
 
+    @DslMethodDoc
     void mergeOptions(String remote = null, String branch) {
         if (jobManagement.getPluginVersion('git')?.isOlderThan(new VersionNumber('2.0.0'))) {
             mergeOptions = NodeBuilder.newInstance().'userMergeOptions' {
@@ -78,59 +82,73 @@ class GitContext implements Context {
         }
     }
 
+    @DslMethodDoc
     void branch(String branch) {
         this.branches.add(branch)
     }
 
+    @DslMethodDoc
     void branches(String... branches) {
         this.branches.addAll(branches)
     }
 
+    @DslMethodDoc
     void createTag(boolean createTag = true) {
         this.createTag = createTag
     }
 
+    @DslMethodDoc
     void clean(boolean clean = true) {
         this.clean = clean
     }
 
+    @DslMethodDoc
     void wipeOutWorkspace(boolean wipeOutWorkspace = true) {
         this.wipeOutWorkspace = wipeOutWorkspace
     }
 
+    @DslMethodDoc
     void remotePoll(boolean remotePoll = true) {
         this.remotePoll = remotePoll
     }
 
+    @DslMethodDoc
     void shallowClone(boolean shallowClone = true) {
         this.shallowClone = shallowClone
     }
 
+    @DslMethodDoc
     void pruneBranches(boolean pruneBranches = true) {
         this.pruneBranches = pruneBranches
     }
 
+    @DslMethodDoc
     void localBranch(String localBranch) {
         this.localBranch = localBranch
     }
 
+    @DslMethodDoc
     void relativeTargetDir(String relativeTargetDir) {
         this.relativeTargetDir = relativeTargetDir
     }
 
+    @DslMethodDoc
     void reference(String reference) {
         this.reference = reference
     }
 
+    @DslMethodDoc
     void cloneTimeout(int cloneTimeout) {
         jobManagement.requireMinimumPluginVersion('git', '2.0.0')
         this.cloneTimeout = cloneTimeout
     }
 
+    @DslMethodDoc
     void browser(@DslContext(GitBrowserContext) Closure gitBrowserClosure) {
         executeInContext(gitBrowserClosure, gitBrowserContext)
     }
 
+    @DslMethodDoc
     void configure(Closure withXmlClosure) {
         this.withXmlClosure = withXmlClosure
     }

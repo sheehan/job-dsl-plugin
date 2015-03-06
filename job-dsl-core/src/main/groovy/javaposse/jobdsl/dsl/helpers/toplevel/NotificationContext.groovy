@@ -4,6 +4,7 @@ import hudson.util.VersionNumber
 import javaposse.jobdsl.dsl.Context
 import javaposse.jobdsl.dsl.DslContext
 import javaposse.jobdsl.dsl.JobManagement
+import javaposse.jobdsl.dsl.doc.DslMethodDoc
 
 import static com.google.common.base.Preconditions.checkArgument
 import static com.google.common.base.Strings.isNullOrEmpty
@@ -20,10 +21,12 @@ class NotificationContext implements Context {
         this.jobManagement = jobManagement
     }
 
+    @DslMethodDoc
     void endpoint(String url, String protocol = 'HTTP', String format = 'JSON') {
         endpoint(url, protocol, format, null)
     }
 
+    @DslMethodDoc
     void endpoint(String url, String protocol = 'HTTP', String format = 'JSON',
                   @DslContext(NotificationEndpointContext) Closure notificationEndpointClosure) {
         checkArgument(!isNullOrEmpty(url), 'url must be specified')

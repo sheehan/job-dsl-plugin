@@ -1,6 +1,8 @@
 package javaposse.jobdsl.dsl
 
 import com.google.common.base.Preconditions
+import javaposse.jobdsl.dsl.doc.DeprecatedSinceVersion
+import javaposse.jobdsl.dsl.doc.DslMethodDoc
 import javaposse.jobdsl.dsl.helpers.AuthorizationContext
 import javaposse.jobdsl.dsl.helpers.BuildParametersContext
 import javaposse.jobdsl.dsl.helpers.Permissions
@@ -31,17 +33,21 @@ abstract class Job extends Item {
      * @return a new graph of groovy.util.Node objects, representing the job configuration structure
      * @throws JobTemplateMissingException
      */
+    @DslMethodDoc
     void using(String templateName) throws JobTemplateMissingException {
         Preconditions.checkState(this.templateName == null, 'Can only use "using" once')
         this.templateName = templateName
     }
 
     @Deprecated
+    @DslMethodDoc
+    @DeprecatedSinceVersion('1.30')
     void name(Closure nameClosure) {
         jobManagement.logDeprecationWarning()
         name(nameClosure.call().toString())
     }
 
+    @DslMethodDoc
     void description(String descriptionString) {
         withXmlActions << WithXmlAction.create { Node project ->
             Node node = methodMissing('description', descriptionString)
@@ -54,6 +60,7 @@ abstract class Job extends Item {
      * this job before the configuration is updated.
      * This can be useful to keep the build history.
      */
+    @DslMethodDoc
     void previousNames(String regex) {
         this.previousNamesRegex = regex
     }
@@ -64,6 +71,7 @@ abstract class Job extends Item {
      * @param labelExpression Label of node to use, if null is passed in, the label is cleared out and it can roam
      * @return
      */
+    @DslMethodDoc
     void label(String labelExpression = null) {
         withXmlActions << WithXmlAction.create { Node project ->
             if (labelExpression) {
@@ -92,10 +100,12 @@ abstract class Job extends Item {
      *       <contributors/>
      *     </EnvInjectJobProperty>
      */
+    @DslMethodDoc
     void environmentVariables(@DslContext(EnvironmentVariableContext) Closure envClosure) {
         environmentVariables(null, envClosure)
     }
 
+    @DslMethodDoc
     void environmentVariables(Map<Object, Object> vars,
                               @DslContext(EnvironmentVariableContext) Closure envClosure = null) {
         EnvironmentVariableContext envContext = new EnvironmentVariableContext(jobManagement)
@@ -131,6 +141,7 @@ abstract class Job extends Item {
      *     <properties>
      * </project>
      */
+    @DslMethodDoc
     void throttleConcurrentBuilds(@DslContext(ThrottleConcurrentBuildsContext) Closure throttleClosure) {
         ThrottleConcurrentBuildsContext throttleContext = new ThrottleConcurrentBuildsContext()
         ContextHelper.executeInContext(throttleClosure, throttleContext)
@@ -185,6 +196,7 @@ abstract class Job extends Item {
     /**
      * <disabled>true</disabled>
      */
+    @DslMethodDoc
     void disabled(boolean shouldDisable = true) {
         withXmlActions << WithXmlAction.create { Node project ->
             Node node = methodMissing('disabled', shouldDisable)
@@ -200,6 +212,7 @@ abstract class Job extends Item {
      *     <artifactNumToKeep>20</artifactNumToKeep>
      * </logRotator>
      */
+    @DslMethodDoc
     void logRotator(int daysToKeepInt = -1, int numToKeepInt = -1,
                    int artifactDaysToKeepInt = -1, int artifactNumToKeepInt = -1) {
         withXmlActions << WithXmlAction.create { Node project ->
@@ -221,6 +234,7 @@ abstract class Job extends Item {
      *     </hudson.plugins.buildblocker.BuildBlockerProperty>
      * </properties>
      */
+    @DslMethodDoc
     void blockOn(Iterable<String> projectNames) {
         blockOn(projectNames.join('\n'))
     }
@@ -230,6 +244,7 @@ abstract class Job extends Item {
      * @param projectName Can be regular expressions. Newline delimited.
      * @return
      */
+    @DslMethodDoc
     void blockOn(String projectName) {
         withXmlActions << WithXmlAction.create { Node project ->
             project / 'properties' / 'hudson.plugins.buildblocker.BuildBlockerProperty' {
@@ -243,6 +258,7 @@ abstract class Job extends Item {
      * Name of the JDK installation to use for this job.
      * @param jdkArg name of the JDK installation to use for this job.
      */
+    @DslMethodDoc
     void jdk(String jdkArg) {
         withXmlActions << WithXmlAction.create { Node project ->
             Node node = methodMissing('jdk', jdkArg)
@@ -261,6 +277,7 @@ abstract class Job extends Item {
      *     </hudson.queueSorter.PrioritySorterJobProperty>
      * </properties>
      */
+    @DslMethodDoc
     void priority(int value) {
         withXmlActions << WithXmlAction.create { Node project ->
             Node node = new Node(project / 'properties', 'hudson.queueSorter.PrioritySorterJobProperty')
@@ -273,6 +290,7 @@ abstract class Job extends Item {
      *
      * @param seconds number of seconds to wait
      */
+    @DslMethodDoc
     void quietPeriod(int seconds = 5) {
         withXmlActions << WithXmlAction.create { Node project ->
             Node node = methodMissing('quietPeriod', seconds)
@@ -285,6 +303,7 @@ abstract class Job extends Item {
      *
      * @param times number of attempts
      */
+    @DslMethodDoc
     void checkoutRetryCount(int times = 3) {
         withXmlActions << WithXmlAction.create { Node project ->
             Node node = methodMissing('scmCheckoutRetryCount', times)
@@ -297,6 +316,7 @@ abstract class Job extends Item {
      *
      * @param displayName name to display
      */
+    @DslMethodDoc
     void displayName(String displayName) {
         Preconditions.checkNotNull(displayName, 'Display name must not be null.')
         withXmlActions << WithXmlAction.create { Node project ->
@@ -310,6 +330,7 @@ abstract class Job extends Item {
      *
      * @param workspacePath workspace path to use
      */
+    @DslMethodDoc
     void customWorkspace(String workspacePath) {
         Preconditions.checkNotNull(workspacePath, 'Workspace path must not be null')
         withXmlActions << WithXmlAction.create { Node project ->
@@ -321,6 +342,7 @@ abstract class Job extends Item {
     /**
      * Configures the job to block when upstream projects are building.
      */
+    @DslMethodDoc
     void blockOnUpstreamProjects() {
         withXmlActions << WithXmlAction.create { Node project ->
             project / blockBuildWhenUpstreamBuilding(true)
@@ -330,6 +352,7 @@ abstract class Job extends Item {
     /**
      * Configures the job to block when downstream projects are building.
      */
+    @DslMethodDoc
     void blockOnDownstreamProjects() {
         withXmlActions << WithXmlAction.create { Node project ->
             project / blockBuildWhenDownstreamBuilding(true)
@@ -341,6 +364,7 @@ abstract class Job extends Item {
      *
      * <keepDependencies>true</keepDependencies>
      */
+    @DslMethodDoc
     void keepDependencies(boolean keep = true) {
         withXmlActions << WithXmlAction.create { Node project ->
             Node node = methodMissing('keepDependencies', keep)
@@ -353,6 +377,7 @@ abstract class Job extends Item {
      *
      * <concurrentBuild>true</concurrentBuild>
      */
+    @DslMethodDoc
     void concurrentBuild(boolean allowConcurrentBuild = true) {
         withXmlActions << WithXmlAction.create { Node project ->
             Node node = methodMissing('concurrentBuild', allowConcurrentBuild)
@@ -377,6 +402,7 @@ abstract class Job extends Item {
      *     </com.tikal.hudson.plugins.notification.HudsonNotificationProperty>
      * </properties>
      */
+    @DslMethodDoc
     void notifications(@DslContext(NotificationContext) Closure notificationClosure) {
         NotificationContext notificationContext = new NotificationContext(jobManagement)
         ContextHelper.executeInContext(notificationClosure, notificationContext)
@@ -400,6 +426,7 @@ abstract class Job extends Item {
      *     </hudson.plugins.batch__task.BatchTaskProperty>
      * </properties>
      */
+    @DslMethodDoc
     void batchTask(String name, String script) {
         withXmlActions << WithXmlAction.create { Node project ->
             Node batchTaskProperty = project / 'properties' / 'hudson.plugins.batch__task.BatchTaskProperty'
@@ -418,6 +445,7 @@ abstract class Job extends Item {
      *     </se.diabol.jenkins.pipeline.PipelineProperty>
      * </properties>
      */
+    @DslMethodDoc
     void deliveryPipelineConfiguration(String stageName, String taskName = null) {
         if (stageName || taskName) {
             withXmlActions << WithXmlAction.create { Node project ->
@@ -433,6 +461,7 @@ abstract class Job extends Item {
         }
     }
 
+    @DslMethodDoc
     void authorization(@DslContext(AuthorizationContext) Closure closure) {
         AuthorizationContext context = new AuthorizationContext()
         ContextHelper.executeInContext(closure, context)
@@ -446,6 +475,7 @@ abstract class Job extends Item {
     }
 
     @Deprecated
+    @DslMethodDoc
     void permission(String permission) {
         jobManagement.logDeprecationWarning()
 
@@ -455,6 +485,7 @@ abstract class Job extends Item {
     }
 
     @Deprecated
+    @DslMethodDoc
     void permission(Permissions permission, String user) {
         jobManagement.logDeprecationWarning()
 
@@ -464,6 +495,7 @@ abstract class Job extends Item {
     }
 
     @Deprecated
+    @DslMethodDoc
     void permission(String permissionEnumName, String user) {
         jobManagement.logDeprecationWarning()
 
@@ -472,6 +504,7 @@ abstract class Job extends Item {
         }
     }
 
+    @DslMethodDoc
     void parameters(@DslContext(BuildParametersContext) Closure closure) {
         BuildParametersContext context = new BuildParametersContext()
         ContextHelper.executeInContext(closure, context)
@@ -484,6 +517,7 @@ abstract class Job extends Item {
         }
     }
 
+    @DslMethodDoc
     void scm(@DslContext(ScmContext) Closure closure) {
         ScmContext context = new ScmContext(false, withXmlActions, jobManagement)
         ContextHelper.executeInContext(closure, context)
@@ -500,6 +534,7 @@ abstract class Job extends Item {
         }
     }
 
+    @DslMethodDoc
     void multiscm(@DslContext(ScmContext) Closure closure) {
         ScmContext context = new ScmContext(true, withXmlActions, jobManagement)
         ContextHelper.executeInContext(closure, context)

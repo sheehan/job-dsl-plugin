@@ -105,16 +105,6 @@ class ApiDocGenerator {
                 methodMap.exampleXml = exampleXml.stripIndent().trim()
             }
 
-            String deprecatedSinceVersion = dslMethod?.deprecatedSinceVersion()
-            if (deprecatedSinceVersion) {
-                methodMap.deprecatedSinceVersion = deprecatedSinceVersion
-            }
-
-            String availableSinceVersion = dslMethod?.availableSinceVersion()
-            if (availableSinceVersion) {
-                methodMap.availableSinceVersion = availableSinceVersion
-            }
-
             String newPath = path + '/' + methodName
             Class contextClass = getContextClass(method, methodDoc)
             if (contextClass) {
@@ -192,6 +182,16 @@ class ApiDocGenerator {
 
         if (method.getAnnotation(Deprecated)) {
             map.deprecated = true
+        }
+
+        String deprecatedSinceVersion = method.getAnnotation(DeprecatedSinceVersion)?.value()
+        if (deprecatedSinceVersion) {
+            map.deprecatedSinceVersion = deprecatedSinceVersion
+        }
+
+        String availableSinceVersion = method.getAnnotation(AvailableSinceVersion)?.value()
+        if (availableSinceVersion) {
+            map.availableSinceVersion = availableSinceVersion
         }
 
         map

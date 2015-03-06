@@ -2,6 +2,7 @@ package javaposse.jobdsl.dsl.helpers.scm
 
 import javaposse.jobdsl.dsl.Context
 import javaposse.jobdsl.dsl.WithXmlAction
+import javaposse.jobdsl.dsl.doc.DslMethodDoc
 
 class RemoteContext implements Context {
     private final List<WithXmlAction> withXmlActions
@@ -16,22 +17,27 @@ class RemoteContext implements Context {
         this.withXmlActions = withXmlActions
     }
 
+    @DslMethodDoc
     void name(String name) {
         this.name = name
     }
 
+    @DslMethodDoc
     void url(String url) {
         this.url = url
     }
 
+    @DslMethodDoc
     void credentials(String credentials) {
         this.credentials = credentials
     }
 
+    @DslMethodDoc
     void refspec(String refspec) {
         this.refspec = refspec
     }
 
+    @DslMethodDoc
     void github(String ownerAndProject, String protocol = 'https', String host = 'github.com') {
         switch (protocol) {
             case 'https':

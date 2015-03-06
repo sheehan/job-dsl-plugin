@@ -3,6 +3,7 @@ package javaposse.jobdsl.dsl.helpers
 import javaposse.jobdsl.dsl.Context
 import javaposse.jobdsl.dsl.ContextHelper
 import javaposse.jobdsl.dsl.DslContext
+import javaposse.jobdsl.dsl.doc.DslMethodDoc
 
 import static com.google.common.base.Preconditions.checkArgument
 import static com.google.common.base.Preconditions.checkNotNull
@@ -26,6 +27,7 @@ class BuildParametersContext implements Context {
      * @param description (optional)
      * @return
      */
+    @DslMethodDoc
     void booleanParam(String parameterName, boolean defaultValue = false, String description = null) {
         simpleParam('hudson.model.BooleanParameterDefinition', parameterName, defaultValue, description)
     }
@@ -57,6 +59,7 @@ class BuildParametersContext implements Context {
      * @param description (optional)
      * @return
      */
+    @DslMethodDoc
     void listTagsParam(String parameterName, String scmUrl, String tagFilterRegex, boolean sortNewestFirst = false,
                       boolean sortZtoA = false, String maxTagsToDisplay = 'all', String defaultValue = null,
                       String description = null) {
@@ -108,6 +111,7 @@ class BuildParametersContext implements Context {
      * @param description (optional)
      * @return
      */
+    @DslMethodDoc
     void choiceParam(String parameterName, List<String> options, String description = null) {
         checkArgument(!buildParameterNodes.containsKey(parameterName), 'parameter $parameterName already defined')
         checkNotNull(parameterName, 'parameterName cannot be null')
@@ -147,6 +151,7 @@ class BuildParametersContext implements Context {
      * @param description (optional)
      * @return
      */
+    @DslMethodDoc
     void fileParam(String fileLocation, String description = null) {
         checkArgument(!buildParameterNodes.containsKey(fileLocation), 'parameter $fileLocation already defined')
         checkNotNull(fileLocation, 'fileLocation cannot be null')
@@ -178,6 +183,7 @@ class BuildParametersContext implements Context {
      * @param filter (optional, one of "ALL", "COMPLETED", "SUCCESSFUL" or "STABLE")
      * @return
      */
+    @DslMethodDoc
     void runParam(String parameterName, String jobToRun, String description = null, String filter = null) {
         checkArgument(!buildParameterNodes.containsKey(parameterName), 'parameter $parameterName already defined')
         checkNotNull(parameterName, 'parameterName cannot be null')
@@ -208,6 +214,7 @@ class BuildParametersContext implements Context {
      *     <nodeEligibility class="org.jvnet.jenkins.plugins.nodelabelparameter.node.AllNodeEligibility"/>
      * </org.jvnet.jenkins.plugins.nodelabelparameter.LabelParameterDefinition>
      */
+    @DslMethodDoc
     void labelParam(String parameterName, @DslContext(LabelParamContext) Closure labelParamClosure = null) {
         checkArgument(!buildParameterNodes.containsKey(parameterName), 'parameter $parameterName already defined')
         checkNotNull(parameterName, 'parameterName cannot be null')
@@ -253,6 +260,7 @@ class BuildParametersContext implements Context {
      * @param description (optional)
      * @return
      */
+    @DslMethodDoc
     void nodeParam(String parameterName, @DslContext(NodeParamContext) Closure nodeParamClosure = null) {
         checkArgument(!buildParameterNodes.containsKey(parameterName), 'parameter $parameterName already defined')
         checkNotNull(parameterName, 'parameterName cannot be null')
@@ -295,6 +303,7 @@ class BuildParametersContext implements Context {
      * @param description (optional)
      * @return
      */
+    @DslMethodDoc
     void stringParam(String parameterName, String defaultValue = null, String description = null) {
         simpleParam('hudson.model.StringParameterDefinition', parameterName, defaultValue, description)
     }
@@ -315,6 +324,7 @@ class BuildParametersContext implements Context {
      * @param description (optional)
      * @return
      */
+    @DslMethodDoc
     void textParam(String parameterName, String defaultValue = null, String description = null) {
         simpleParam('hudson.model.TextParameterDefinition', parameterName, defaultValue, description)
     }
