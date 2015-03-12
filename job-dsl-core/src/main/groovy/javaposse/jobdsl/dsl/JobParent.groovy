@@ -25,6 +25,7 @@ abstract class JobParent extends Script implements DslFactory {
     List<String> queueToBuild = []
 
     @Override
+    @DslMethodDoc
     FreeStyleJob job(String name, @DslContext(FreeStyleJob) Closure closure) {
         freeStyleJob(name, closure)
     }

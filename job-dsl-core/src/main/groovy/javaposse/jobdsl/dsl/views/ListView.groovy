@@ -3,6 +3,7 @@ package javaposse.jobdsl.dsl.views
 import javaposse.jobdsl.dsl.DslContext
 import javaposse.jobdsl.dsl.JobManagement
 import javaposse.jobdsl.dsl.View
+import javaposse.jobdsl.dsl.doc.DslMethodDoc
 
 import static com.google.common.base.Preconditions.checkNotNull
 import static java.lang.String.CASE_INSENSITIVE_ORDER
@@ -15,6 +16,7 @@ class ListView extends View {
         super(jobManagement)
     }
 
+    @DslMethodDoc
     void statusFilter(StatusFilter filter) {
         checkNotNull(filter, 'filter must not be null')
 
@@ -27,6 +29,7 @@ class ListView extends View {
         }
     }
 
+    @DslMethodDoc
     void jobs(@DslContext(JobsContext) Closure jobsClosure) {
         executeInContext(jobsClosure, jobsContext)
 

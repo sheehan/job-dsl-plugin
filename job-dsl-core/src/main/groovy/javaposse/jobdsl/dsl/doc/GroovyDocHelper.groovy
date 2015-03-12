@@ -51,7 +51,7 @@ class GroovyDocHelper {
                 }
                 it.vararg() ? "[L$name;" : name
             }
-            docParamNames == method.parameterTypes*.name
+            docParamNames == method.parameterTypes*.name || docParamNames == method.parameterTypes*.canonicalName
         }
     }
 

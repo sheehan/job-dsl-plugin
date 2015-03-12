@@ -25,7 +25,7 @@ class ApiDocGenerator {
 
         new ApiDocGenerator(
             version: version,
-            outputPath: "build/api/dsl-${version}.json",
+            outputPath: "../job-dsl-api/data/dsl-${version}.json",
             commandDocsPath: '../docs/api',
             rootClass: JobParent,
             docHelper: new GroovyDocHelper('../job-dsl-core/src/main/groovy/')

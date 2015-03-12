@@ -26,3 +26,5 @@ generated
 
 #Vagrant
 .vagrant
+
+job-dsl-api/node_modules

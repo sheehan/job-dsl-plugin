@@ -1,0 +1,55 @@
+<div class="detail">
+    {{#if ancestors}}
+        <ol class="breadcrumb">
+            {{#each ancestors}}
+                <li><a href="#{{id}}">{{name}}</a></li>
+            {{/each}}
+            <li class="active">{{name}}</li>
+        </ol>
+    {{/if}}
+    <div class="method-detail">
+        <h2>
+            {{#if name}}{{name}}{{else}}Jenkins Job DSL API{{/if}}
+            {{#if plugin}}<a href="{{plugin.wiki}}"><span class="glyphicon glyphicon-new-window"></span> {{plugin.title}}</a>{{/if}}</h2>
+        <div class="signatures">
+            {{#each signatures}}
+                {{#if availableSince}}
+                    <span class="label label-info">Available since {{availableSince}}</span>
+                {{/if}}
+                {{#if deprecatedSince}}
+                    <span class="label label-warning">Deprecated since {{deprecatedSince}}</span>
+                {{else}}
+                    {{#if deprecated}}
+                        <span class="label label-warning">Deprecated</span>
+                    {{/if}}
+                {{/if}}
+                <pre>{{text}}</pre>
+            {{/each}}
+        </div>
+
+        {{#if html}}
+            <!--<h3>Description</h3>-->
+            <div class="method-doc">{{{html}}}</div>
+        {{/if}}
+
+        {{#if context}}
+            <h3>Context Methods</h3>
+            <table class="table table-condensed methods">
+                {{#each context.methods}}
+                    <tr>
+                        <td class="method-name {{#if deprecated}}deprecated{{/if}}"><a href="#{{id}}" title="{{name}}">{{name}}</a></td>
+                        <td class="method-comment" title="{{firstSentenceCommentText}}">{{firstSentenceCommentText}}</td>
+                    </tr>
+                {{/each}}
+            </table>
+        {{/if}}
+
+        <!--{{#if exampleXml}}-->
+        <!--<h3>Example XML</h3>-->
+        <!--<div class="">-->
+        <!--<pre class="example-xml">{{exampleXml}}</pre>-->
+        <!--</div>-->
+        <!--{{/if}}-->
+
+    </div>
+</div>
