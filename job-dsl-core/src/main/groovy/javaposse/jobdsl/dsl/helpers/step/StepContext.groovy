@@ -7,6 +7,7 @@ import javaposse.jobdsl.dsl.ContextHelper
 import javaposse.jobdsl.dsl.DslContext
 import javaposse.jobdsl.dsl.JobManagement
 import javaposse.jobdsl.dsl.WithXmlAction
+import javaposse.jobdsl.dsl.doc.DslMethodDoc
 import javaposse.jobdsl.dsl.helpers.common.DownstreamContext
 
 import static com.google.common.base.Strings.isNullOrEmpty
@@ -27,6 +28,7 @@ class StepContext implements Context {
      *     <command>echo Hello</command>
      * </hudson.tasks.Shell>
      */
+    @DslMethodDoc
     void shell(String commandStr) {
         NodeBuilder nodeBuilder = new NodeBuilder()
         stepNodes << nodeBuilder.'hudson.tasks.Shell' {

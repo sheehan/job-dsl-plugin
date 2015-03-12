@@ -83,51 +83,58 @@ class ApiDocGenerator {
     }
 
     Map processMethodName(String methodName, Class clazz, String path) {
-        GroovyClassDoc classDoc = docHelper.getGroovyClassDoc(clazz)
+        String newPath = path + '/' + methodName
+
         Map methodMap = [
             name      : methodName,
             signatures: []
         ]
 
-        GroovyMethodDoc[] methodDocs = GroovyDocHelper.getAllMethods(classDoc).findAll { it.name() == methodName }
+        GroovyMethodDoc[] methodDocs = docHelper.getAllMethods(clazz).findAll { it.name() == methodName }
+
+        List<DslMethodDoc> annotations = methodDocs.collect { GroovyMethodDoc methodDoc ->
+            Method method = GroovyDocHelper.getMethodFromGroovyMethodDoc(methodDoc, clazz)
+            method.getAnnotation(DslMethodDoc)
+        }.findAll()
+
         methodDocs.each { GroovyMethodDoc methodDoc ->
             Method method = GroovyDocHelper.getMethodFromGroovyMethodDoc(methodDoc, clazz)
             methodMap.signatures << processMethod(method, methodDoc)
 
-            DslMethodDoc dslMethod = method.getAnnotation(DslMethodDoc)
-            String dslPlugin = dslMethod?.plugin()
-            if (dslPlugin) {
-                methodMap.plugin = dslPlugin
-            }
-
-            String exampleXml = dslMethod?.exampleXml()
-            if (exampleXml) {
-                methodMap.exampleXml = exampleXml.stripIndent().trim()
-            }
-
-            String newPath = path + '/' + methodName
             Class contextClass = getContextClass(method, methodDoc)
             if (contextClass) {
                 methodMap.context = processClass(contextClass, newPath)
             }
+        }
 
-            String markdownFromFile = getMarkdownFromFile(newPath)
-            if (markdownFromFile) {
-                methodMap.html = markdownToHtml(markdownFromFile)
-                methodMap.firstSentenceCommentText = markdownFromFile.trim().split('\n', 2)[0]
-            } else {
-                String text = parseComment(methodDoc)?.trim()
-                if (text) {
-                    methodMap.html = markdownToHtml(text)
-                    methodMap.firstSentenceCommentText = methodDoc.firstSentenceCommentText()
-                }
+        String dslPlugin = annotations.find { it.plugin() }?.plugin()
+        if (dslPlugin) {
+            methodMap.plugin = dslPlugin
+        }
+
+        String exampleXml = annotations.find { it.exampleXml() }?.exampleXml()
+        if (exampleXml) {
+            methodMap.exampleXml = exampleXml.stripIndent().trim()
+        }
+
+        String markdownFromFile = getMarkdownFromFile("/${clazz.name.replaceAll('\\.', '/')}/$methodName")
+        if (markdownFromFile) {
+            methodMap.html = markdownToHtml(markdownFromFile)
+            methodMap.firstSentenceCommentText = markdownFromFile.trim().split('\n', 2)[0]
+        } else {
+            GroovyMethodDoc docWithComment = methodDocs.find { parseComment(it)?.trim() }
+            if (docWithComment) {
+                String text = parseComment(docWithComment)?.trim()
+                methodMap.html = markdownToHtml(text)
+                methodMap.firstSentenceCommentText = docWithComment.firstSentenceCommentText()
             }
         }
+
         methodMap
     }
 
     String markdownToHtml(String markdown) {
-        PegDownProcessor processor = new PegDownProcessor(Extensions.FENCED_CODE_BLOCKS)
+        PegDownProcessor processor = new PegDownProcessor(Extensions.FENCED_CODE_BLOCKS | Extensions.SUPPRESS_ALL_HTML)
         processor.markdownToHtml markdown
     }
 
@@ -180,18 +187,18 @@ class ApiDocGenerator {
         }
         map.text = method.name + '(' + paramTokens.join(', ') + ')'
 
-        if (method.getAnnotation(Deprecated)) {
+        DslMethodDoc dslMethod = method.getAnnotation(DslMethodDoc)
+
+        if (method.getAnnotation(Deprecated) || dslMethod?.deprecatedSince()) {
             map.deprecated = true
         }
 
-        String deprecatedSinceVersion = method.getAnnotation(DeprecatedSinceVersion)?.value()
-        if (deprecatedSinceVersion) {
-            map.deprecatedSinceVersion = deprecatedSinceVersion
+        if (dslMethod?.deprecatedSince()) {
+            map.deprecatedSince = dslMethod.deprecatedSince()
         }
 
-        String availableSinceVersion = method.getAnnotation(AvailableSinceVersion)?.value()
-        if (availableSinceVersion) {
-            map.availableSinceVersion = availableSinceVersion
+        if (dslMethod?.availableSince()) {
+            map.availableSince = dslMethod.availableSince()
         }
 
         map

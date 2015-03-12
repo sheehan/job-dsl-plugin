@@ -1,7 +1,6 @@
 package javaposse.jobdsl.dsl
 
 import com.google.common.base.Preconditions
-import javaposse.jobdsl.dsl.doc.DeprecatedSinceVersion
 import javaposse.jobdsl.dsl.doc.DslMethodDoc
 import javaposse.jobdsl.dsl.helpers.AuthorizationContext
 import javaposse.jobdsl.dsl.helpers.BuildParametersContext
@@ -40,8 +39,7 @@ abstract class Job extends Item {
     }
 
     @Deprecated
-    @DslMethodDoc
-    @DeprecatedSinceVersion('1.30')
+    @DslMethodDoc(deprecatedSince = '1.30')
     void name(Closure nameClosure) {
         jobManagement.logDeprecationWarning()
         name(nameClosure.call().toString())
@@ -415,18 +413,25 @@ abstract class Job extends Item {
     }
 
     /**
-     * <properties>
-     *     <hudson.plugins.batch__task.BatchTaskProperty>
-     *         <tasks>
-     *             <hudson.plugins.batch__task.BatchTask>
-     *                 <name>Hello World</name>
-     *                 <script>echo Hello World</script>
-     *             </hudson.plugins.batch__task.BatchTask>
-     *         </tasks>
-     *     </hudson.plugins.batch__task.BatchTaskProperty>
-     * </properties>
+     * Adds batch tasks that are not regularly executed to projects, such as releases, integration, archiving. Can be called
+     * multiple times to add more batch tasks.
      */
-    @DslMethodDoc
+    @DslMethodDoc(
+        plugin = 'batch-task',
+        availableSince = '1.24',
+        exampleXml = '''
+            <properties>
+                <hudson.plugins.batch__task.BatchTaskProperty>
+                    <tasks>
+                        <hudson.plugins.batch__task.BatchTask>
+                            <name>Hello World</name>
+                            <script>echo Hello World</script>
+                        </hudson.plugins.batch__task.BatchTask>
+                    </tasks>
+                </hudson.plugins.batch__task.BatchTaskProperty>
+            </properties>
+        '''
+    )
     void batchTask(String name, String script) {
         withXmlActions << WithXmlAction.create { Node project ->
             Node batchTaskProperty = project / 'properties' / 'hudson.plugins.batch__task.BatchTaskProperty'
@@ -579,6 +584,7 @@ abstract class Job extends Item {
         }
     }
 
+    @DslMethodDoc
     void steps(@DslContext(StepContext) Closure closure) {
         StepContext context = new StepContext(jobManagement)
         ContextHelper.executeInContext(closure, context)

@@ -55,11 +55,20 @@ class GroovyDocHelper {
         }
     }
 
-    static GroovyMethodDoc[] getAllMethods(GroovyClassDoc classDoc) {
-        List<GroovyMethodDoc> methodDocs = classDoc.methods()
-        GroovyClassDoc superclass = classDoc.superclass()
-        if (superclass && superclass != classDoc) {
-            methodDocs.addAll getAllMethods(classDoc.superclass())
+    GroovyMethodDoc[] getAllMethods(Class clazz) {
+        GroovyClassDoc classDoc = getGroovyClassDoc(clazz)
+        List<GroovyMethodDoc> methodDocs = classDoc?.methods() ?: []
+        Class superclass = clazz.superclass
+        if (superclass) {
+            getAllMethods(superclass).each { GroovyMethodDoc superclassMethod ->
+                boolean overridden = methodDocs.find {
+                    it.name() == superclassMethod.name() &&
+                        it.parameters()*.typeName() ==  superclassMethod.parameters()*.typeName()
+                }
+                if (!overridden) {
+                    methodDocs << superclassMethod
+                }
+            }
         }
         methodDocs
     }

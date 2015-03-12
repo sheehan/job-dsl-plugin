@@ -3,6 +3,7 @@ package javaposse.jobdsl.dsl
 import com.google.common.base.Preconditions
 import com.google.common.base.Strings
 import com.google.common.collect.Sets
+import javaposse.jobdsl.dsl.doc.DslMethodDoc
 import javaposse.jobdsl.dsl.jobs.BuildFlowJob
 import javaposse.jobdsl.dsl.jobs.FreeStyleJob
 import javaposse.jobdsl.dsl.jobs.MatrixJob
@@ -29,31 +30,37 @@ abstract class JobParent extends Script implements DslFactory {
     }
 
     @Override
+    @DslMethodDoc
     FreeStyleJob freeStyleJob(String name, @DslContext(FreeStyleJob) Closure closure) {
         processJob(name, FreeStyleJob, closure)
     }
 
     @Override
+    @DslMethodDoc
     BuildFlowJob buildFlowJob(String name, @DslContext(BuildFlowJob) Closure closure) {
         processJob(name, BuildFlowJob, closure)
     }
 
     @Override
+    @DslMethodDoc
     MatrixJob matrixJob(String name, @DslContext(MatrixJob) Closure closure) {
         processJob(name, MatrixJob, closure)
     }
 
     @Override
+    @DslMethodDoc
     MavenJob mavenJob(String name, @DslContext(MavenJob) Closure closure) {
         processJob(name, MavenJob, closure)
     }
 
     @Override
+    @DslMethodDoc
     MultiJob multiJob(String name, @DslContext(MultiJob) Closure closure) {
         processJob(name, MultiJob, closure)
     }
 
     @Override
+    @DslMethodDoc
     WorkflowJob workflowJob(String name, @DslContext(WorkflowJob) Closure closure) {
         processJob(name, WorkflowJob, closure)
     }
@@ -69,6 +76,7 @@ abstract class JobParent extends Script implements DslFactory {
 
     @Override
     @Deprecated
+    @DslMethodDoc
     Job job(Map<String, Object> arguments = [:], @DslContext(Job) Closure closure) {
         jm.logDeprecationWarning()
 
@@ -82,31 +90,37 @@ abstract class JobParent extends Script implements DslFactory {
     }
 
     @Override
+    @DslMethodDoc
     ListView listView(String name, @DslContext(ListView) Closure closure) {
         processView(name, ListView, closure)
     }
 
     @Override
+    @DslMethodDoc
     SectionedView sectionedView(String name, @DslContext(SectionedView) Closure closure) {
         processView(name, SectionedView, closure)
     }
 
     @Override
+    @DslMethodDoc
     NestedView nestedView(String name, @DslContext(NestedView) Closure closure) {
         processView(name, NestedView, closure)
     }
 
     @Override
+    @DslMethodDoc
     DeliveryPipelineView deliveryPipelineView(String name, @DslContext(DeliveryPipelineView) Closure closure) {
         processView(name, DeliveryPipelineView, closure)
     }
 
     @Override
+    @DslMethodDoc
     BuildPipelineView buildPipelineView(String name, @DslContext(BuildPipelineView) Closure closure) {
         processView(name, BuildPipelineView, closure)
     }
 
     @Override
+    @DslMethodDoc
     BuildMonitorView buildMonitorView(String name, @DslContext(BuildMonitorView) Closure closure) {
         processView(name, BuildMonitorView, closure)
     }
@@ -122,6 +136,7 @@ abstract class JobParent extends Script implements DslFactory {
 
     @Override
     @Deprecated
+    @DslMethodDoc
     View view(Map<String, Object> arguments = [:], @DslContext(View) Closure closure) {
         jm.logDeprecationWarning()
 
@@ -135,6 +150,7 @@ abstract class JobParent extends Script implements DslFactory {
 
     @Override
     @Deprecated
+    @DslMethodDoc
     Folder folder(@DslContext(Folder) Closure closure) {
         jm.logDeprecationWarning()
 
@@ -145,6 +161,7 @@ abstract class JobParent extends Script implements DslFactory {
     }
 
     @Override
+    @DslMethodDoc
     Folder folder(String name, @DslContext(Folder) Closure closure) {
         Preconditions.checkArgument(!Strings.isNullOrEmpty(name), 'name must be specified')
 
@@ -155,16 +172,19 @@ abstract class JobParent extends Script implements DslFactory {
         folder
     }
 
+    @DslMethodDoc
     ConfigFile customConfigFile(String name, @DslContext(ConfigFile) Closure closure) {
         processConfigFile(name, ConfigFileType.Custom, closure)
     }
 
+    @DslMethodDoc
     ConfigFile mavenSettingsConfigFile(String name, @DslContext(ConfigFile) Closure closure) {
         processConfigFile(name, ConfigFileType.MavenSettings, closure)
     }
 
     @Override
     @Deprecated
+    @DslMethodDoc
     ConfigFile configFile(Map<String, Object> arguments = [:], @DslContext(ConfigFile) Closure closure) {
         jm.logDeprecationWarning()
 
@@ -186,29 +206,34 @@ abstract class JobParent extends Script implements DslFactory {
     }
 
     @Override
+    @DslMethodDoc
     void queue(String jobName) {
         queueToBuild << jobName
     }
 
     @Override
+    @DslMethodDoc
     void queue(Job job) {
         Preconditions.checkArgument(job.name as Boolean)
         queueToBuild << job.name
     }
 
     @Override
+    @DslMethodDoc
     InputStream streamFileFromWorkspace(String filePath) {
         Preconditions.checkArgument(filePath as Boolean)
         jm.streamFileInWorkspace(filePath)
     }
 
     @Override
+    @DslMethodDoc
     String readFileFromWorkspace(String filePath) {
         Preconditions.checkArgument(filePath as Boolean)
         jm.readFileInWorkspace(filePath)
     }
 
     @Override
+    @DslMethodDoc
     String readFileFromWorkspace(String jobName, String filePath) {
         Preconditions.checkArgument(jobName as Boolean)
         Preconditions.checkArgument(filePath as Boolean)

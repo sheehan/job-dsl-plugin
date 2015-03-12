@@ -7,4 +7,6 @@ import java.lang.annotation.*;
 public @interface DslMethodDoc {
     public abstract String plugin() default "";
     public abstract String exampleXml() default "";
+    public abstract String availableSince() default "";
+    public abstract String deprecatedSince() default "";
 }

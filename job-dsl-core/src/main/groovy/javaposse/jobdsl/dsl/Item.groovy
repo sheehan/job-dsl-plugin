@@ -1,7 +1,6 @@
 package javaposse.jobdsl.dsl
 
-import javaposse.jobdsl.dsl.doc.AvailableSinceVersion
-import javaposse.jobdsl.dsl.doc.DeprecatedSinceVersion
+import javaposse.jobdsl.dsl.doc.DslMethodDoc
 
 abstract class Item implements Context {
     protected final JobManagement jobManagement
@@ -15,8 +14,7 @@ abstract class Item implements Context {
     }
 
     @Deprecated
-    @DeprecatedSinceVersion('1.30')
-    @AvailableSinceVersion('1.01')
+    @DslMethodDoc(availableSince = '1.01', deprecatedSince = '1.30')
     void name(String name) {
         jobManagement.logDeprecationWarning()
         this.name = name
