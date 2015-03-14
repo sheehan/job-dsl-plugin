@@ -18,7 +18,7 @@
 .plugins{padding:10px;border-top:1px solid #ddd;border-bottom:1px solid #ddd}
 body .breadcrumb{margin-bottom:0;border-radius:0}
 body .breadcrumb>li+li:before{padding:0 5px;color:#ccc;content:"\2192\00a0"}
-.detail{max-width:800px}
+.detail{width:800px}
 .detail p{margin:0 0 20px;line-height:22px}
 .method-detail{padding:15px}
 .method-detail h2{margin:5px 0 15px}
@@ -31,8 +31,8 @@ body .breadcrumb>li+li:before{padding:0 5px;color:#ccc;content:"\2192\00a0"}
 .signatures pre{text-align:left}
 table.methods{font-size:14px;table-layout:fixed}
 table.methods tr:first-of-type td{border-top:0}
-table.methods td.method-name{overflow:hidden;font-size:16px}
-table.methods td.method-comment{padding-left:20px;font-size:13px;line-height:22px;width:550px;overflow:hidden}
+table.methods td.method-name{overflow:hidden;width:184px}
+table.methods td.method-comment{padding-left:20px;font-size:13px;line-height:22px;width:520px;overflow:hidden}
 .jstree-anchor.deprecated{text-decoration:line-through}
 .welcome h2{text-align:center;color:#444}
 .sidebar-head{border-bottom:1px solid #ccc;padding:5px}

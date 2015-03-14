@@ -92,8 +92,8 @@
             this.layout = $('.layout-container').layout({
                 west__paneSelector: '.tree',
                 west__contentSelector: '.tree-body',
-                west__size: 350,
-                west__minSize: 350,
+                west__size: 360,
+                west__minSize: 360,
                 west__spacing_open: 3,
                 west__resizerCursor: 'ew-resize',
                 center__paneSelector: '.detail-wrapper',
