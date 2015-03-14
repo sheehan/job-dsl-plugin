@@ -1,5 +1,6 @@
 .text-ellipsis,table.methods td.method-comment,table.methods td.method-name{white-space:nowrap;text-overflow:ellipsis}
 .text-ellipsis{overflow:hidden}
+.tree-controls{padding:5px 10px;border-bottom:1px solid #ddd}
 .tree-body{padding:10px 0}
 .tree-body.jstree-proton .jstree-wholerow{height:30px}
 .tree-body.jstree-proton .jstree-node{min-height:30px;line-height:30px;margin-left:31px;min-width:43px;border-left:1px solid #ddd}

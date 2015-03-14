@@ -57,9 +57,21 @@
         this.loadSelectedDsl();
 
         $('.version-select').change(this.loadSelectedDsl.bind(this));
+
         $('body').on('change', '.plugin-select', function(e) {
             this.filterTree($(e.currentTarget).val());
         }.bind(this));
+
+        $('.expand-all').click(function(e) {
+            e.preventDefault();
+            this.jstree.open_all();
+        }.bind(this));
+
+        $('.collapse-all').click(function(e) {
+            e.preventDefault();
+            this.jstree.close_all();
+        }.bind(this));
+
         window.addEventListener('hashchange', this.onHashChange.bind(this), false);
     };
     _.extend(App.prototype, {
