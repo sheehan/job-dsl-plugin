@@ -85,7 +85,13 @@
 
         loadSelectedDsl: function() {
             var url = $('.version-select').val();
-            this.dslLoader.fetch(url).then(this.initTree.bind(this));
+            this.dslLoader.fetch(url).then(this.onDslFetchComplete.bind(this));
+        },
+
+        onDslFetchComplete: function(data) {
+            this.data = data;
+            this.initPluginSelect(data);
+            this.initTree(data);
         },
 
         initLayout: function() {
@@ -104,41 +110,11 @@
         },
 
         filterTree: function(pluginName) {
-            this.jstree.open_all();
-
-            var $allNodes = $('.tree-body li.jstree-node');
-            if (!pluginName) {
-                $allNodes.show();
-                return;
-            }
-
-            // TODO select first leaf node
-            $allNodes.hide();
-            this.jstree.deselect_all(true);
-
-            var data = this.jstree.get_json();
-            var fcn = function(d) {
-                var node = this.jstree.get_node(d).original;
-                var $dom = $(this.jstree.get_node(d, true));
-                if (node.methodNode.plugin && node.methodNode.plugin.name === pluginName) {
-                    $dom.show();
-                    $dom.find('li.jstree-node').show();
-                    $dom.parentsUntil('.tree-body').filter('li.jstree-node').show();
-
-                    if (!this.jstree.get_selected().length) {
-                        this.jstree.select_node(this.jstree.get_node(d).id);
-                    }
-                } else {
-                    d.children.forEach(fcn, this);
-                }
-            };
-
-            data.forEach(fcn, this);
+            this.pluginFilter = pluginName;
+            this.initTree(this.data);
         },
 
-        initTree: function(data) {
-            this.data = data;
-
+        getPluginList: function(data) {
             var plugins = [];
             var searchContext = function(context) {
                 context.methods.forEach(function(method) {
@@ -151,18 +127,33 @@
                 });
             };
 
-            searchContext(data.context); // TODO move
+            searchContext(data.context);
+            return _.uniq(plugins);
+        },
 
-            var html = Handlebars.templates['plugins']({plugins: _.uniq(plugins)});
+        initPluginSelect: function(data) {
+            var html = Handlebars.templates['plugins']({plugins: this.getPluginList(data)});
             $('.plugins').html(html);
+        },
 
-            var treeNodes = data.context.methods.map(this.buildJstreeNode, this);
+        initTree: function(data) {
+            var methods = _.filter(data.context.methods, this.nodeMatches, this);
+
+            var treeNodes = methods.map(this.buildJstreeNode, this);
             var $treeBody = $('.tree-body');
 
             $treeBody
                 .jstree('destroy')
                 .on('changed.jstree', this.onTreeChanged.bind(this))
-                .on('ready.jstree', this.updateTreeFromHash.bind(this))
+                .on('ready.jstree', function() {
+                    this.updateTreeFromHash();
+                    if (this.pluginFilter) {
+                        this.jstree.open_all();
+                        var nodes = this.jstree.get_json(null, {flat: true});
+                        this.jstree.deselect_all(true);
+                        this.jstree.select_node(nodes[0].id);
+                    }
+                }.bind(this))
                 .jstree({
                     'plugins': ['wholerow'],
                     'core': {
@@ -210,7 +201,12 @@
         },
 
         showMethodDetail: function(methodNode) {
-            var html = Handlebars.templates['detail'](methodNode);
+            var data = {methodNode: methodNode};
+            data.name = methodNode.name ? methodNode.name : 'Jenkins Job DSL API';
+            if (methodNode.context) {
+                data.contextMethods = _.filter(methodNode.context.methods, this.nodeMatches, this);
+            }
+            var html = Handlebars.templates['detail'](data);
             $('.detail-wrapper').html(html);
 
             $('.signatures pre').each(function(i, block) {
@@ -239,9 +235,22 @@
                 treeNode.state = {
                     opened: false
                 };
-                treeNode.children = node.context.methods.map(this.buildJstreeNode, this);
+
+                // find all children that are in this plugin
+                // build nodes for those children
+
+                var methods = _.filter(node.context.methods, this.nodeMatches, this);
+                treeNode.children = methods.map(this.buildJstreeNode, this);
             }
             return treeNode;
+        },
+
+        nodeMatches: function(methodNode) {
+            var matches = !this.pluginFilter || (methodNode.plugin && this.pluginFilter === methodNode.plugin.name);
+            if (!matches) {
+                matches = methodNode.context && methodNode.context.methods.some(this.nodeMatches, this);
+            }
+            return matches;
         }
     });
 

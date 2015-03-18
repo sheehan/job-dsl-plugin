@@ -1,7 +1,7 @@
 <div class="detail">
-    {{#if ancestors}}
+    {{#if methodNode.ancestors}}
         <ol class="breadcrumb">
-            {{#each ancestors}}
+            {{#each methodNode.ancestors}}
                 <li><a href="#{{id}}">{{name}}</a></li>
             {{/each}}
             <li class="active">{{name}}</li>
@@ -9,10 +9,10 @@
     {{/if}}
     <div class="method-detail">
         <h2>
-            {{#if name}}{{name}}{{else}}Jenkins Job DSL API{{/if}}
-            {{#if plugin}}<a href="{{plugin.wiki}}"><span class="glyphicon glyphicon-new-window"></span> {{plugin.title}}</a>{{/if}}</h2>
+            {{name}}
+            {{#if methodNode.plugin}}<a href="{{methodNode.plugin.wiki}}"><span class="glyphicon glyphicon-new-window"></span> {{methodNode.plugin.title}}</a>{{/if}}</h2>
         <div class="signatures">
-            {{#each signatures}}
+            {{#each methodNode.signatures}}
                 {{#if availableSince}}
                     <span class="label label-info">Available since {{availableSince}}</span>
                 {{/if}}
@@ -27,15 +27,15 @@
             {{/each}}
         </div>
 
-        {{#if html}}
+        {{#if methodNode.html}}
             <!--<h3>Description</h3>-->
             <div class="method-doc">{{{html}}}</div>
         {{/if}}
 
-        {{#if context}}
+        {{#if contextMethods}}
             <h3>Context Methods</h3>
             <table class="table table-condensed methods">
-                {{#each context.methods}}
+                {{#each contextMethods}}
                     <tr>
                         <td class="method-name {{#if deprecated}}deprecated{{/if}}"><a href="#{{id}}" title="{{name}}">{{name}}</a></td>
                         <td class="method-comment" title="{{firstSentenceCommentText}}">{{firstSentenceCommentText}}</td>
@@ -44,10 +44,10 @@
             </table>
         {{/if}}
 
-        <!--{{#if exampleXml}}-->
+        <!--{{#if methodNode.exampleXml}}-->
         <!--<h3>Example XML</h3>-->
         <!--<div class="">-->
-        <!--<pre class="example-xml">{{exampleXml}}</pre>-->
+        <!--<pre class="example-xml">{{methodNode.exampleXml}}</pre>-->
         <!--</div>-->
         <!--{{/if}}-->
 

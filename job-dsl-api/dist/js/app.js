@@ -85,7 +85,13 @@
 
         loadSelectedDsl: function() {
             var url = $('.version-select').val();
-            this.dslLoader.fetch(url).then(this.initTree.bind(this));
+            this.dslLoader.fetch(url).then(this.onDslFetchComplete.bind(this));
+        },
+
+        onDslFetchComplete: function(data) {
+            this.data = data;
+            this.initPluginSelect(data);
+            this.initTree(data);
         },
 
         initLayout: function() {
@@ -104,41 +110,11 @@
         },
 
         filterTree: function(pluginName) {
-            this.jstree.open_all();
-
-            var $allNodes = $('.tree-body li.jstree-node');
-            if (!pluginName) {
-                $allNodes.show();
-                return;
-            }
-
-            // TODO select first leaf node
-            $allNodes.hide();
-            this.jstree.deselect_all(true);
-
-            var data = this.jstree.get_json();
-            var fcn = function(d) {
-                var node = this.jstree.get_node(d).original;
-                var $dom = $(this.jstree.get_node(d, true));
-                if (node.methodNode.plugin && node.methodNode.plugin.name === pluginName) {
-                    $dom.show();
-                    $dom.find('li.jstree-node').show();
-                    $dom.parentsUntil('.tree-body').filter('li.jstree-node').show();
-
-                    if (!this.jstree.get_selected().length) {
-                        this.jstree.select_node(this.jstree.get_node(d).id);
-                    }
-                } else {
-                    d.children.forEach(fcn, this);
-                }
-            };
-
-            data.forEach(fcn, this);
+            this.pluginFilter = pluginName;
+            this.initTree(this.data);
         },
 
-        initTree: function(data) {
-            this.data = data;
-
+        getPluginList: function(data) {
             var plugins = [];
             var searchContext = function(context) {
                 context.methods.forEach(function(method) {
@@ -151,18 +127,33 @@
                 });
             };
 
-            searchContext(data.context); // TODO move
+            searchContext(data.context);
+            return _.uniq(plugins);
+        },
 
-            var html = Handlebars.templates['plugins']({plugins: _.uniq(plugins)});
+        initPluginSelect: function(data) {
+            var html = Handlebars.templates['plugins']({plugins: this.getPluginList(data)});
             $('.plugins').html(html);
+        },
 
-            var treeNodes = data.context.methods.map(this.buildJstreeNode, this);
+        initTree: function(data) {
+            var methods = _.filter(data.context.methods, this.nodeMatches, this);
+
+            var treeNodes = methods.map(this.buildJstreeNode, this);
             var $treeBody = $('.tree-body');
 
             $treeBody
                 .jstree('destroy')
                 .on('changed.jstree', this.onTreeChanged.bind(this))
-                .on('ready.jstree', this.updateTreeFromHash.bind(this))
+                .on('ready.jstree', function() {
+                    this.updateTreeFromHash();
+                    if (this.pluginFilter) {
+                        this.jstree.open_all();
+                        var nodes = this.jstree.get_json(null, {flat: true});
+                        this.jstree.deselect_all(true);
+                        this.jstree.select_node(nodes[0].id);
+                    }
+                }.bind(this))
                 .jstree({
                     'plugins': ['wholerow'],
                     'core': {
@@ -210,7 +201,12 @@
         },
 
         showMethodDetail: function(methodNode) {
-            var html = Handlebars.templates['detail'](methodNode);
+            var data = {methodNode: methodNode};
+            data.name = methodNode.name ? methodNode.name : 'Jenkins Job DSL API';
+            if (methodNode.context) {
+                data.contextMethods = _.filter(methodNode.context.methods, this.nodeMatches, this);
+            }
+            var html = Handlebars.templates['detail'](data);
             $('.detail-wrapper').html(html);
 
             $('.signatures pre').each(function(i, block) {
@@ -239,9 +235,22 @@
                 treeNode.state = {
                     opened: false
                 };
-                treeNode.children = node.context.methods.map(this.buildJstreeNode, this);
+
+                // find all children that are in this plugin
+                // build nodes for those children
+
+                var methods = _.filter(node.context.methods, this.nodeMatches, this);
+                treeNode.children = methods.map(this.buildJstreeNode, this);
             }
             return treeNode;
+        },
+
+        nodeMatches: function(methodNode) {
+            var matches = !this.pluginFilter || (methodNode.plugin && this.pluginFilter === methodNode.plugin.name);
+            if (!matches) {
+                matches = methodNode.context && methodNode.context.methods.some(this.nodeMatches, this);
+            }
+            return matches;
         }
     });
 
@@ -253,7 +262,7 @@ this["Handlebars"] = this["Handlebars"] || {};
 this["Handlebars"]["templates"] = this["Handlebars"]["templates"] || {};
 this["Handlebars"]["templates"]["detail"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
   var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, buffer = "        <ol class=\"breadcrumb\">\n";
-  stack1 = helpers.each.call(depth0, (depth0 != null ? depth0.ancestors : depth0), {"name":"each","hash":{},"fn":this.program(2, data),"inverse":this.noop,"data":data});
+  stack1 = helpers.each.call(depth0, ((stack1 = (depth0 != null ? depth0.methodNode : depth0)) != null ? stack1.ancestors : stack1), {"name":"each","hash":{},"fn":this.program(2, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
   return buffer + "            <li class=\"active\">"
     + escapeExpression(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"name","hash":{},"data":data}) : helper)))
@@ -266,56 +275,51 @@ this["Handlebars"]["templates"]["detail"] = Handlebars.template({"1":function(de
     + escapeExpression(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"name","hash":{},"data":data}) : helper)))
     + "</a></li>\n";
 },"4":function(depth0,helpers,partials,data) {
-  var helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
-  return escapeExpression(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"name","hash":{},"data":data}) : helper)));
-  },"6":function(depth0,helpers,partials,data) {
-  return "Jenkins Job DSL API";
-  },"8":function(depth0,helpers,partials,data) {
   var stack1, lambda=this.lambda, escapeExpression=this.escapeExpression;
   return "<a href=\""
-    + escapeExpression(lambda(((stack1 = (depth0 != null ? depth0.plugin : depth0)) != null ? stack1.wiki : stack1), depth0))
+    + escapeExpression(lambda(((stack1 = ((stack1 = (depth0 != null ? depth0.methodNode : depth0)) != null ? stack1.plugin : stack1)) != null ? stack1.wiki : stack1), depth0))
     + "\"><span class=\"glyphicon glyphicon-new-window\"></span> "
-    + escapeExpression(lambda(((stack1 = (depth0 != null ? depth0.plugin : depth0)) != null ? stack1.title : stack1), depth0))
+    + escapeExpression(lambda(((stack1 = ((stack1 = (depth0 != null ? depth0.methodNode : depth0)) != null ? stack1.plugin : stack1)) != null ? stack1.title : stack1), depth0))
     + "</a>";
-},"10":function(depth0,helpers,partials,data) {
+},"6":function(depth0,helpers,partials,data) {
   var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, buffer = "";
-  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.availableSince : depth0), {"name":"if","hash":{},"fn":this.program(11, data),"inverse":this.noop,"data":data});
+  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.availableSince : depth0), {"name":"if","hash":{},"fn":this.program(7, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
-  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.deprecatedSince : depth0), {"name":"if","hash":{},"fn":this.program(13, data),"inverse":this.program(15, data),"data":data});
+  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.deprecatedSince : depth0), {"name":"if","hash":{},"fn":this.program(9, data),"inverse":this.program(11, data),"data":data});
   if (stack1 != null) { buffer += stack1; }
   return buffer + "                <pre>"
     + escapeExpression(((helper = (helper = helpers.text || (depth0 != null ? depth0.text : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"text","hash":{},"data":data}) : helper)))
     + "</pre>\n";
-},"11":function(depth0,helpers,partials,data) {
+},"7":function(depth0,helpers,partials,data) {
   var helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
   return "                    <span class=\"label label-info\">Available since "
     + escapeExpression(((helper = (helper = helpers.availableSince || (depth0 != null ? depth0.availableSince : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"availableSince","hash":{},"data":data}) : helper)))
     + "</span>\n";
-},"13":function(depth0,helpers,partials,data) {
+},"9":function(depth0,helpers,partials,data) {
   var helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
   return "                    <span class=\"label label-warning\">Deprecated since "
     + escapeExpression(((helper = (helper = helpers.deprecatedSince || (depth0 != null ? depth0.deprecatedSince : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"deprecatedSince","hash":{},"data":data}) : helper)))
     + "</span>\n";
-},"15":function(depth0,helpers,partials,data) {
+},"11":function(depth0,helpers,partials,data) {
   var stack1, buffer = "";
-  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.deprecated : depth0), {"name":"if","hash":{},"fn":this.program(16, data),"inverse":this.noop,"data":data});
+  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.deprecated : depth0), {"name":"if","hash":{},"fn":this.program(12, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
   return buffer;
-},"16":function(depth0,helpers,partials,data) {
+},"12":function(depth0,helpers,partials,data) {
   return "                        <span class=\"label label-warning\">Deprecated</span>\n";
-  },"18":function(depth0,helpers,partials,data) {
+  },"14":function(depth0,helpers,partials,data) {
   var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, buffer = "            <!--<h3>Description</h3>-->\n            <div class=\"method-doc\">";
   stack1 = ((helper = (helper = helpers.html || (depth0 != null ? depth0.html : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"html","hash":{},"data":data}) : helper));
   if (stack1 != null) { buffer += stack1; }
   return buffer + "</div>\n";
-},"20":function(depth0,helpers,partials,data) {
+},"16":function(depth0,helpers,partials,data) {
   var stack1, buffer = "            <h3>Context Methods</h3>\n            <table class=\"table table-condensed methods\">\n";
-  stack1 = helpers.each.call(depth0, ((stack1 = (depth0 != null ? depth0.context : depth0)) != null ? stack1.methods : stack1), {"name":"each","hash":{},"fn":this.program(21, data),"inverse":this.noop,"data":data});
+  stack1 = helpers.each.call(depth0, (depth0 != null ? depth0.contextMethods : depth0), {"name":"each","hash":{},"fn":this.program(17, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
   return buffer + "            </table>\n";
-},"21":function(depth0,helpers,partials,data) {
+},"17":function(depth0,helpers,partials,data) {
   var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, buffer = "                    <tr>\n                        <td class=\"method-name ";
-  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.deprecated : depth0), {"name":"if","hash":{},"fn":this.program(22, data),"inverse":this.noop,"data":data});
+  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.deprecated : depth0), {"name":"if","hash":{},"fn":this.program(18, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
   return buffer + "\"><a href=\"#"
     + escapeExpression(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"id","hash":{},"data":data}) : helper)))
@@ -328,34 +332,33 @@ this["Handlebars"]["templates"]["detail"] = Handlebars.template({"1":function(de
     + "\">"
     + escapeExpression(((helper = (helper = helpers.firstSentenceCommentText || (depth0 != null ? depth0.firstSentenceCommentText : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"firstSentenceCommentText","hash":{},"data":data}) : helper)))
     + "</td>\n                    </tr>\n";
-},"22":function(depth0,helpers,partials,data) {
+},"18":function(depth0,helpers,partials,data) {
   return "deprecated";
-  },"24":function(depth0,helpers,partials,data) {
-  var helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
+  },"20":function(depth0,helpers,partials,data) {
+  var stack1, lambda=this.lambda, escapeExpression=this.escapeExpression;
   return "-->\n        <!--<h3>Example XML</h3>-->\n        <!--<div class=\"\">-->\n        <!--<pre class=\"example-xml\">"
-    + escapeExpression(((helper = (helper = helpers.exampleXml || (depth0 != null ? depth0.exampleXml : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"exampleXml","hash":{},"data":data}) : helper)))
+    + escapeExpression(lambda(((stack1 = (depth0 != null ? depth0.methodNode : depth0)) != null ? stack1.exampleXml : stack1), depth0))
     + "</pre>-->\n        <!--</div>-->\n        <!--";
 },"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
-  var stack1, buffer = "<div class=\"detail\">\n";
-  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.ancestors : depth0), {"name":"if","hash":{},"fn":this.program(1, data),"inverse":this.noop,"data":data});
+  var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, buffer = "<div class=\"detail\">\n";
+  stack1 = helpers['if'].call(depth0, ((stack1 = (depth0 != null ? depth0.methodNode : depth0)) != null ? stack1.ancestors : stack1), {"name":"if","hash":{},"fn":this.program(1, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
-  buffer += "    <div class=\"method-detail\">\n        <h2>\n            ";
-  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.name : depth0), {"name":"if","hash":{},"fn":this.program(4, data),"inverse":this.program(6, data),"data":data});
-  if (stack1 != null) { buffer += stack1; }
-  buffer += "\n            ";
-  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.plugin : depth0), {"name":"if","hash":{},"fn":this.program(8, data),"inverse":this.noop,"data":data});
+  buffer += "    <div class=\"method-detail\">\n        <h2>\n            "
+    + escapeExpression(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"name","hash":{},"data":data}) : helper)))
+    + "\n            ";
+  stack1 = helpers['if'].call(depth0, ((stack1 = (depth0 != null ? depth0.methodNode : depth0)) != null ? stack1.plugin : stack1), {"name":"if","hash":{},"fn":this.program(4, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
   buffer += "</h2>\n        <div class=\"signatures\">\n";
-  stack1 = helpers.each.call(depth0, (depth0 != null ? depth0.signatures : depth0), {"name":"each","hash":{},"fn":this.program(10, data),"inverse":this.noop,"data":data});
+  stack1 = helpers.each.call(depth0, ((stack1 = (depth0 != null ? depth0.methodNode : depth0)) != null ? stack1.signatures : stack1), {"name":"each","hash":{},"fn":this.program(6, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
   buffer += "        </div>\n\n";
-  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.html : depth0), {"name":"if","hash":{},"fn":this.program(18, data),"inverse":this.noop,"data":data});
+  stack1 = helpers['if'].call(depth0, ((stack1 = (depth0 != null ? depth0.methodNode : depth0)) != null ? stack1.html : stack1), {"name":"if","hash":{},"fn":this.program(14, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
   buffer += "\n";
-  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.context : depth0), {"name":"if","hash":{},"fn":this.program(20, data),"inverse":this.noop,"data":data});
+  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.contextMethods : depth0), {"name":"if","hash":{},"fn":this.program(16, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
   buffer += "\n        <!--";
-  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.exampleXml : depth0), {"name":"if","hash":{},"fn":this.program(24, data),"inverse":this.noop,"data":data});
+  stack1 = helpers['if'].call(depth0, ((stack1 = (depth0 != null ? depth0.methodNode : depth0)) != null ? stack1.exampleXml : stack1), {"name":"if","hash":{},"fn":this.program(20, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
   return buffer + "-->\n\n    </div>\n</div>";
 },"useData":true});
