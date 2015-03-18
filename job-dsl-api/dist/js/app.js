@@ -308,8 +308,8 @@ this["Handlebars"]["templates"]["detail"] = Handlebars.template({"1":function(de
 },"12":function(depth0,helpers,partials,data) {
   return "                        <span class=\"label label-warning\">Deprecated</span>\n";
   },"14":function(depth0,helpers,partials,data) {
-  var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, buffer = "            <!--<h3>Description</h3>-->\n            <div class=\"method-doc\">";
-  stack1 = ((helper = (helper = helpers.html || (depth0 != null ? depth0.html : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"html","hash":{},"data":data}) : helper));
+  var stack1, lambda=this.lambda, buffer = "            <!--<h3>Description</h3>-->\n            <div class=\"method-doc\">";
+  stack1 = lambda(((stack1 = (depth0 != null ? depth0.methodNode : depth0)) != null ? stack1.html : stack1), depth0);
   if (stack1 != null) { buffer += stack1; }
   return buffer + "</div>\n";
 },"16":function(depth0,helpers,partials,data) {
