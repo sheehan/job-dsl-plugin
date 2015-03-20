@@ -153,6 +153,10 @@
                         this.jstree.deselect_all(true);
                         this.jstree.select_node(nodes[0].id);
                     }
+                    var selectedNodes = this.jstree.get_selected(true);
+                    if (selectedNodes.length) {
+                        $('#' + selectedNodes[0].id)[0].scrollIntoView();
+                    }
                 }.bind(this))
                 .jstree({
                     'plugins': ['wholerow'],
@@ -209,17 +213,11 @@
             var html = Handlebars.templates['detail'](data);
             $('.detail-wrapper').html(html);
 
-            $('.signatures pre').each(function(i, block) {
-                hljs.highlightBlock(block);
-            });
-
-            $('.method-doc pre code').each(function(i, block) {
-                hljs.highlightBlock(block);
-            });
-
-            $('.example-xml').each(function(i, block) {
-                hljs.highlightBlock(block);
-            });
+            $('pre.highlight')
+                .add('.method-doc pre code')
+                .each(function(i, block) {
+                    hljs.highlightBlock(block);
+                });
         },
 
         buildJstreeNode: function(node) {
@@ -287,7 +285,7 @@ this["Handlebars"]["templates"]["detail"] = Handlebars.template({"1":function(de
   if (stack1 != null) { buffer += stack1; }
   stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.deprecatedSince : depth0), {"name":"if","hash":{},"fn":this.program(9, data),"inverse":this.program(11, data),"data":data});
   if (stack1 != null) { buffer += stack1; }
-  return buffer + "                <pre>"
+  return buffer + "                <pre class=\"highlight\">"
     + escapeExpression(((helper = (helper = helpers.text || (depth0 != null ? depth0.text : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"text","hash":{},"data":data}) : helper)))
     + "</pre>\n";
 },"7":function(depth0,helpers,partials,data) {
@@ -336,7 +334,7 @@ this["Handlebars"]["templates"]["detail"] = Handlebars.template({"1":function(de
   return "deprecated";
   },"20":function(depth0,helpers,partials,data) {
   var stack1, lambda=this.lambda, escapeExpression=this.escapeExpression;
-  return "-->\n        <!--<h3>Example XML</h3>-->\n        <!--<div class=\"\">-->\n        <!--<pre class=\"example-xml\">"
+  return "-->\n        <!--<h3>Example XML</h3>-->\n        <!--<div class=\"\">-->\n        <!--<pre class=\"highlight\">"
     + escapeExpression(lambda(((stack1 = (depth0 != null ? depth0.methodNode : depth0)) != null ? stack1.exampleXml : stack1), depth0))
     + "</pre>-->\n        <!--</div>-->\n        <!--";
 },"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {

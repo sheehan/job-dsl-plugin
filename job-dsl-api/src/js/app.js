@@ -153,6 +153,10 @@
                         this.jstree.deselect_all(true);
                         this.jstree.select_node(nodes[0].id);
                     }
+                    var selectedNodes = this.jstree.get_selected(true);
+                    if (selectedNodes.length) {
+                        $('#' + selectedNodes[0].id)[0].scrollIntoView();
+                    }
                 }.bind(this))
                 .jstree({
                     'plugins': ['wholerow'],
@@ -209,17 +213,11 @@
             var html = Handlebars.templates['detail'](data);
             $('.detail-wrapper').html(html);
 
-            $('.signatures pre').each(function(i, block) {
-                hljs.highlightBlock(block);
-            });
-
-            $('.method-doc pre code').each(function(i, block) {
-                hljs.highlightBlock(block);
-            });
-
-            $('.example-xml').each(function(i, block) {
-                hljs.highlightBlock(block);
-            });
+            $('pre.highlight')
+                .add('.method-doc pre code')
+                .each(function(i, block) {
+                    hljs.highlightBlock(block);
+                });
         },
 
         buildJstreeNode: function(node) {
