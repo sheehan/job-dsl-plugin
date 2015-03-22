@@ -1,0 +1,55 @@
+<div class="detail">
+    {{#if methodNode.ancestors}}
+        <ol class="breadcrumb">
+            {{#each methodNode.ancestors}}
+                <li><a href="#{{id}}">{{name}}</a></li>
+            {{/each}}
+            <li class="active">{{name}}</li>
+        </ol>
+    {{/if}}
+    <div class="method-detail">
+        <h2>
+            {{name}}
+            {{#if methodNode.plugin}}<a href="{{methodNode.plugin.wiki}}"><span class="glyphicon glyphicon-new-window"></span> {{methodNode.plugin.title}}</a>{{/if}}</h2>
+        <div class="signatures">
+            {{#each methodNode.signatures}}
+                {{#if availableSince}}
+                    <span class="label label-info">Available since {{availableSince}}</span>
+                {{/if}}
+                {{#if deprecatedSince}}
+                    <span class="label label-warning">Deprecated since {{deprecatedSince}}</span>
+                {{else}}
+                    {{#if deprecated}}
+                        <span class="label label-warning">Deprecated</span>
+                    {{/if}}
+                {{/if}}
+                <pre class="highlight">{{text}}</pre>
+            {{/each}}
+        </div>
+
+        {{#if methodNode.html}}
+            <!--<h3>Description</h3>-->
+            <div class="method-doc">{{{methodNode.html}}}</div>
+        {{/if}}
+
+        {{#if contextMethods}}
+            <h3>Context Methods</h3>
+            <table class="table table-condensed methods">
+                {{#each contextMethods}}
+                    <tr>
+                        <td class="method-name {{#if deprecated}}deprecated{{/if}}"><a href="#{{id}}" title="{{name}}">{{name}}</a></td>
+                        <td class="method-comment" title="{{firstSentenceCommentText}}">{{firstSentenceCommentText}}</td>
+                    </tr>
+                {{/each}}
+            </table>
+        {{/if}}
+
+        <!--{{#if methodNode.exampleXml}}-->
+        <!--<h3>Example XML</h3>-->
+        <!--<div class="">-->
+        <!--<pre class="highlight">{{methodNode.exampleXml}}</pre>-->
+        <!--</div>-->
+        <!--{{/if}}-->
+
+    </div>
+</div>
