@@ -1,4 +1,0 @@
-
-job {
-    name 'test'
-}
