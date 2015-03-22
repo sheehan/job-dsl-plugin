@@ -40,7 +40,7 @@ gulp.task('watch', function () {
 });
 
 gulp.task('connect', ['watch'], function() {
-    connect.server({root: '..'});
+    connect.server();
 });
 
 gulp.task('clean', function() {
