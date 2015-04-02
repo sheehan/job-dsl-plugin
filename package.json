@@ -1,5 +1,5 @@
 {
-  "name": "jenkins-job-dsl-api",
+  "name": "jenkins-job-dsl-api-viewer",
   "version": "0.0.1",
   "devDependencies": {
     "gulp": "^3.8.11",

@@ -128,7 +128,9 @@
             };
 
             searchContext(data.context);
-            return _.uniq(plugins);
+            plugins = _.uniq(plugins);
+            console.log(_.sortBy(plugins, 'name'));
+            return _.sortBy(plugins, 'name');
         },
 
         initPluginSelect: function(data) {
