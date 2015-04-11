@@ -9,7 +9,7 @@
             var dsl = this.dslsByUrl[url];
             if (!dsl) {
                 return $.get(url).then(function(data) {
-                    data.context.methods.forEach(function(node) { this.processNode(node); }, this);
+                    _.each(data.contexts, function(context) { this.processContext(context); }, this);
                     this.dslsByUrl[url] = data;
                     return data;
                 }.bind(this));
@@ -17,36 +17,16 @@
             return $.Deferred().resolveWith(null, [dsl]);
         },
 
-        processNode: function(node, parent) {
-            node.id = parent ? parent.id + '-' + node.name : node.name;
-            if (parent) {
-                node.ancestors = parent.ancestors.slice(0);
-                node.ancestors.push({
-                    id: parent.id,
-                    name: parent.name
-                });
-            } else {
-                node.ancestors = [];
-            }
-            if (node.plugin) {
-                node.plugin = window.updateCenter.data.plugins[node.plugin];
-            } else if (parent && parent.plugin) {
-                node.plugin = parent.plugin;
-            }
+        processContext: function(context) {
+            context.methods.forEach(function(method) {
+                if (method.signatures.every(function(sig) { return sig.deprecated; })) {
+                    method.deprecated = true;
+                }
 
-            if (node.signatures.every(function(sig) { return sig.deprecated || sig.deprecatedSince; })) {
-                node.deprecated = true;
-            }
-
-            //if (parent && parent.deprecated) {
-            //    node.deprecated = true;
-            //}
-
-            if (node.context) {
-                node.context.methods.forEach(function(child) {
-                    this.processNode(child, node);
-                }, this);
-            }
+                if (method.plugin) {
+                    method.plugin = window.updateCenter.data.plugins[method.plugin];
+                }
+            });
         }
     });
 
@@ -62,18 +42,9 @@
             this.filterTree($(e.currentTarget).val());
         }.bind(this));
 
-        $('.expand-all').click(function(e) {
-            e.preventDefault();
-            this.jstree.open_all();
-        }.bind(this));
-
-        $('.collapse-all').click(function(e) {
-            e.preventDefault();
-            this.jstree.close_all();
-        }.bind(this));
-
         window.addEventListener('hashchange', this.onHashChange.bind(this), false);
     };
+
     _.extend(App.prototype, {
 
         onHashChange: function(e) {
@@ -116,32 +87,25 @@
 
         getPluginList: function(data) {
             var plugins = [];
-            var searchContext = function(context) {
+
+            _.each(data.contexts, function(context) {
                 context.methods.forEach(function(method) {
                     if (method.plugin) {
                         plugins.push(method.plugin);
                     }
-                    if (method.context) {
-                        searchContext(method.context);
-                    }
                 });
-            };
+            });
 
-            searchContext(data.context);
             plugins = _.uniq(plugins);
-            console.log(_.sortBy(plugins, 'name'));
             return _.sortBy(plugins, 'name');
         },
 
         initPluginSelect: function(data) {
             var html = Handlebars.templates['plugins']({plugins: this.getPluginList(data)});
-            $('.plugins').html(html);
+            $('.plugins').html(html).hide();
         },
 
         initTree: function(data) {
-            var methods = _.filter(data.context.methods, this.nodeMatches, this);
-
-            var treeNodes = methods.map(this.buildJstreeNode, this);
             var $treeBody = $('.tree-body');
 
             $treeBody
@@ -163,12 +127,21 @@
                 .jstree({
                     'plugins': ['wholerow'],
                     'core': {
-                        'data': treeNodes,
+                        'data': function(node, cb) {
+                            var contextClass = node.id === '#' ? data.root.contextClass : node.original.methodNode.contextClass;
+                            var methods = data.contexts[contextClass].methods;
+                            var treeNodes = methods.map(function(method) {
+                                return this.buildJstreeNode(method, node);
+                            }, this);
+
+                            cb(treeNodes);
+                        }.bind(this),
                         'themes': {
                             'name': 'proton',
                             'responsive': true
                         },
-                        'multiple': false
+                        'multiple': false,
+                        'worker': false
                     }
                 });
             this.jstree = $treeBody.jstree();
@@ -178,10 +151,13 @@
             e.preventDefault();
             var methodNode = data.node.original.methodNode;
 
-            window.location.hash = methodNode.id;
-            this.showMethodDetail(methodNode);
+            var hash = data.node.id.substr(5); // TODO
+            //if (window.location.hash !== '#' + hash) {
+                window.location.hash = hash;
+                this.showMethodDetail(methodNode, data.node);
 
-            this.layout.resizeAll();
+                this.layout.resizeAll();
+            //}
         },
 
         updateTreeFromHash: function() {
@@ -190,10 +166,13 @@
             if (hashId) {
                 hashId = hashId.substring(1);
 
-                var nodes = this.jstree.get_json(null, {flat: true});
-                node = _.find(nodes, function(data) {
-                    var methodNode = this.jstree.get_node(data.id).original.methodNode;
-                    return methodNode.id === hashId;
+                var tokens = hashId.split('-');
+                tokens.forEach(function(token, index) {
+                    var id = tokens.slice(0, index + 1).join('-');
+                    node = this.jstree.get_node('node-' + id);
+                    if (index < tokens.length - 1) {
+                        this.jstree.open_node(node);
+                    }
                 }, this);
             }
 
@@ -202,15 +181,19 @@
                 this.jstree.select_node(node.id);
             } else {
                 this.jstree.deselect_all(true);
-                this.showMethodDetail(this.data);
+                this.showMethodDetail(this.data.root);
             }
         },
 
-        showMethodDetail: function(methodNode) {
+        showMethodDetail: function(methodNode, node) {
             var data = {methodNode: methodNode};
-            data.name = methodNode.name ? methodNode.name : 'Jenkins Job DSL API';
-            if (methodNode.context) {
-                data.contextMethods = _.filter(methodNode.context.methods, this.nodeMatches, this);
+            data.name = methodNode.name;
+            if (node) {
+                var parentNodes = node.parents.map(function(parentId) { return this.jstree.get_node(parentId); }, this).reverse();
+                data.ancestors = parentNodes.filter(function(parentNode) { return parentNode.text; });
+            }
+            if (methodNode.contextClass) {
+                data.contextMethods = this.data.contexts[methodNode.contextClass].methods;
             }
             var html = Handlebars.templates['detail'](data);
             $('.detail-wrapper').html(html);
@@ -222,35 +205,31 @@
                 });
         },
 
-        buildJstreeNode: function(node) {
+        buildJstreeNode: function(node, parent) {
+            var id = parent.id === '#' ? 'node-' + node.name : parent.id + '-' + node.name;
             var treeNode = {
+                id: id,
                 text: node.name,
                 icon: false,
                 methodNode: node
             };
+
             if (node.deprecated) {
                 treeNode.a_attr = {'class': 'deprecated'};
             }
-            if (node.context) {
-                treeNode.state = {
-                    opened: false
-                };
 
-                // find all children that are in this plugin
-                // build nodes for those children
+            if (node.contextClass) {
+                // TODO check for recursion
+                var parentNodes = parent.parents.map(function(parentId) { return this.jstree.get_node(parentId); }, this);
+                parentNodes.push(parent);
 
-                var methods = _.filter(node.context.methods, this.nodeMatches, this);
-                treeNode.children = methods.map(this.buildJstreeNode, this);
+                var recursiveNode = _.find(parentNodes, function(parentNode) {
+                    return parentNode.original && parentNode.original.methodNode.contextClass === node.contextClass;
+                });
+
+                treeNode.children = true;
             }
             return treeNode;
-        },
-
-        nodeMatches: function(methodNode) {
-            var matches = !this.pluginFilter || (methodNode.plugin && this.pluginFilter === methodNode.plugin.name);
-            if (!matches) {
-                matches = methodNode.context && methodNode.context.methods.some(this.nodeMatches, this);
-            }
-            return matches;
         }
     });
 
@@ -262,7 +241,7 @@ this["Handlebars"] = this["Handlebars"] || {};
 this["Handlebars"]["templates"] = this["Handlebars"]["templates"] || {};
 this["Handlebars"]["templates"]["detail"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
   var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, buffer = "        <ol class=\"breadcrumb\">\n";
-  stack1 = helpers.each.call(depth0, ((stack1 = (depth0 != null ? depth0.methodNode : depth0)) != null ? stack1.ancestors : stack1), {"name":"each","hash":{},"fn":this.program(2, data),"inverse":this.noop,"data":data});
+  stack1 = helpers.each.call(depth0, (depth0 != null ? depth0.ancestors : depth0), {"name":"each","hash":{},"fn":this.program(2, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
   return buffer + "            <li class=\"active\">"
     + escapeExpression(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"name","hash":{},"data":data}) : helper)))
@@ -272,7 +251,7 @@ this["Handlebars"]["templates"]["detail"] = Handlebars.template({"1":function(de
   return "                <li><a href=\"#"
     + escapeExpression(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"id","hash":{},"data":data}) : helper)))
     + "\">"
-    + escapeExpression(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"name","hash":{},"data":data}) : helper)))
+    + escapeExpression(((helper = (helper = helpers.text || (depth0 != null ? depth0.text : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"text","hash":{},"data":data}) : helper)))
     + "</a></li>\n";
 },"4":function(depth0,helpers,partials,data) {
   var stack1, lambda=this.lambda, escapeExpression=this.escapeExpression;
@@ -287,7 +266,7 @@ this["Handlebars"]["templates"]["detail"] = Handlebars.template({"1":function(de
   if (stack1 != null) { buffer += stack1; }
   stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.deprecatedSince : depth0), {"name":"if","hash":{},"fn":this.program(9, data),"inverse":this.program(11, data),"data":data});
   if (stack1 != null) { buffer += stack1; }
-  return buffer + "                <pre class=\"highlight\">"
+  return buffer + "                <pre class=\"highlight groovy\">"
     + escapeExpression(((helper = (helper = helpers.text || (depth0 != null ? depth0.text : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"text","hash":{},"data":data}) : helper)))
     + "</pre>\n";
 },"7":function(depth0,helpers,partials,data) {
@@ -334,14 +313,9 @@ this["Handlebars"]["templates"]["detail"] = Handlebars.template({"1":function(de
     + "</td>\n                    </tr>\n";
 },"18":function(depth0,helpers,partials,data) {
   return "deprecated";
-  },"20":function(depth0,helpers,partials,data) {
-  var stack1, lambda=this.lambda, escapeExpression=this.escapeExpression;
-  return "-->\n        <!--<h3>Example XML</h3>-->\n        <!--<div class=\"\">-->\n        <!--<pre class=\"highlight\">"
-    + escapeExpression(lambda(((stack1 = (depth0 != null ? depth0.methodNode : depth0)) != null ? stack1.exampleXml : stack1), depth0))
-    + "</pre>-->\n        <!--</div>-->\n        <!--";
-},"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
+  },"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
   var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, buffer = "<div class=\"detail\">\n";
-  stack1 = helpers['if'].call(depth0, ((stack1 = (depth0 != null ? depth0.methodNode : depth0)) != null ? stack1.ancestors : stack1), {"name":"if","hash":{},"fn":this.program(1, data),"inverse":this.noop,"data":data});
+  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.ancestors : depth0), {"name":"if","hash":{},"fn":this.program(1, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
   buffer += "    <div class=\"method-detail\">\n        <h2>\n            "
     + escapeExpression(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"name","hash":{},"data":data}) : helper)))
@@ -357,10 +331,7 @@ this["Handlebars"]["templates"]["detail"] = Handlebars.template({"1":function(de
   buffer += "\n";
   stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.contextMethods : depth0), {"name":"if","hash":{},"fn":this.program(16, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
-  buffer += "\n        <!--";
-  stack1 = helpers['if'].call(depth0, ((stack1 = (depth0 != null ? depth0.methodNode : depth0)) != null ? stack1.exampleXml : stack1), {"name":"if","hash":{},"fn":this.program(20, data),"inverse":this.noop,"data":data});
-  if (stack1 != null) { buffer += stack1; }
-  return buffer + "-->\n\n    </div>\n</div>";
+  return buffer + "    </div>\n</div>";
 },"useData":true});
 this["Handlebars"] = this["Handlebars"] || {};
 this["Handlebars"]["templates"] = this["Handlebars"]["templates"] || {};

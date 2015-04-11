@@ -1,8 +1,8 @@
 <div class="detail">
-    {{#if methodNode.ancestors}}
+    {{#if ancestors}}
         <ol class="breadcrumb">
-            {{#each methodNode.ancestors}}
-                <li><a href="#{{id}}">{{name}}</a></li>
+            {{#each ancestors}}
+                <li><a href="#{{id}}">{{text}}</a></li>
             {{/each}}
             <li class="active">{{name}}</li>
         </ol>
@@ -23,7 +23,7 @@
                         <span class="label label-warning">Deprecated</span>
                     {{/if}}
                 {{/if}}
-                <pre class="highlight">{{text}}</pre>
+                <pre class="highlight groovy">{{text}}</pre>
             {{/each}}
         </div>
 
@@ -43,13 +43,5 @@
                 {{/each}}
             </table>
         {{/if}}
-
-        <!--{{#if methodNode.exampleXml}}-->
-        <!--<h3>Example XML</h3>-->
-        <!--<div class="">-->
-        <!--<pre class="highlight">{{methodNode.exampleXml}}</pre>-->
-        <!--</div>-->
-        <!--{{/if}}-->
-
     </div>
 </div>
