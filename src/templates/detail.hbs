@@ -37,8 +37,8 @@
             <table class="table table-condensed methods">
                 {{#each contextMethods}}
                     <tr>
-                        <td class="method-name {{#if deprecated}}deprecated{{/if}}"><a href="#{{id}}" title="{{name}}">{{name}}</a></td>
-                        <td class="method-comment" title="{{firstSentenceCommentText}}">{{firstSentenceCommentText}}</td>
+                        <td class="method-name {{#if method.deprecated}}deprecated{{/if}}"><a href="#{{id}}" title="{{method.name}}">{{method.name}}</a></td>
+                        <td class="method-comment" title="{{method.firstSentenceCommentText}}">{{method.firstSentenceCommentText}}</td>
                     </tr>
                 {{/each}}
             </table>

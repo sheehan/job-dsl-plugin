@@ -193,7 +193,12 @@
                 data.ancestors = parentNodes.filter(function(parentNode) { return parentNode.text; });
             }
             if (methodNode.contextClass) {
-                data.contextMethods = this.data.contexts[methodNode.contextClass].methods;
+                data.contextMethods = this.data.contexts[methodNode.contextClass].methods.map(function(method) {
+                    return {
+                        id: node? node.id.substr(5) + '-' + method.name : method.name,
+                        method: method
+                    }
+                });
             }
             var html = Handlebars.templates['detail'](data);
             $('.detail-wrapper').html(html);
@@ -297,19 +302,19 @@ this["Handlebars"]["templates"]["detail"] = Handlebars.template({"1":function(de
   if (stack1 != null) { buffer += stack1; }
   return buffer + "            </table>\n";
 },"17":function(depth0,helpers,partials,data) {
-  var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, buffer = "                    <tr>\n                        <td class=\"method-name ";
-  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.deprecated : depth0), {"name":"if","hash":{},"fn":this.program(18, data),"inverse":this.noop,"data":data});
+  var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, lambda=this.lambda, buffer = "                    <tr>\n                        <td class=\"method-name ";
+  stack1 = helpers['if'].call(depth0, ((stack1 = (depth0 != null ? depth0.method : depth0)) != null ? stack1.deprecated : stack1), {"name":"if","hash":{},"fn":this.program(18, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
   return buffer + "\"><a href=\"#"
     + escapeExpression(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"id","hash":{},"data":data}) : helper)))
     + "\" title=\""
-    + escapeExpression(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"name","hash":{},"data":data}) : helper)))
+    + escapeExpression(lambda(((stack1 = (depth0 != null ? depth0.method : depth0)) != null ? stack1.name : stack1), depth0))
     + "\">"
-    + escapeExpression(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"name","hash":{},"data":data}) : helper)))
+    + escapeExpression(lambda(((stack1 = (depth0 != null ? depth0.method : depth0)) != null ? stack1.name : stack1), depth0))
     + "</a></td>\n                        <td class=\"method-comment\" title=\""
-    + escapeExpression(((helper = (helper = helpers.firstSentenceCommentText || (depth0 != null ? depth0.firstSentenceCommentText : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"firstSentenceCommentText","hash":{},"data":data}) : helper)))
+    + escapeExpression(lambda(((stack1 = (depth0 != null ? depth0.method : depth0)) != null ? stack1.firstSentenceCommentText : stack1), depth0))
     + "\">"
-    + escapeExpression(((helper = (helper = helpers.firstSentenceCommentText || (depth0 != null ? depth0.firstSentenceCommentText : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"firstSentenceCommentText","hash":{},"data":data}) : helper)))
+    + escapeExpression(lambda(((stack1 = (depth0 != null ? depth0.method : depth0)) != null ? stack1.firstSentenceCommentText : stack1), depth0))
     + "</td>\n                    </tr>\n";
 },"18":function(depth0,helpers,partials,data) {
   return "deprecated";

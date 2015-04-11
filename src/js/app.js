@@ -193,7 +193,12 @@
                 data.ancestors = parentNodes.filter(function(parentNode) { return parentNode.text; });
             }
             if (methodNode.contextClass) {
-                data.contextMethods = this.data.contexts[methodNode.contextClass].methods;
+                data.contextMethods = this.data.contexts[methodNode.contextClass].methods.map(function(method) {
+                    return {
+                        id: node? node.id.substr(5) + '-' + method.name : method.name,
+                        method: method
+                    }
+                });
             }
             var html = Handlebars.templates['detail'](data);
             $('.detail-wrapper').html(html);
