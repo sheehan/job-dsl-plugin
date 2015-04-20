@@ -827,6 +827,139 @@
                 }
             ]
         },
+        "javaposse.jobdsl.dsl.helpers.scm.HgContext": {
+            "type": "javaposse.jobdsl.dsl.helpers.scm.HgContext",
+            "methods": [
+                {
+                    "name": "branch",
+                    "signatures": [
+                        {
+                            "parameters": [
+                                {
+                                    "name": "branch",
+                                    "type": "String"
+                                }
+                            ],
+                            "text": "branch(String branch)"
+                        }
+                    ]
+                },
+                {
+                    "name": "clean",
+                    "signatures": [
+                        {
+                            "parameters": [
+                                {
+                                    "name": "clean",
+                                    "type": "boolean",
+                                    "defaultValue": "true"
+                                }
+                            ],
+                            "text": "clean(boolean clean = true)"
+                        }
+                    ]
+                },
+                {
+                    "name": "configure",
+                    "signatures": [
+                        {
+                            "parameters": [
+                                {
+                                    "name": "withXmlClosure",
+                                    "type": "Closure"
+                                }
+                            ],
+                            "text": "configure(Closure withXmlClosure)"
+                        }
+                    ]
+                },
+                {
+                    "name": "credentials",
+                    "signatures": [
+                        {
+                            "parameters": [
+                                {
+                                    "name": "credentials",
+                                    "type": "String"
+                                }
+                            ],
+                            "text": "credentials(String credentials)"
+                        }
+                    ]
+                },
+                {
+                    "name": "disableChangeLog",
+                    "signatures": [
+                        {
+                            "parameters": [
+                                {
+                                    "name": "disableChangeLog",
+                                    "type": "boolean",
+                                    "defaultValue": "true"
+                                }
+                            ],
+                            "text": "disableChangeLog(boolean disableChangeLog = true)"
+                        }
+                    ]
+                },
+                {
+                    "name": "installation",
+                    "signatures": [
+                        {
+                            "parameters": [
+                                {
+                                    "name": "installation",
+                                    "type": "String"
+                                }
+                            ],
+                            "text": "installation(String installation)"
+                        }
+                    ]
+                },
+                {
+                    "name": "modules",
+                    "signatures": [
+                        {
+                            "parameters": [
+                                {
+                                    "name": "modules",
+                                    "type": "String..."
+                                }
+                            ],
+                            "text": "modules(String... modules)"
+                        }
+                    ]
+                },
+                {
+                    "name": "subdirectory",
+                    "signatures": [
+                        {
+                            "parameters": [
+                                {
+                                    "name": "subdirectory",
+                                    "type": "String"
+                                }
+                            ],
+                            "text": "subdirectory(String subdirectory)"
+                        }
+                    ]
+                },
+                {
+                    "name": "tag",
+                    "signatures": [
+                        {
+                            "parameters": [
+                                {
+                                    "name": "tag",
+                                    "type": "String"
+                                }
+                            ],
+                            "text": "tag(String tag)"
+                        }
+                    ]
+                }
+            ]
+        },
         "javaposse.jobdsl.dsl.helpers.scm.RTCContext": {
             "type": "javaposse.jobdsl.dsl.helpers.scm.RTCContext",
             "methods": [
@@ -1288,8 +1421,23 @@
                                 }
                             ],
                             "text": "hg(String url, String branch = null, Closure configure = null)"
+                        },
+                        {
+                            "parameters": [
+                                {
+                                    "name": "url",
+                                    "type": "String"
+                                },
+                                {
+                                    "name": "hgClosure",
+                                    "type": "Closure"
+                                }
+                            ],
+                            "text": "hg(String url, Closure hgClosure)",
+                            "availableSince": "1.33"
                         }
                     ],
+                    "contextClass": "javaposse.jobdsl.dsl.helpers.scm.HgContext",
                     "plugin": "mercurial",
                     "html": "Generate configuration for Mercurial.",
                     "firstSentenceCommentText": "Generate configuration for Mercurial."
@@ -2375,14 +2523,32 @@
                         {
                             "parameters": [
                                 {
-                                    "name": "val",
-                                    "type": "Boolean",
+                                    "name": "allowEmpty",
+                                    "type": "boolean",
                                     "defaultValue": "true"
                                 }
                             ],
-                            "text": "allowEmpty(Boolean val = true)"
+                            "text": "allowEmpty(boolean allowEmpty = true)"
                         }
                     ]
+                },
+                {
+                    "name": "defaultExcludes",
+                    "signatures": [
+                        {
+                            "parameters": [
+                                {
+                                    "name": "defaultExcludes",
+                                    "type": "boolean",
+                                    "defaultValue": "true"
+                                }
+                            ],
+                            "text": "defaultExcludes(boolean defaultExcludes = true)",
+                            "availableSince": "1.33"
+                        }
+                    ],
+                    "html": "<DL><DT><B>Since:</B></DT><DD>1.33</DD></DL>",
+                    "firstSentenceCommentText": "@since 1.33"
                 },
                 {
                     "name": "exclude",
@@ -2399,19 +2565,56 @@
                     ]
                 },
                 {
+                    "name": "fingerprint",
+                    "signatures": [
+                        {
+                            "parameters": [
+                                {
+                                    "name": "fingerprint",
+                                    "type": "boolean",
+                                    "defaultValue": "true"
+                                }
+                            ],
+                            "text": "fingerprint(boolean fingerprint = true)",
+                            "availableSince": "1.33"
+                        }
+                    ],
+                    "html": "<DL><DT><B>Since:</B></DT><DD>1.33</DD></DL>",
+                    "firstSentenceCommentText": "@since 1.33"
+                },
+                {
                     "name": "latestOnly",
                     "signatures": [
                         {
                             "parameters": [
                                 {
-                                    "name": "val",
-                                    "type": "Boolean",
+                                    "name": "latestOnly",
+                                    "type": "boolean",
                                     "defaultValue": "true"
                                 }
                             ],
-                            "text": "latestOnly(Boolean val = true)"
+                            "text": "latestOnly(boolean latestOnly = true)",
+                            "deprecated": true
                         }
                     ]
+                },
+                {
+                    "name": "onlyIfSuccessful",
+                    "signatures": [
+                        {
+                            "parameters": [
+                                {
+                                    "name": "onlyIfSuccessful",
+                                    "type": "boolean",
+                                    "defaultValue": "true"
+                                }
+                            ],
+                            "text": "onlyIfSuccessful(boolean onlyIfSuccessful = true)",
+                            "availableSince": "1.33"
+                        }
+                    ],
+                    "html": "<DL><DT><B>Since:</B></DT><DD>1.33</DD></DL>",
+                    "firstSentenceCommentText": "@since 1.33"
                 },
                 {
                     "name": "pattern",
@@ -9061,6 +9264,70 @@
                 }
             ]
         },
+        "javaposse.jobdsl.dsl.helpers.publisher.PullRequestPublisherContext": {
+            "type": "javaposse.jobdsl.dsl.helpers.publisher.PullRequestPublisherContext",
+            "methods": [
+                {
+                    "name": "disallowOwnCode",
+                    "signatures": [
+                        {
+                            "parameters": [
+                                {
+                                    "name": "disallowOwnCode",
+                                    "type": "boolean",
+                                    "defaultValue": "true"
+                                }
+                            ],
+                            "text": "disallowOwnCode(boolean disallowOwnCode = true)"
+                        }
+                    ]
+                },
+                {
+                    "name": "mergeComment",
+                    "signatures": [
+                        {
+                            "parameters": [
+                                {
+                                    "name": "mergeComment",
+                                    "type": "String"
+                                }
+                            ],
+                            "text": "mergeComment(String mergeComment)"
+                        }
+                    ]
+                },
+                {
+                    "name": "onlyAdminsMerge",
+                    "signatures": [
+                        {
+                            "parameters": [
+                                {
+                                    "name": "onlyAdminsMerge",
+                                    "type": "boolean",
+                                    "defaultValue": "true"
+                                }
+                            ],
+                            "text": "onlyAdminsMerge(boolean onlyAdminsMerge = true)"
+                        }
+                    ]
+                },
+                {
+                    "name": "onlyTriggerPhrase",
+                    "signatures": [
+                        {
+                            "parameters": [
+                                {
+                                    "name": "onlyTriggerPhrase",
+                                    "type": "boolean",
+                                    "defaultValue": "true"
+                                }
+                            ],
+                            "text": "onlyTriggerPhrase(boolean onlyTriggerPhrase = true)"
+                        }
+                    ]
+                }
+            ]
+        },
         "javaposse.jobdsl.dsl.helpers.publisher.PlotCSVSeriesContext": {
             "type": "javaposse.jobdsl.dsl.helpers.publisher.PlotCSVSeriesContext",
             "methods": [
@@ -10819,14 +11086,27 @@
                                     "name": "excludeGlob",
                                     "type": "String",
                                     "defaultValue": "null"
-                                },
-                                {
-                                    "name": "latestOnlyBoolean",
-                                    "type": "Boolean",
-                                    "defaultValue": "false"
                                 }
                             ],
-                            "text": "archiveArtifacts(String glob, String excludeGlob = null, Boolean latestOnlyBoolean = false)"
+                            "text": "archiveArtifacts(String glob, String excludeGlob = null)"
+                        },
+                        {
+                            "parameters": [
+                                {
+                                    "name": "glob",
+                                    "type": "String"
+                                },
+                                {
+                                    "name": "excludeGlob",
+                                    "type": "String"
+                                },
+                                {
+                                    "name": "latestOnly",
+                                    "type": "boolean"
+                                }
+                            ],
+                            "text": "archiveArtifacts(String glob, String excludeGlob, boolean latestOnly)",
+                            "deprecated": true
                         }
                     ],
                     "contextClass": "javaposse.jobdsl.dsl.helpers.publisher.ArchiveArtifactsContext",
@@ -11518,6 +11798,26 @@
                     "plugin": "maven-deployment-linker",
                     "html": "Configures the Maven Deployment Linker plugin.\n     <DL><DT><B>Since:</B></DT><DD>1.23</DD></DL>",
                     "firstSentenceCommentText": "Configures the Maven Deployment Linker plugin."
+                },
+                {
+                    "name": "mergePullRequest",
+                    "signatures": [
+                        {
+                            "parameters": [
+                                {
+                                    "name": "contextClosure",
+                                    "type": "Closure",
+                                    "defaultValue": "null"
+                                }
+                            ],
+                            "text": "mergePullRequest(Closure contextClosure = null)",
+                            "availableSince": "1.33"
+                        }
+                    ],
+                    "contextClass": "javaposse.jobdsl.dsl.helpers.publisher.PullRequestPublisherContext",
+                    "plugin": "ghprb",
+                    "html": "Configures the GitHub pull request builder plugin to perform an automatic request after a successful build.\n     <DL><DT><B>Since:</B></DT><DD>1.33</DD></DL>",
+                    "firstSentenceCommentText": "Configures the GitHub pull request builder plugin to perform an automatic request after a successful build."
                 },
                 {
                     "name": "plotBuildData",
@@ -19219,14 +19519,27 @@
                                     "name": "excludeGlob",
                                     "type": "String",
                                     "defaultValue": "null"
-                                },
-                                {
-                                    "name": "latestOnlyBoolean",
-                                    "type": "Boolean",
-                                    "defaultValue": "false"
                                 }
                             ],
-                            "text": "archiveArtifacts(String glob, String excludeGlob = null, Boolean latestOnlyBoolean = false)"
+                            "text": "archiveArtifacts(String glob, String excludeGlob = null)"
+                        },
+                        {
+                            "parameters": [
+                                {
+                                    "name": "glob",
+                                    "type": "String"
+                                },
+                                {
+                                    "name": "excludeGlob",
+                                    "type": "String"
+                                },
+                                {
+                                    "name": "latestOnly",
+                                    "type": "boolean"
+                                }
+                            ],
+                            "text": "archiveArtifacts(String glob, String excludeGlob, boolean latestOnly)",
+                            "deprecated": true
                         }
                     ],
                     "contextClass": "javaposse.jobdsl.dsl.helpers.publisher.ArchiveArtifactsContext",
@@ -19922,6 +20235,26 @@
                     "plugin": "maven-deployment-linker",
                     "html": "Configures the Maven Deployment Linker plugin.\n     <DL><DT><B>Since:</B></DT><DD>1.23</DD></DL>",
                     "firstSentenceCommentText": "Configures the Maven Deployment Linker plugin."
+                },
+                {
+                    "name": "mergePullRequest",
+                    "signatures": [
+                        {
+                            "parameters": [
+                                {
+                                    "name": "contextClosure",
+                                    "type": "Closure",
+                                    "defaultValue": "null"
+                                }
+                            ],
+                            "text": "mergePullRequest(Closure contextClosure = null)",
+                            "availableSince": "1.33"
+                        }
+                    ],
+                    "contextClass": "javaposse.jobdsl.dsl.helpers.publisher.PullRequestPublisherContext",
+                    "plugin": "ghprb",
+                    "html": "Configures the GitHub pull request builder plugin to perform an automatic request after a successful build.\n     <DL><DT><B>Since:</B></DT><DD>1.33</DD></DL>",
+                    "firstSentenceCommentText": "Configures the GitHub pull request builder plugin to perform an automatic request after a successful build."
                 },
                 {
                     "name": "plotBuildData",

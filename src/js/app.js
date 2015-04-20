@@ -9,7 +9,7 @@
             var dsl = this.dslsByUrl[url];
             if (!dsl) {
                 return $.get(url).then(function(data) {
-                    _.each(data.contexts, function(context) { this.processContext(context); }, this);
+                    _.forEach(data.contexts, function(context) { this.processContext(context); }, this);
                     this.dslsByUrl[url] = data;
                     return data;
                 }.bind(this));
@@ -18,6 +18,10 @@
         },
 
         processContext: function(context) {
+            var tokens = context.type.split('.');
+            var simpleClassName = tokens[tokens.length - 1];
+            context.simpleClassName = simpleClassName;
+
             context.methods.forEach(function(method) {
                 if (method.signatures.every(function(sig) { return sig.deprecated; })) {
                     method.deprecated = true;
@@ -38,10 +42,6 @@
 
         $('.version-select').change(this.loadSelectedDsl.bind(this));
 
-        $('body').on('change', '.plugin-select', function(e) {
-            this.filterTree($(e.currentTarget).val());
-        }.bind(this));
-
         window.addEventListener('hashchange', this.onHashChange.bind(this), false);
     };
 
@@ -51,7 +51,35 @@
             e.preventDefault();
             e.stopPropagation();
 
+            this.updateDetailFromHash();
             this.updateTreeFromHash();
+        },
+
+        updateDetailFromHash: function() {
+            var hashId = window.location.hash;
+            if (hashId) {
+                hashId = hashId.substring(1);
+                var index = hashId.indexOf('/');
+                if (index !== -1) {
+                    var type = hashId.substr(0, index);
+                    var value = hashId.substr(index + 1);
+
+                    if (type === 'path') {
+                        this.showPathDetail(value);
+                    } else if (type === 'method') {
+                        var methodIndex = value.lastIndexOf('.');
+                        var contextClass = value.substr(0, methodIndex);
+                        var methodName = value.substr(methodIndex + 1);
+                        this.showMethodDetail(contextClass, methodName);
+                    } else if (type === 'plugin') {
+                        var plugin = _.find(this.plugins, function(plugin) { return plugin.title === value; });
+                        this.showPluginDetail(plugin);
+                    }
+                }
+            } else {
+                this.showPathDetail();
+            }
+            this.layout.resizeAll();
         },
 
         loadSelectedDsl: function() {
@@ -61,14 +89,55 @@
 
         onDslFetchComplete: function(data) {
             this.data = data;
-            this.initPluginSelect(data);
+            this.plugins = this.getPluginList(data);
             this.initTree(data);
+
+            var allItems = [];
+            _.forEach(this.data.contexts, function(context, clazz) {
+                context.methods.forEach(function(method) {
+                    allItems.push({
+                        name: method.name,
+                        clazz: clazz,
+                        simpleClassName: context.simpleClassName
+                    });
+                });
+            });
+
+            allItems = allItems.concat(this.plugins.map(function(plugin) {
+                return {
+                    name: plugin.title
+                };
+            }));
+            allItems = _.sortBy(allItems, function(item) { return item.name.toLowerCase(); });
+
+            $('.search-input').keyup(function() {
+                var val = $('.search-input').val();
+                if (val) {
+                    if ($('.tree-body').is(':visible')) {
+                        $('.tree-body').hide();
+                        $('.search-results').show();
+                    }
+
+                    var matches = allItems.filter(function(item) {
+                        return item.name.toLowerCase().indexOf(val) !== -1;
+                    }, this);
+                    var html = Handlebars.templates['searchResults']({results: matches});
+                    $('.search-results').html(html);
+                    // update result list
+                } else {
+                    $('.tree-body').show();
+                    $('.search-results').hide();
+                }
+            }.bind(this));
+
+
+            this.updateDetailFromHash();
         },
 
         initLayout: function() {
             this.layout = $('.layout-container').layout({
                 west__paneSelector: '.tree',
-                west__contentSelector: '.tree-body',
+                west__contentSelector: '.tree-wrapper',
                 west__size: 360,
                 west__minSize: 360,
                 west__spacing_open: 3,
@@ -80,15 +149,10 @@
             });
         },
 
-        filterTree: function(pluginName) {
-            this.pluginFilter = pluginName;
-            this.initTree(this.data);
-        },
-
         getPluginList: function(data) {
             var plugins = [];
 
-            _.each(data.contexts, function(context) {
+            _.forEach(data.contexts, function(context) {
                 context.methods.forEach(function(method) {
                     if (method.plugin) {
                         plugins.push(method.plugin);
@@ -100,11 +164,6 @@
             return _.sortBy(plugins, 'name');
         },
 
-        initPluginSelect: function(data) {
-            var html = Handlebars.templates['plugins']({plugins: this.getPluginList(data)});
-            $('.plugins').html(html).hide();
-        },
-
         initTree: function(data) {
             var $treeBody = $('.tree-body');
 
@@ -113,12 +172,6 @@
                 .on('changed.jstree', this.onTreeChanged.bind(this))
                 .on('ready.jstree', function() {
                     this.updateTreeFromHash();
-                    if (this.pluginFilter) {
-                        this.jstree.open_all();
-                        var nodes = this.jstree.get_json(null, {flat: true});
-                        this.jstree.deselect_all(true);
-                        this.jstree.select_node(nodes[0].id);
-                    }
                     var selectedNodes = this.jstree.get_selected(true);
                     if (selectedNodes.length) {
                         $('#' + selectedNodes[0].id)[0].scrollIntoView();
@@ -151,51 +204,117 @@
             e.preventDefault();
             var methodNode = data.node.original.methodNode;
 
-            var hash = data.node.id.substr(5); // TODO
-            //if (window.location.hash !== '#' + hash) {
-                window.location.hash = hash;
-                this.showMethodDetail(methodNode, data.node);
-
-                this.layout.resizeAll();
-            //}
+            window.location.hash = 'path/' + data.node.id;
         },
 
         updateTreeFromHash: function() {
             var hashId = window.location.hash;
-            var node;
-            if (hashId) {
-                hashId = hashId.substring(1);
+            this.jstree.deselect_all(true);
 
-                var tokens = hashId.split('-');
+            if (hashId && hashId.indexOf('#path/') === 0) {
+                $('.tree-body').show();
+                $('.search-results').hide();
+
+                var path = hashId.substring(6);
+                var tokens = path.split('-');
                 tokens.forEach(function(token, index) {
                     var id = tokens.slice(0, index + 1).join('-');
-                    node = this.jstree.get_node('node-' + id);
+                    var node = this.jstree.get_node(id);
                     if (index < tokens.length - 1) {
                         this.jstree.open_node(node);
+                    } else {
+                        this.jstree.select_node(node.id);
                     }
                 }, this);
             }
-
-            if (node) {
-                this.jstree.deselect_all(true);
-                this.jstree.select_node(node.id);
-            } else {
-                this.jstree.deselect_all(true);
-                this.showMethodDetail(this.data.root);
-            }
         },
 
-        showMethodDetail: function(methodNode, node) {
-            var data = {methodNode: methodNode};
-            data.name = methodNode.name;
-            if (node) {
-                var parentNodes = node.parents.map(function(parentId) { return this.jstree.get_node(parentId); }, this).reverse();
-                data.ancestors = parentNodes.filter(function(parentNode) { return parentNode.text; });
-            }
+        showPluginDetail: function(plugin) {
+
+            var usages = [];
+            _.forEach(this.data.contexts, function(context) {
+                context.methods.forEach(function(method) {
+                    if (method.plugin === plugin) {
+                        usages.push({method: method, context: context});
+                    }
+                });
+            });
+
+            var html = Handlebars.templates['pluginDetail']({plugin: plugin, usages: usages});
+            $('.detail-wrapper').html(html);
+        },
+
+        showMethodDetail: function(contextClass, methodName) {
+            var methodNode = _.find(this.data.contexts[contextClass].methods, function(method) { return method.name === methodName; });
+            var data = {
+                methodNode: methodNode,
+                name: methodNode.name
+            };
             if (methodNode.contextClass) {
                 data.contextMethods = this.data.contexts[methodNode.contextClass].methods.map(function(method) {
+                    var href = '#method/' + methodNode.contextClass + '.' + method.name;
                     return {
-                        id: node? node.id.substr(5) + '-' + method.name : method.name,
+                        href: href,
+                        method: method
+                    }
+                });
+            }
+
+            var usages = [];
+            _.forEach(this.data.contexts, function(context, clazz) {
+                context.methods.forEach(function(method) {
+                    if (method.contextClass === contextClass) {
+                        usages.push({
+                            method: method,
+                            context: context,
+                            simpleClassName: context.simpleClassName
+                        });
+                    }
+                });
+            });
+            data.usages = _.sortBy(usages, function(usage) { return (usage.method.name + usage.simpleClassName).toLowerCase(); });
+
+            var html = Handlebars.templates['detail'](data);
+            $('.detail-wrapper').html(html);
+
+            $('pre.highlight')
+                .add('.method-doc pre code')
+                .each(function(i, block) { hljs.highlightBlock(block); });
+
+            $('.method-doc pre').addClass('highlight');
+        },
+
+        showPathDetail: function(path) {
+            var node = this.data.contexts[this.data.root.contextClass];
+            var methodNode;
+            var ancestors = [];
+            if (path) {
+                var tokens = path.split('-');
+                tokens.forEach(function(token, index) {
+                    var id = tokens.slice(0, index + 1).join('-');
+                    methodNode = _.find(node.methods, function(method) { return method.name === token; });
+                    node = this.data.contexts[methodNode.contextClass];
+                    if (index < tokens.length - 1) {
+                        ancestors.push({
+                            id: id,
+                            text: token
+                        });
+                    }
+                }, this);
+            } else {
+                methodNode = this.data.root;
+            }
+            var data = {
+                methodNode: methodNode,
+                name: methodNode.name,
+                ancestors: ancestors,
+                isRoot: !path
+            };
+            if (methodNode.contextClass) {
+                data.contextMethods = this.data.contexts[methodNode.contextClass].methods.map(function(method) {
+                    var href = '#path/' + (path ? path + '-' : '') + method.name;
+                    return {
+                        href: href,
                         method: method
                     }
                 });
@@ -208,31 +327,26 @@
                 .each(function(i, block) {
                     hljs.highlightBlock(block);
                 });
+            $('.method-doc pre').addClass('highlight');
+        },
+
+        getTreeNodeAncestors: function(node) {
+            var parentNodes = node.parents.map(function(parentId) { return this.jstree.get_node(parentId); }, this).reverse();
+            return parentNodes.filter(function(parentNode) { return parentNode.text; });
         },
 
         buildJstreeNode: function(node, parent) {
-            var id = parent.id === '#' ? 'node-' + node.name : parent.id + '-' + node.name;
+            var id = parent.id === '#' ? node.name : parent.id + '-' + node.name;
             var treeNode = {
                 id: id,
                 text: node.name,
                 icon: false,
-                methodNode: node
+                methodNode: node,
+                children: !!(node.contextClass)
             };
 
             if (node.deprecated) {
                 treeNode.a_attr = {'class': 'deprecated'};
-            }
-
-            if (node.contextClass) {
-                // TODO check for recursion
-                var parentNodes = parent.parents.map(function(parentId) { return this.jstree.get_node(parentId); }, this);
-                parentNodes.push(parent);
-
-                var recursiveNode = _.find(parentNodes, function(parentNode) {
-                    return parentNode.original && parentNode.original.methodNode.contextClass === node.contextClass;
-                });
-
-                treeNode.children = true;
             }
             return treeNode;
         }

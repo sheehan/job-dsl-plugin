@@ -1,0 +1,20 @@
+<ul>
+    {{#each results}}
+        <li>
+            {{# if clazz}}
+                <a href="#method/{{clazz}}.{{name}}">
+                    <div>
+                        <span class="method label">M</span>
+                        {{name}} :
+                        <span class="simpleClassName">{{simpleClassName}}</span>
+                    </div>
+                </a>
+            {{else}}
+                <a href="#plugin/{{name}}">
+                    <span class="plugin label">P</span>
+                    {{name}}
+                </a>
+            {{/if}}
+        </li>
+    {{/each}}
+</ul>

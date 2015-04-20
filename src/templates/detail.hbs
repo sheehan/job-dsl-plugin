@@ -28,20 +28,49 @@
         </div>
 
         {{#if methodNode.html}}
-            <!--<h3>Description</h3>-->
             <div class="method-doc">{{{methodNode.html}}}</div>
         {{/if}}
 
         {{#if contextMethods}}
             <h3>Context Methods</h3>
-            <table class="table table-condensed methods">
-                {{#each contextMethods}}
-                    <tr>
-                        <td class="method-name {{#if method.deprecated}}deprecated{{/if}}"><a href="#{{id}}" title="{{method.name}}">{{method.name}}</a></td>
-                        <td class="method-comment" title="{{method.firstSentenceCommentText}}">{{method.firstSentenceCommentText}}</td>
-                    </tr>
+            <div class="context-methods-section {{#if isRoot}}root{{/if}}">
+                {{#unless isRoot}}
+                <pre><code>{{name}} {</code></pre>
+                {{/unless}}
+                <ul class="context-methods">
+                    {{#each contextMethods}}
+                        <li>
+                            <div class="method-name {{#if method.deprecated}}deprecated{{/if}}">
+                                <span class="method-link-wrapper">
+                                    <a href="{{href}}" title="{{method.name}}">{{method.name}}</a>
+                                </span>
+                                {{# if method.firstSentenceCommentText}}
+                                    <span class="firstSentenceCommentText">
+                                    // {{method.firstSentenceCommentText}}
+                                    </span>
+                                {{/if}}
+                            </div>
+                        </li>
+                    {{/each}}
+                </ul>
+                {{#unless isRoot}}
+                <pre><code>}</code></pre>
+                {{/unless}}
+            </div>
+        {{/if}}
+
+        {{#if usages}}
+            <h3>Usages</h3>
+            <ul class="usages list-group">
+                {{#each usages}}
+                    <li class="list-group-item">
+                        <div class="method-name {{#if method.deprecated}}deprecated{{/if}}">
+                            <a href="#method/{{context.type}}.{{method.name}}" title="{{method.name}}">{{method.name}}</a>
+                            : {{context.simpleClassName}}
+                        </div>
+                    </li>
                 {{/each}}
-            </table>
+            </ul>
         {{/if}}
     </div>
 </div>
