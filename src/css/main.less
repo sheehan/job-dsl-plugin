@@ -1,3 +1,5 @@
+@color1: #13262F;
+
 .text-ellipsis {
   white-space: nowrap;
   overflow: hidden;
@@ -23,6 +25,10 @@
   //height: 100%;
 
   @height: 30px;
+
+  i.jstree-icon {
+    color: #666;
+  }
   &.jstree-proton .jstree-wholerow {
     height: 30px;
   }
@@ -45,10 +51,12 @@
     margin: 0;
   }
   &.jstree-proton>.jstree-no-dots .jstree-open>.jstree-ocl {
-    background-position: -33px -2px;
+    //background-position: -33px -2px;
+    background: none;
   }
   &.jstree-proton>.jstree-no-dots .jstree-closed>.jstree-ocl {
-     background-position: -1px -2px;
+     //background-position: -1px -2px;
+    background: none;
   }
   &.jstree-proton > .jstree-container-ul > .jstree-node {
     margin-left: 3px;
@@ -61,16 +69,44 @@
 }
 
 .title {
+  //height: 5px;
+  background-color: @color1;
+  .navbar {
+    border: none;
+  }
   .navbar-header {
-    float: none;
-    background-color: #bbb;
-    border-bottom: 1px solid #888;
+    //float: none;
+    //background-color: @color1;
+    //border-bottom: 1px solid #888;
     .navbar-brand {
-      color: #333;
-      float: none;
-      display: inline-block;
+      color: #ddd;
+      //float: none;
+      //display: inline-block;
       font-size: 17px;
       padding: 15px 10px;
+    }
+  }
+
+  .navbar-brand, .navbar-nav>li>a {
+    text-shadow: none;
+  }
+  .nav>li>a:focus, .nav>li>a:hover {
+    color: #fff;
+    background-color: @color1;
+  }
+  .navbar-nav {
+    a {
+      color: #ddd;
+      &:hover {
+        //color: #fff;
+        //background-color: @color1;
+      }
+    }
+    li.active {
+      a {
+        background-color: darken(@color1, 25%);
+        color: #fff;
+      }
     }
   }
   .form-control.version-select {
@@ -114,6 +150,7 @@ body {
 
 .method-detail {
   padding: 15px;
+
   h2 {
     margin: 5px 0 15px;
     a {
@@ -127,6 +164,27 @@ body {
     font-size: 16px;
     border-bottom: 1px solid #666;
     padding-bottom: 5px;
+  }
+
+
+  .section-header {
+    //background-color: #999;
+    //margin: 20px 0 0;
+    //padding: 10px;
+    //border-left: 3px solid #aaa;
+    //color: #fff ;
+    //border-bottom: none;
+    //background-color: @color1;
+    //margin: 20px 0 0;
+    //padding: 10px;
+    //border-left: 3px solid #aaa;
+    //color: #fff;
+    //border-bottom: none;
+
+    margin: 20px 0 7px;
+    padding: 0;
+    color: #13262f;
+    border-bottom: none;
   }
 }
 
@@ -151,10 +209,9 @@ body {
 }
 
 .code-block {
-  border-left: solid #aaa;
-  border-width: 0 0 0 3px;
   border-radius: 0;
-  background-color: #f0f0f0;
+  background-color: #f5f5f5;
+  border: 1px solid #ccc;
 }
 
 pre.highlight {
@@ -162,9 +219,7 @@ pre.highlight {
 }
 
 .context-methods-section {
-  //border: 1px solid #aaa;
   padding: 5px 10px;
-  //background-color: #f9f9f9;
   .code-block;
   pre {
     background-color: transparent;
@@ -203,16 +258,16 @@ ul.usages {
   padding: 0;
   li {
     list-style-type: none;
+    padding: 10px 0;
+    border-bottom: 1px solid #ccc;
+    &:first-of-type {
+      border-top: 1px solid #ccc;
+    }
   }
 }
 
 .jstree-anchor.deprecated {
   text-decoration: line-through;
-}
-
-.welcome h2 {
-  text-align: center;
-  color: #444;
 }
 
 .sidebar-head {
@@ -254,6 +309,7 @@ ul.usages {
         text-decoration: none;
         border-bottom: 1px solid #ccc;
         white-space: nowrap;
+        overflow: hidden;
         .simpleClassName {
           font-size: 12px;
           color: #888;

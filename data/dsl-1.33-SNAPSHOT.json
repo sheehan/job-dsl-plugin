@@ -15226,20 +15226,6 @@
                     "firstSentenceCommentText": "Add environment variables to the build."
                 },
                 {
-                    "name": "executeWithXmlActions",
-                    "signatures": [
-                        {
-                            "parameters": [
-                                {
-                                    "name": "root",
-                                    "type": "groovy.util.Node"
-                                }
-                            ],
-                            "text": "executeWithXmlActions(groovy.util.Node root)"
-                        }
-                    ]
-                },
-                {
                     "name": "jdk",
                     "signatures": [
                         {
@@ -17265,20 +17251,6 @@
                     "firstSentenceCommentText": "Add environment variables to the build."
                 },
                 {
-                    "name": "executeWithXmlActions",
-                    "signatures": [
-                        {
-                            "parameters": [
-                                {
-                                    "name": "root",
-                                    "type": "groovy.util.Node"
-                                }
-                            ],
-                            "text": "executeWithXmlActions(groovy.util.Node root)"
-                        }
-                    ]
-                },
-                {
                     "name": "jdk",
                     "signatures": [
                         {
@@ -17936,20 +17908,6 @@
                     "plugin": "envinject",
                     "html": "Add environment variables to the build.",
                     "firstSentenceCommentText": "Add environment variables to the build."
-                },
-                {
-                    "name": "executeWithXmlActions",
-                    "signatures": [
-                        {
-                            "parameters": [
-                                {
-                                    "name": "root",
-                                    "type": "groovy.util.Node"
-                                }
-                            ],
-                            "text": "executeWithXmlActions(groovy.util.Node root)"
-                        }
-                    ]
                 },
                 {
                     "name": "jdk",
@@ -18933,20 +18891,6 @@
                     "plugin": "envinject",
                     "html": "Add environment variables to the build.",
                     "firstSentenceCommentText": "Add environment variables to the build."
-                },
-                {
-                    "name": "executeWithXmlActions",
-                    "signatures": [
-                        {
-                            "parameters": [
-                                {
-                                    "name": "root",
-                                    "type": "groovy.util.Node"
-                                }
-                            ],
-                            "text": "executeWithXmlActions(groovy.util.Node root)"
-                        }
-                    ]
                 },
                 {
                     "name": "jdk",
@@ -21991,20 +21935,6 @@
                     "firstSentenceCommentText": "Add environment variables to the build."
                 },
                 {
-                    "name": "executeWithXmlActions",
-                    "signatures": [
-                        {
-                            "parameters": [
-                                {
-                                    "name": "root",
-                                    "type": "groovy.util.Node"
-                                }
-                            ],
-                            "text": "executeWithXmlActions(groovy.util.Node root)"
-                        }
-                    ]
-                },
-                {
                     "name": "goals",
                     "signatures": [
                         {
@@ -24213,20 +24143,6 @@
                     "firstSentenceCommentText": "Add environment variables to the build."
                 },
                 {
-                    "name": "executeWithXmlActions",
-                    "signatures": [
-                        {
-                            "parameters": [
-                                {
-                                    "name": "root",
-                                    "type": "groovy.util.Node"
-                                }
-                            ],
-                            "text": "executeWithXmlActions(groovy.util.Node root)"
-                        }
-                    ]
-                },
-                {
                     "name": "jdk",
                     "signatures": [
                         {
@@ -25585,20 +25501,6 @@
                     "plugin": "envinject",
                     "html": "Add environment variables to the build.",
                     "firstSentenceCommentText": "Add environment variables to the build."
-                },
-                {
-                    "name": "executeWithXmlActions",
-                    "signatures": [
-                        {
-                            "parameters": [
-                                {
-                                    "name": "root",
-                                    "type": "groovy.util.Node"
-                                }
-                            ],
-                            "text": "executeWithXmlActions(groovy.util.Node root)"
-                        }
-                    ]
                 },
                 {
                     "name": "jdk",

@@ -72,7 +72,7 @@
                         var methodName = value.substr(methodIndex + 1);
                         this.showMethodDetail(contextClass, methodName);
                     } else if (type === 'plugin') {
-                        var plugin = _.find(this.plugins, function(plugin) { return plugin.title === value; });
+                        var plugin = _.find(this.plugins, function(plugin) { return plugin.name === value; });
                         this.showPluginDetail(plugin);
                     }
                 }
@@ -105,7 +105,8 @@
 
             allItems = allItems.concat(this.plugins.map(function(plugin) {
                 return {
-                    name: plugin.title
+                    name: plugin.name,
+                    title: plugin.title
                 };
             }));
             allItems = _.sortBy(allItems, function(item) { return item.name.toLowerCase(); });
@@ -136,6 +137,8 @@
 
         initLayout: function() {
             this.layout = $('.layout-container').layout({
+                north__paneSelector: '.title',
+                north__spacing_open: 0,
                 west__paneSelector: '.tree',
                 west__contentSelector: '.tree-wrapper',
                 west__size: 360,
@@ -167,6 +170,21 @@
         initTree: function(data) {
             var $treeBody = $('.tree-body');
 
+
+            var updateNodes = function() {
+                $treeBody.find('.jstree-open > i.jstree-icon')
+                    .removeClass('glyphicon-triangle-right').addClass('glyphicon glyphicon-triangle-bottom');
+                $treeBody.find('.jstree-closed > i.jstree-icon')
+                    .removeClass('glyphicon-triangle-bottom').addClass('glyphicon glyphicon-triangle-right');
+            };
+            $treeBody.on('open_node.jstree', function(e, data){
+                updateNodes();
+            });
+
+            $treeBody.on('close_node.jstree', function(e, data){
+                updateNodes();
+            });
+
             $treeBody
                 .jstree('destroy')
                 .on('changed.jstree', this.onTreeChanged.bind(this))
@@ -176,6 +194,7 @@
                     if (selectedNodes.length) {
                         $('#' + selectedNodes[0].id)[0].scrollIntoView();
                     }
+                    updateNodes();
                 }.bind(this))
                 .jstree({
                     'plugins': ['wholerow'],
@@ -202,8 +221,6 @@
 
         onTreeChanged: function(e, data) {
             e.preventDefault();
-            var methodNode = data.node.original.methodNode;
-
             window.location.hash = 'path/' + data.node.id;
         },
 
@@ -367,7 +384,7 @@ this["Handlebars"]["templates"]["detail"] = Handlebars.template({"1":function(de
     + "</li>\n        </ol>\n";
 },"2":function(depth0,helpers,partials,data) {
   var helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
-  return "                <li><a href=\"#"
+  return "                <li><a href=\"#path/"
     + escapeExpression(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"id","hash":{},"data":data}) : helper)))
     + "\">"
     + escapeExpression(((helper = (helper = helpers.text || (depth0 != null ? depth0.text : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"text","hash":{},"data":data}) : helper)))
@@ -411,7 +428,7 @@ this["Handlebars"]["templates"]["detail"] = Handlebars.template({"1":function(de
   if (stack1 != null) { buffer += stack1; }
   return buffer + "</div>\n";
 },"16":function(depth0,helpers,partials,data) {
-  var stack1, buffer = "            <h3>Context Methods</h3>\n            <div class=\"context-methods-section ";
+  var stack1, buffer = "            <h3 class=\"section-header\">Context Methods</h3>\n            <div class=\"context-methods-section ";
   stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.isRoot : depth0), {"name":"if","hash":{},"fn":this.program(17, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
   buffer += "\">\n";
@@ -455,12 +472,12 @@ this["Handlebars"]["templates"]["detail"] = Handlebars.template({"1":function(de
 },"26":function(depth0,helpers,partials,data) {
   return "                <pre><code>}</code></pre>\n";
   },"28":function(depth0,helpers,partials,data) {
-  var stack1, buffer = "            <h3>Usages</h3>\n            <ul class=\"usages list-group\">\n";
+  var stack1, buffer = "            <h3 class=\"section-header\">Usages</h3>\n            <ul class=\"usages\">\n";
   stack1 = helpers.each.call(depth0, (depth0 != null ? depth0.usages : depth0), {"name":"each","hash":{},"fn":this.program(29, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
   return buffer + "            </ul>\n";
 },"29":function(depth0,helpers,partials,data) {
-  var stack1, lambda=this.lambda, escapeExpression=this.escapeExpression, buffer = "                    <li class=\"list-group-item\">\n                        <div class=\"method-name ";
+  var stack1, lambda=this.lambda, escapeExpression=this.escapeExpression, buffer = "                    <li>\n                        <div class=\"method-name ";
   stack1 = helpers['if'].call(depth0, ((stack1 = (depth0 != null ? depth0.method : depth0)) != null ? stack1.deprecated : stack1), {"name":"if","hash":{},"fn":this.program(22, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
   return buffer + "\">\n                            <a href=\"#method/"
@@ -483,7 +500,7 @@ this["Handlebars"]["templates"]["detail"] = Handlebars.template({"1":function(de
     + "\n            ";
   stack1 = helpers['if'].call(depth0, ((stack1 = (depth0 != null ? depth0.methodNode : depth0)) != null ? stack1.plugin : stack1), {"name":"if","hash":{},"fn":this.program(4, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
-  buffer += "</h2>\n        <div class=\"signatures\">\n";
+  buffer += "\n        </h2>\n        <div class=\"signatures\">\n";
   stack1 = helpers.each.call(depth0, ((stack1 = (depth0 != null ? depth0.methodNode : depth0)) != null ? stack1.signatures : stack1), {"name":"each","hash":{},"fn":this.program(6, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
   buffer += "        </div>\n\n";
@@ -535,21 +552,6 @@ this["Handlebars"]["templates"]["pluginDetail"] = Handlebars.template({"1":funct
 },"useData":true});
 this["Handlebars"] = this["Handlebars"] || {};
 this["Handlebars"]["templates"] = this["Handlebars"]["templates"] || {};
-this["Handlebars"]["templates"]["plugins"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
-  var helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
-  return "        <option value=\""
-    + escapeExpression(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"name","hash":{},"data":data}) : helper)))
-    + "\">"
-    + escapeExpression(((helper = (helper = helpers.title || (depth0 != null ? depth0.title : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"title","hash":{},"data":data}) : helper)))
-    + "</option>\n";
-},"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
-  var stack1, buffer = "<label>Filter by plugin</label>\n<select class=\"plugin-select form-control\">\n    <option value=\"\">Select</option>\n";
-  stack1 = helpers.each.call(depth0, (depth0 != null ? depth0.plugins : depth0), {"name":"each","hash":{},"fn":this.program(1, data),"inverse":this.noop,"data":data});
-  if (stack1 != null) { buffer += stack1; }
-  return buffer + "</select>";
-},"useData":true});
-this["Handlebars"] = this["Handlebars"] || {};
-this["Handlebars"]["templates"] = this["Handlebars"]["templates"] || {};
 this["Handlebars"]["templates"]["searchResults"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
   var stack1, buffer = "        <li>\n";
   stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.clazz : depth0), {"name":"if","hash":{},"fn":this.program(2, data),"inverse":this.program(4, data),"data":data});
@@ -571,7 +573,7 @@ this["Handlebars"]["templates"]["searchResults"] = Handlebars.template({"1":func
   return "                <a href=\"#plugin/"
     + escapeExpression(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"name","hash":{},"data":data}) : helper)))
     + "\">\n                    <span class=\"plugin label\">P</span>\n                    "
-    + escapeExpression(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"name","hash":{},"data":data}) : helper)))
+    + escapeExpression(((helper = (helper = helpers.title || (depth0 != null ? depth0.title : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"title","hash":{},"data":data}) : helper)))
     + "\n                </a>\n";
 },"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
   var stack1, buffer = "<ul>\n";

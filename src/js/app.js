@@ -72,7 +72,7 @@
                         var methodName = value.substr(methodIndex + 1);
                         this.showMethodDetail(contextClass, methodName);
                     } else if (type === 'plugin') {
-                        var plugin = _.find(this.plugins, function(plugin) { return plugin.title === value; });
+                        var plugin = _.find(this.plugins, function(plugin) { return plugin.name === value; });
                         this.showPluginDetail(plugin);
                     }
                 }
@@ -105,7 +105,8 @@
 
             allItems = allItems.concat(this.plugins.map(function(plugin) {
                 return {
-                    name: plugin.title
+                    name: plugin.name,
+                    title: plugin.title
                 };
             }));
             allItems = _.sortBy(allItems, function(item) { return item.name.toLowerCase(); });
@@ -136,6 +137,8 @@
 
         initLayout: function() {
             this.layout = $('.layout-container').layout({
+                north__paneSelector: '.title',
+                north__spacing_open: 0,
                 west__paneSelector: '.tree',
                 west__contentSelector: '.tree-wrapper',
                 west__size: 360,
@@ -167,6 +170,21 @@
         initTree: function(data) {
             var $treeBody = $('.tree-body');
 
+
+            var updateNodes = function() {
+                $treeBody.find('.jstree-open > i.jstree-icon')
+                    .removeClass('glyphicon-triangle-right').addClass('glyphicon glyphicon-triangle-bottom');
+                $treeBody.find('.jstree-closed > i.jstree-icon')
+                    .removeClass('glyphicon-triangle-bottom').addClass('glyphicon glyphicon-triangle-right');
+            };
+            $treeBody.on('open_node.jstree', function(e, data){
+                updateNodes();
+            });
+
+            $treeBody.on('close_node.jstree', function(e, data){
+                updateNodes();
+            });
+
             $treeBody
                 .jstree('destroy')
                 .on('changed.jstree', this.onTreeChanged.bind(this))
@@ -176,6 +194,7 @@
                     if (selectedNodes.length) {
                         $('#' + selectedNodes[0].id)[0].scrollIntoView();
                     }
+                    updateNodes();
                 }.bind(this))
                 .jstree({
                     'plugins': ['wholerow'],
@@ -202,8 +221,6 @@
 
         onTreeChanged: function(e, data) {
             e.preventDefault();
-            var methodNode = data.node.original.methodNode;
-
             window.location.hash = 'path/' + data.node.id;
         },
 
