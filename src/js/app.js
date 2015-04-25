@@ -1,5 +1,16 @@
 (function($) {
 
+
+    /*
+    TODO
+    clean up
+    change P,M colors  http://app.coolors.co/2e4057-583e23-13262f-66a182-caffb9
+    change since,dep colors
+    support relative paths
+    fix @since in output
+    readme
+
+     */
     var DslLoader = function() {
         this.dslsByUrl = {};
     };
@@ -291,14 +302,7 @@
             });
             data.usages = _.sortBy(usages, function(usage) { return (usage.method.name + usage.simpleClassName).toLowerCase(); });
 
-            var html = Handlebars.templates['detail'](data);
-            $('.detail-wrapper').html(html);
-
-            $('pre.highlight')
-                .add('.method-doc pre code')
-                .each(function(i, block) { hljs.highlightBlock(block); });
-
-            $('.method-doc pre').addClass('highlight');
+            this.showDetail(data);
         },
 
         showPathDetail: function(path) {
@@ -336,6 +340,10 @@
                     }
                 });
             }
+            this.showDetail(data);
+        },
+
+        showDetail: function(data) {
             var html = Handlebars.templates['detail'](data);
             $('.detail-wrapper').html(html);
 

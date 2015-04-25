@@ -1,5 +1,16 @@
 (function($) {
 
+
+    /*
+    TODO
+    clean up
+    change P,M colors  http://app.coolors.co/2e4057-583e23-13262f-66a182-caffb9
+    change since,dep colors
+    support relative paths
+    fix @since in output
+    readme
+
+     */
     var DslLoader = function() {
         this.dslsByUrl = {};
     };
@@ -291,14 +302,7 @@
             });
             data.usages = _.sortBy(usages, function(usage) { return (usage.method.name + usage.simpleClassName).toLowerCase(); });
 
-            var html = Handlebars.templates['detail'](data);
-            $('.detail-wrapper').html(html);
-
-            $('pre.highlight')
-                .add('.method-doc pre code')
-                .each(function(i, block) { hljs.highlightBlock(block); });
-
-            $('.method-doc pre').addClass('highlight');
+            this.showDetail(data);
         },
 
         showPathDetail: function(path) {
@@ -336,6 +340,10 @@
                     }
                 });
             }
+            this.showDetail(data);
+        },
+
+        showDetail: function(data) {
             var html = Handlebars.templates['detail'](data);
             $('.detail-wrapper').html(html);
 
@@ -488,9 +496,9 @@ this["Handlebars"]["templates"]["detail"] = Handlebars.template({"1":function(de
     + escapeExpression(lambda(((stack1 = (depth0 != null ? depth0.method : depth0)) != null ? stack1.name : stack1), depth0))
     + "\">"
     + escapeExpression(lambda(((stack1 = (depth0 != null ? depth0.method : depth0)) != null ? stack1.name : stack1), depth0))
-    + "</a>\n                            : "
+    + "</a>\n                            : <span class=\"simple-class-name\">"
     + escapeExpression(lambda(((stack1 = (depth0 != null ? depth0.context : depth0)) != null ? stack1.simpleClassName : stack1), depth0))
-    + "\n                        </div>\n                    </li>\n";
+    + "</span>\n                        </div>\n                    </li>\n";
 },"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
   var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, buffer = "<div class=\"detail\">\n";
   stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.ancestors : depth0), {"name":"if","hash":{},"fn":this.program(1, data),"inverse":this.noop,"data":data});
@@ -517,7 +525,7 @@ this["Handlebars"]["templates"]["detail"] = Handlebars.template({"1":function(de
 this["Handlebars"] = this["Handlebars"] || {};
 this["Handlebars"]["templates"] = this["Handlebars"]["templates"] || {};
 this["Handlebars"]["templates"]["pluginDetail"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
-  var stack1, lambda=this.lambda, escapeExpression=this.escapeExpression, buffer = "                <tr>\n                    <td class=\"method-name ";
+  var stack1, lambda=this.lambda, escapeExpression=this.escapeExpression, buffer = "                <li>\n                    <div class=\"method-name ";
   stack1 = helpers['if'].call(depth0, ((stack1 = (depth0 != null ? depth0.method : depth0)) != null ? stack1.deprecated : stack1), {"name":"if","hash":{},"fn":this.program(2, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
   return buffer + "\">\n                        <a href=\"#method/"
@@ -528,13 +536,9 @@ this["Handlebars"]["templates"]["pluginDetail"] = Handlebars.template({"1":funct
     + escapeExpression(lambda(((stack1 = (depth0 != null ? depth0.method : depth0)) != null ? stack1.name : stack1), depth0))
     + "\">"
     + escapeExpression(lambda(((stack1 = (depth0 != null ? depth0.method : depth0)) != null ? stack1.name : stack1), depth0))
-    + "</a>\n                        : "
+    + "</a>\n                        : <span class=\"simple-class-name\">"
     + escapeExpression(lambda(((stack1 = (depth0 != null ? depth0.context : depth0)) != null ? stack1.simpleClassName : stack1), depth0))
-    + "\n                    </td>\n                    <td class=\"method-comment\" title=\""
-    + escapeExpression(lambda(((stack1 = (depth0 != null ? depth0.method : depth0)) != null ? stack1.firstSentenceCommentText : stack1), depth0))
-    + "\">"
-    + escapeExpression(lambda(((stack1 = (depth0 != null ? depth0.method : depth0)) != null ? stack1.firstSentenceCommentText : stack1), depth0))
-    + "</td>\n                </tr>\n";
+    + "</span>\n                    </div>\n                </li>\n";
 },"2":function(depth0,helpers,partials,data) {
   return "deprecated";
   },"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
@@ -545,10 +549,10 @@ this["Handlebars"]["templates"]["pluginDetail"] = Handlebars.template({"1":funct
     + "\"><span class=\"glyphicon glyphicon-new-window\"></span> Wiki</a></h2>\n        </h2>\n        <div class=\"method-doc\">";
   stack1 = lambda(((stack1 = (depth0 != null ? depth0.plugin : depth0)) != null ? stack1.excerpt : stack1), depth0);
   if (stack1 != null) { buffer += stack1; }
-  buffer += "</div>\n\n        <h3>DSL Methods</h3>\n        <table class=\"table table-condensed methods\">\n";
+  buffer += "</div>\n\n        <h3 class=\"section-header\">DSL Methods</h3>\n        <ul class=\"usages\">\n";
   stack1 = helpers.each.call(depth0, (depth0 != null ? depth0.usages : depth0), {"name":"each","hash":{},"fn":this.program(1, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
-  return buffer + "        </table>\n    </div>\n</div>";
+  return buffer + "        </ul>\n    </div>\n</div>";
 },"useData":true});
 this["Handlebars"] = this["Handlebars"] || {};
 this["Handlebars"]["templates"] = this["Handlebars"]["templates"] || {};

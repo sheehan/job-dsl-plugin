@@ -7,17 +7,16 @@
         </h2>
         <div class="method-doc">{{{plugin.excerpt}}}</div>
 
-        <h3>DSL Methods</h3>
-        <table class="table table-condensed methods">
+        <h3 class="section-header">DSL Methods</h3>
+        <ul class="usages">
             {{#each usages}}
-                <tr>
-                    <td class="method-name {{#if method.deprecated}}deprecated{{/if}}">
+                <li>
+                    <div class="method-name {{#if method.deprecated}}deprecated{{/if}}">
                         <a href="#method/{{context.type}}.{{method.name}}" title="{{method.name}}">{{method.name}}</a>
-                        : {{context.simpleClassName}}
-                    </td>
-                    <td class="method-comment" title="{{method.firstSentenceCommentText}}">{{method.firstSentenceCommentText}}</td>
-                </tr>
+                        : <span class="simple-class-name">{{context.simpleClassName}}</span>
+                    </div>
+                </li>
             {{/each}}
-        </table>
+        </ul>
     </div>
 </div>
