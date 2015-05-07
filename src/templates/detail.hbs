@@ -13,7 +13,7 @@
             {{#if methodNode.plugin}}<a href="{{methodNode.plugin.wiki}}"><span class="glyphicon glyphicon-new-window"></span> {{methodNode.plugin.title}}</a>{{/if}}
         </h2>
         <div class="signatures">
-            {{#each methodNode.signatures}}
+            {{#each signatures}}
                 {{#if availableSince}}
                     <span class="label label-info">Available since {{availableSince}}</span>
                 {{/if}}
@@ -24,7 +24,12 @@
                         <span class="label label-warning">Deprecated</span>
                     {{/if}}
                 {{/if}}
-                <pre class="highlight groovy">{{text}}</pre>
+                <div class="signature">
+                    {{#if context}}
+                        <i class="glyphicon glyphicon-triangle-right"></i>
+                    {{/if}}
+                    <pre class="highlight groovy">{{text}}</pre>
+                </div>
             {{/each}}
         </div>
 

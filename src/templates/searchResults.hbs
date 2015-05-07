@@ -4,15 +4,15 @@
             {{# if clazz}}
                 <a href="#method/{{clazz}}.{{name}}">
                     <div>
-                        <span class="method label">M</span>
+                        <span class="method label" title="Method">M</span>
                         {{name}} :
-                        <span class="simpleClassName">{{simpleClassName}}</span>
+                        <span class="simple-class-name">{{simpleClassName}}</span>
                     </div>
                 </a>
             {{else}}
-                <a href="#plugin/{{name}}">
-                    <span class="plugin label">P</span>
-                    {{title}}
+                <a href="#plugin/{{id}}">
+                    <span class="plugin label" title="Plugin">P</span>
+                    {{name}}
                 </a>
             {{/if}}
         </li>

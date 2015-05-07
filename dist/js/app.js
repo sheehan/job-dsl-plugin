@@ -1,15 +1,8 @@
 (function($) {
 
-
     /*
     TODO
-    clean up
-    change P,M colors  http://app.coolors.co/2e4057-583e23-13262f-66a182-caffb9
-    change since,dep colors
-    support relative paths
-    fix @since in output
-    readme
-
+    test
      */
     var DslLoader = function() {
         this.dslsByUrl = {};
@@ -36,6 +29,11 @@
             context.methods.forEach(function(method) {
                 if (method.signatures.every(function(sig) { return sig.deprecated; })) {
                     method.deprecated = true;
+                }
+
+                var signatureWithContext = _.find(method.signatures, function(signature) { return signature.contextClass; });
+                if (signatureWithContext) {
+                    method.contextClass = signatureWithContext.contextClass;
                 }
 
                 if (method.plugin) {
@@ -75,16 +73,11 @@
                     var type = hashId.substr(0, index);
                     var value = hashId.substr(index + 1);
 
-                    if (type === 'path') {
-                        this.showPathDetail(value);
-                    } else if (type === 'method') {
-                        var methodIndex = value.lastIndexOf('.');
-                        var contextClass = value.substr(0, methodIndex);
-                        var methodName = value.substr(methodIndex + 1);
-                        this.showMethodDetail(contextClass, methodName);
-                    } else if (type === 'plugin') {
+                    if (type === 'plugin') {
                         var plugin = _.find(this.plugins, function(plugin) { return plugin.name === value; });
                         this.showPluginDetail(plugin);
+                    } else {
+                        this.showPathDetail(value);
                     }
                 }
             } else {
@@ -116,32 +109,33 @@
 
             allItems = allItems.concat(this.plugins.map(function(plugin) {
                 return {
-                    name: plugin.name,
-                    title: plugin.title
+                    id: plugin.name,
+                    name: plugin.title
                 };
             }));
             allItems = _.sortBy(allItems, function(item) { return item.name.toLowerCase(); });
 
             $('.search-input').keyup(function() {
                 var val = $('.search-input').val();
+                var $treeBody = $('.tree-body');
+                var $searchResults = $('.search-results');
                 if (val) {
-                    if ($('.tree-body').is(':visible')) {
-                        $('.tree-body').hide();
-                        $('.search-results').show();
+                    if ($treeBody.is(':visible')) {
+                        $treeBody.hide();
+                        $searchResults.show();
                     }
 
                     var matches = allItems.filter(function(item) {
-                        return item.name.toLowerCase().indexOf(val) !== -1;
+                        return item.name.toLowerCase().indexOf(val) !== -1; // TODO
                     }, this);
                     var html = Handlebars.templates['searchResults']({results: matches});
-                    $('.search-results').html(html);
+                    $searchResults.html(html);
                     // update result list
                 } else {
-                    $('.tree-body').show();
-                    $('.search-results').hide();
+                    $treeBody.show();
+                    $searchResults.hide();
                 }
             }.bind(this));
-
 
             this.updateDetailFromHash();
         },
@@ -159,7 +153,8 @@
                 center__paneSelector: '.detail-wrapper',
                 north__size: 50,
                 resizable: true,
-                closable: false
+                closable: false,
+                enableCursorHotkey: false
             });
         },
 
@@ -182,18 +177,18 @@
             var $treeBody = $('.tree-body');
 
 
-            var updateNodes = function() {
-                $treeBody.find('.jstree-open > i.jstree-icon')
+            var updateNodes = function($el) {
+                $el.parent().find('.jstree-open > i.jstree-icon')
                     .removeClass('glyphicon-triangle-right').addClass('glyphicon glyphicon-triangle-bottom');
-                $treeBody.find('.jstree-closed > i.jstree-icon')
+                $el.parent().find('.jstree-closed > i.jstree-icon')
                     .removeClass('glyphicon-triangle-bottom').addClass('glyphicon glyphicon-triangle-right');
             };
             $treeBody.on('open_node.jstree', function(e, data){
-                updateNodes();
+                updateNodes($('#'+data.node.id));
             });
 
             $treeBody.on('close_node.jstree', function(e, data){
-                updateNodes();
+                updateNodes($('#'+data.node.id));
             });
 
             $treeBody
@@ -205,7 +200,7 @@
                     if (selectedNodes.length) {
                         $('#' + selectedNodes[0].id)[0].scrollIntoView();
                     }
-                    updateNodes();
+                    updateNodes($('.tree-body'));
                 }.bind(this))
                 .jstree({
                     'plugins': ['wholerow'],
@@ -272,22 +267,35 @@
             $('.detail-wrapper').html(html);
         },
 
-        showMethodDetail: function(contextClass, methodName) {
-            var methodNode = _.find(this.data.contexts[contextClass].methods, function(method) { return method.name === methodName; });
-            var data = {
-                methodNode: methodNode,
-                name: methodNode.name
-            };
-            if (methodNode.contextClass) {
-                data.contextMethods = this.data.contexts[methodNode.contextClass].methods.map(function(method) {
-                    var href = '#method/' + methodNode.contextClass + '.' + method.name;
-                    return {
-                        href: href,
-                        method: method
-                    }
-                });
-            }
+        findMethodNode: function(contextClass, tokens) {
+            var methodNode = null;
+            var node = this.data.contexts[contextClass];
 
+            tokens.forEach(function(token) {
+                methodNode = _.find(node.methods, function(method) { return method.name === token; });
+                node = this.data.contexts[methodNode.contextClass];
+            }, this);
+
+            return methodNode;
+        },
+
+        findAncestors: function(contextClass, tokens) {
+            var ancestors = [];
+
+            tokens.forEach(function(token, index) {
+                if (index < tokens.length - 1) {
+                    var id = tokens.slice(0, index + 1).join('-');
+                    ancestors.push({
+                        id: id,
+                        text: token
+                    });
+                }
+            }, this);
+
+            return ancestors;
+        },
+
+        findUsages: function(contextClass) {
             var usages = [];
             _.forEach(this.data.contexts, function(context, clazz) {
                 context.methods.forEach(function(method) {
@@ -300,37 +308,57 @@
                     }
                 });
             });
-            data.usages = _.sortBy(usages, function(usage) { return (usage.method.name + usage.simpleClassName).toLowerCase(); });
-
-            this.showDetail(data);
+            return usages;
         },
 
         showPathDetail: function(path) {
-            var node = this.data.contexts[this.data.root.contextClass];
             var methodNode;
             var ancestors = [];
+            var usages = [];
+
             if (path) {
                 var tokens = path.split('-');
-                tokens.forEach(function(token, index) {
-                    var id = tokens.slice(0, index + 1).join('-');
-                    methodNode = _.find(node.methods, function(method) { return method.name === token; });
-                    node = this.data.contexts[methodNode.contextClass];
-                    if (index < tokens.length - 1) {
-                        ancestors.push({
-                            id: id,
-                            text: token
-                        });
-                    }
-                }, this);
+
+                var contextClass;
+                var pathTokens;
+                var methodIndex = tokens[0].lastIndexOf('.');
+                if (methodIndex === -1) { // absolute
+                    contextClass = this.data.root.contextClass;
+                    pathTokens = tokens;
+                } else { // relative
+                    var methodName = tokens[0].substr(methodIndex + 1);
+
+                    contextClass = tokens[0].substr(0, methodIndex);
+                    pathTokens = [methodName].concat(tokens.slice(1));
+                    usages = this.findUsages(contextClass);
+                }
+
+                methodNode = this.findMethodNode(contextClass, pathTokens);
+                ancestors = this.findAncestors(contextClass, pathTokens);
+
+                if (ancestors.length) {
+                    ancestors[0].id = contextClass + '.' + ancestors[0].id;
+                }
             } else {
                 methodNode = this.data.root;
             }
+
             var data = {
                 methodNode: methodNode,
                 name: methodNode.name,
                 ancestors: ancestors,
                 isRoot: !path
             };
+
+            if (methodNode.signatures) {
+                data.signatures = methodNode.signatures.map(function(signature) {
+                    if (signature.contextClass) {
+                        signature.context = this.data.contexts[signature.contextClass];
+                    }
+                    return signature;
+                }, this)
+            }
+
             if (methodNode.contextClass) {
                 data.contextMethods = this.data.contexts[methodNode.contextClass].methods.map(function(method) {
                     var href = '#path/' + (path ? path + '-' : '') + method.name;
@@ -340,10 +368,10 @@
                     }
                 });
             }
-            this.showDetail(data);
-        },
 
-        showDetail: function(data) {
+            data.usages = _.sortBy(usages, function(usage) { return (usage.method.name + usage.simpleClassName).toLowerCase(); });
+
+
             var html = Handlebars.templates['detail'](data);
             $('.detail-wrapper').html(html);
 
@@ -410,9 +438,12 @@ this["Handlebars"]["templates"]["detail"] = Handlebars.template({"1":function(de
   if (stack1 != null) { buffer += stack1; }
   stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.deprecatedSince : depth0), {"name":"if","hash":{},"fn":this.program(9, data),"inverse":this.program(11, data),"data":data});
   if (stack1 != null) { buffer += stack1; }
-  return buffer + "                <pre class=\"highlight groovy\">"
+  buffer += "                <div class=\"signature\">\n";
+  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.context : depth0), {"name":"if","hash":{},"fn":this.program(14, data),"inverse":this.noop,"data":data});
+  if (stack1 != null) { buffer += stack1; }
+  return buffer + "                    <pre class=\"highlight groovy\">"
     + escapeExpression(((helper = (helper = helpers.text || (depth0 != null ? depth0.text : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"text","hash":{},"data":data}) : helper)))
-    + "</pre>\n";
+    + "</pre>\n                </div>\n";
 },"7":function(depth0,helpers,partials,data) {
   var helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
   return "                    <span class=\"label label-info\">Available since "
@@ -431,34 +462,36 @@ this["Handlebars"]["templates"]["detail"] = Handlebars.template({"1":function(de
 },"12":function(depth0,helpers,partials,data) {
   return "                        <span class=\"label label-warning\">Deprecated</span>\n";
   },"14":function(depth0,helpers,partials,data) {
+  return "                        <i class=\"glyphicon glyphicon-triangle-right\"></i>\n";
+  },"16":function(depth0,helpers,partials,data) {
   var stack1, lambda=this.lambda, buffer = "            <div class=\"method-doc\">";
   stack1 = lambda(((stack1 = (depth0 != null ? depth0.methodNode : depth0)) != null ? stack1.html : stack1), depth0);
   if (stack1 != null) { buffer += stack1; }
   return buffer + "</div>\n";
-},"16":function(depth0,helpers,partials,data) {
+},"18":function(depth0,helpers,partials,data) {
   var stack1, buffer = "            <h3 class=\"section-header\">Context Methods</h3>\n            <div class=\"context-methods-section ";
-  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.isRoot : depth0), {"name":"if","hash":{},"fn":this.program(17, data),"inverse":this.noop,"data":data});
+  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.isRoot : depth0), {"name":"if","hash":{},"fn":this.program(19, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
   buffer += "\">\n";
-  stack1 = helpers.unless.call(depth0, (depth0 != null ? depth0.isRoot : depth0), {"name":"unless","hash":{},"fn":this.program(19, data),"inverse":this.noop,"data":data});
+  stack1 = helpers.unless.call(depth0, (depth0 != null ? depth0.isRoot : depth0), {"name":"unless","hash":{},"fn":this.program(21, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
   buffer += "                <ul class=\"context-methods\">\n";
-  stack1 = helpers.each.call(depth0, (depth0 != null ? depth0.contextMethods : depth0), {"name":"each","hash":{},"fn":this.program(21, data),"inverse":this.noop,"data":data});
+  stack1 = helpers.each.call(depth0, (depth0 != null ? depth0.contextMethods : depth0), {"name":"each","hash":{},"fn":this.program(23, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
   buffer += "                </ul>\n";
-  stack1 = helpers.unless.call(depth0, (depth0 != null ? depth0.isRoot : depth0), {"name":"unless","hash":{},"fn":this.program(26, data),"inverse":this.noop,"data":data});
+  stack1 = helpers.unless.call(depth0, (depth0 != null ? depth0.isRoot : depth0), {"name":"unless","hash":{},"fn":this.program(28, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
   return buffer + "            </div>\n";
-},"17":function(depth0,helpers,partials,data) {
+},"19":function(depth0,helpers,partials,data) {
   return "root";
-  },"19":function(depth0,helpers,partials,data) {
+  },"21":function(depth0,helpers,partials,data) {
   var helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
   return "                <pre><code>"
     + escapeExpression(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"name","hash":{},"data":data}) : helper)))
     + " {</code></pre>\n";
-},"21":function(depth0,helpers,partials,data) {
+},"23":function(depth0,helpers,partials,data) {
   var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, lambda=this.lambda, buffer = "                        <li>\n                            <div class=\"method-name ";
-  stack1 = helpers['if'].call(depth0, ((stack1 = (depth0 != null ? depth0.method : depth0)) != null ? stack1.deprecated : stack1), {"name":"if","hash":{},"fn":this.program(22, data),"inverse":this.noop,"data":data});
+  stack1 = helpers['if'].call(depth0, ((stack1 = (depth0 != null ? depth0.method : depth0)) != null ? stack1.deprecated : stack1), {"name":"if","hash":{},"fn":this.program(24, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
   buffer += "\">\n                                <span class=\"method-link-wrapper\">\n                                    <a href=\""
     + escapeExpression(((helper = (helper = helpers.href || (depth0 != null ? depth0.href : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"href","hash":{},"data":data}) : helper)))
@@ -467,26 +500,26 @@ this["Handlebars"]["templates"]["detail"] = Handlebars.template({"1":function(de
     + "\">"
     + escapeExpression(lambda(((stack1 = (depth0 != null ? depth0.method : depth0)) != null ? stack1.name : stack1), depth0))
     + "</a>\n                                </span>\n";
-  stack1 = helpers['if'].call(depth0, ((stack1 = (depth0 != null ? depth0.method : depth0)) != null ? stack1.firstSentenceCommentText : stack1), {"name":"if","hash":{},"fn":this.program(24, data),"inverse":this.noop,"data":data});
+  stack1 = helpers['if'].call(depth0, ((stack1 = (depth0 != null ? depth0.method : depth0)) != null ? stack1.firstSentenceCommentText : stack1), {"name":"if","hash":{},"fn":this.program(26, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
   return buffer + "                            </div>\n                        </li>\n";
-},"22":function(depth0,helpers,partials,data) {
+},"24":function(depth0,helpers,partials,data) {
   return "deprecated";
-  },"24":function(depth0,helpers,partials,data) {
+  },"26":function(depth0,helpers,partials,data) {
   var stack1, lambda=this.lambda, escapeExpression=this.escapeExpression;
   return "                                    <span class=\"firstSentenceCommentText\">\n                                    // "
     + escapeExpression(lambda(((stack1 = (depth0 != null ? depth0.method : depth0)) != null ? stack1.firstSentenceCommentText : stack1), depth0))
     + "\n                                    </span>\n";
-},"26":function(depth0,helpers,partials,data) {
+},"28":function(depth0,helpers,partials,data) {
   return "                <pre><code>}</code></pre>\n";
-  },"28":function(depth0,helpers,partials,data) {
+  },"30":function(depth0,helpers,partials,data) {
   var stack1, buffer = "            <h3 class=\"section-header\">Usages</h3>\n            <ul class=\"usages\">\n";
-  stack1 = helpers.each.call(depth0, (depth0 != null ? depth0.usages : depth0), {"name":"each","hash":{},"fn":this.program(29, data),"inverse":this.noop,"data":data});
+  stack1 = helpers.each.call(depth0, (depth0 != null ? depth0.usages : depth0), {"name":"each","hash":{},"fn":this.program(31, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
   return buffer + "            </ul>\n";
-},"29":function(depth0,helpers,partials,data) {
+},"31":function(depth0,helpers,partials,data) {
   var stack1, lambda=this.lambda, escapeExpression=this.escapeExpression, buffer = "                    <li>\n                        <div class=\"method-name ";
-  stack1 = helpers['if'].call(depth0, ((stack1 = (depth0 != null ? depth0.method : depth0)) != null ? stack1.deprecated : stack1), {"name":"if","hash":{},"fn":this.program(22, data),"inverse":this.noop,"data":data});
+  stack1 = helpers['if'].call(depth0, ((stack1 = (depth0 != null ? depth0.method : depth0)) != null ? stack1.deprecated : stack1), {"name":"if","hash":{},"fn":this.program(24, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
   return buffer + "\">\n                            <a href=\"#method/"
     + escapeExpression(lambda(((stack1 = (depth0 != null ? depth0.context : depth0)) != null ? stack1.type : stack1), depth0))
@@ -509,16 +542,16 @@ this["Handlebars"]["templates"]["detail"] = Handlebars.template({"1":function(de
   stack1 = helpers['if'].call(depth0, ((stack1 = (depth0 != null ? depth0.methodNode : depth0)) != null ? stack1.plugin : stack1), {"name":"if","hash":{},"fn":this.program(4, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
   buffer += "\n        </h2>\n        <div class=\"signatures\">\n";
-  stack1 = helpers.each.call(depth0, ((stack1 = (depth0 != null ? depth0.methodNode : depth0)) != null ? stack1.signatures : stack1), {"name":"each","hash":{},"fn":this.program(6, data),"inverse":this.noop,"data":data});
+  stack1 = helpers.each.call(depth0, (depth0 != null ? depth0.signatures : depth0), {"name":"each","hash":{},"fn":this.program(6, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
   buffer += "        </div>\n\n";
-  stack1 = helpers['if'].call(depth0, ((stack1 = (depth0 != null ? depth0.methodNode : depth0)) != null ? stack1.html : stack1), {"name":"if","hash":{},"fn":this.program(14, data),"inverse":this.noop,"data":data});
+  stack1 = helpers['if'].call(depth0, ((stack1 = (depth0 != null ? depth0.methodNode : depth0)) != null ? stack1.html : stack1), {"name":"if","hash":{},"fn":this.program(16, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
   buffer += "\n";
-  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.contextMethods : depth0), {"name":"if","hash":{},"fn":this.program(16, data),"inverse":this.noop,"data":data});
+  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.contextMethods : depth0), {"name":"if","hash":{},"fn":this.program(18, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
   buffer += "\n";
-  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.usages : depth0), {"name":"if","hash":{},"fn":this.program(28, data),"inverse":this.noop,"data":data});
+  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.usages : depth0), {"name":"if","hash":{},"fn":this.program(30, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
   return buffer + "    </div>\n</div>";
 },"useData":true});
@@ -567,17 +600,17 @@ this["Handlebars"]["templates"]["searchResults"] = Handlebars.template({"1":func
     + escapeExpression(((helper = (helper = helpers.clazz || (depth0 != null ? depth0.clazz : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"clazz","hash":{},"data":data}) : helper)))
     + "."
     + escapeExpression(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"name","hash":{},"data":data}) : helper)))
-    + "\">\n                    <div>\n                        <span class=\"method label\">M</span>\n                        "
+    + "\">\n                    <div>\n                        <span class=\"method label\" title=\"Method\">M</span>\n                        "
     + escapeExpression(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"name","hash":{},"data":data}) : helper)))
-    + " :\n                        <span class=\"simpleClassName\">"
+    + " :\n                        <span class=\"simple-class-name\">"
     + escapeExpression(((helper = (helper = helpers.simpleClassName || (depth0 != null ? depth0.simpleClassName : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"simpleClassName","hash":{},"data":data}) : helper)))
     + "</span>\n                    </div>\n                </a>\n";
 },"4":function(depth0,helpers,partials,data) {
   var helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
   return "                <a href=\"#plugin/"
+    + escapeExpression(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"id","hash":{},"data":data}) : helper)))
+    + "\">\n                    <span class=\"plugin label\" title=\"Plugin\">P</span>\n                    "
     + escapeExpression(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"name","hash":{},"data":data}) : helper)))
-    + "\">\n                    <span class=\"plugin label\">P</span>\n                    "
-    + escapeExpression(((helper = (helper = helpers.title || (depth0 != null ? depth0.title : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"title","hash":{},"data":data}) : helper)))
     + "\n                </a>\n";
 },"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
   var stack1, buffer = "<ul>\n";

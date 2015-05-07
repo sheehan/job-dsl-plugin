@@ -33,7 +33,8 @@ body .breadcrumb>li+li:before{padding:0 5px;color:#ccc;content:"\2192\00a0"}
 .method-doc pre{padding:0}
 .signatures{text-align:right}
 .signatures .label{margin-bottom:3px;display:inline-block}
-.signatures pre{text-align:left}
+.signatures .signature i{float:left;line-height:31px;display:none}
+.signatures .signature pre{text-align:left}
 .context-methods-section{padding:5px 10px}
 .context-methods-section pre{background-color:transparent;border:none;margin:0;padding:7px 0}
 .sidebar-head,.tree{background-color:#eee}
@@ -45,7 +46,6 @@ ul.context-methods .method-name .method-link-wrapper{min-width:250px;display:inl
 ul.context-methods .method-name .firstSentenceCommentText{color:#aaa}
 ul.usages{margin:0;padding:0}
 ul.usages li{list-style-type:none;padding:5px 0}
-ul.usages li .simple-class-name{font-size:12px;color:#888}
 ul.usages li:first-of-type{border-top:1px solid #ccc}
 .jstree-anchor.deprecated{text-decoration:line-through}
 .sidebar-head{padding:5px}
@@ -55,9 +55,9 @@ ul.usages li:first-of-type{border-top:1px solid #ccc}
 .ui-layout-resizer.ui-layout-resizer-dragging,.ui-layout-resizer:hover{background-color:#aaa;cursor:pointer}
 .search-results ul{margin:0;padding:0}
 .search-results ul li a{height:30px;line-height:30px;padding:0 10px;display:block;color:#000;text-decoration:none;white-space:nowrap;overflow:hidden}
-.search-results ul li a .simpleClassName{font-size:12px;color:#888}
 .search-results ul li a:hover{background-color:#76b6ec;color:#fff}
 .search-results ul li a:hover .simpleClassName{color:#fff}
 .search-results ul li span{margin-right:5px;width:23px;display:inline-block;padding:0;line-height:18px}
-.search-results ul li span.method{background-color:#00f}
+.search-results ul li span.method{background-color:#2E4057}
 .search-results ul li span.plugin{background-color:green}
+.simple-class-name{font-size:12px;color:#888}

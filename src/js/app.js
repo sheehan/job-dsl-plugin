@@ -1,15 +1,8 @@
 (function($) {
 
-
     /*
     TODO
-    clean up
-    change P,M colors  http://app.coolors.co/2e4057-583e23-13262f-66a182-caffb9
-    change since,dep colors
-    support relative paths
-    fix @since in output
-    readme
-
+    test
      */
     var DslLoader = function() {
         this.dslsByUrl = {};
@@ -36,6 +29,11 @@
             context.methods.forEach(function(method) {
                 if (method.signatures.every(function(sig) { return sig.deprecated; })) {
                     method.deprecated = true;
+                }
+
+                var signatureWithContext = _.find(method.signatures, function(signature) { return signature.contextClass; });
+                if (signatureWithContext) {
+                    method.contextClass = signatureWithContext.contextClass;
                 }
 
                 if (method.plugin) {
@@ -75,16 +73,11 @@
                     var type = hashId.substr(0, index);
                     var value = hashId.substr(index + 1);
 
-                    if (type === 'path') {
-                        this.showPathDetail(value);
-                    } else if (type === 'method') {
-                        var methodIndex = value.lastIndexOf('.');
-                        var contextClass = value.substr(0, methodIndex);
-                        var methodName = value.substr(methodIndex + 1);
-                        this.showMethodDetail(contextClass, methodName);
-                    } else if (type === 'plugin') {
+                    if (type === 'plugin') {
                         var plugin = _.find(this.plugins, function(plugin) { return plugin.name === value; });
                         this.showPluginDetail(plugin);
+                    } else {
+                        this.showPathDetail(value);
                     }
                 }
             } else {
@@ -116,32 +109,33 @@
 
             allItems = allItems.concat(this.plugins.map(function(plugin) {
                 return {
-                    name: plugin.name,
-                    title: plugin.title
+                    id: plugin.name,
+                    name: plugin.title
                 };
             }));
             allItems = _.sortBy(allItems, function(item) { return item.name.toLowerCase(); });
 
             $('.search-input').keyup(function() {
                 var val = $('.search-input').val();
+                var $treeBody = $('.tree-body');
+                var $searchResults = $('.search-results');
                 if (val) {
-                    if ($('.tree-body').is(':visible')) {
-                        $('.tree-body').hide();
-                        $('.search-results').show();
+                    if ($treeBody.is(':visible')) {
+                        $treeBody.hide();
+                        $searchResults.show();
                     }
 
                     var matches = allItems.filter(function(item) {
-                        return item.name.toLowerCase().indexOf(val) !== -1;
+                        return item.name.toLowerCase().indexOf(val) !== -1; // TODO
                     }, this);
                     var html = Handlebars.templates['searchResults']({results: matches});
-                    $('.search-results').html(html);
+                    $searchResults.html(html);
                     // update result list
                 } else {
-                    $('.tree-body').show();
-                    $('.search-results').hide();
+                    $treeBody.show();
+                    $searchResults.hide();
                 }
             }.bind(this));
-
 
             this.updateDetailFromHash();
         },
@@ -159,7 +153,8 @@
                 center__paneSelector: '.detail-wrapper',
                 north__size: 50,
                 resizable: true,
-                closable: false
+                closable: false,
+                enableCursorHotkey: false
             });
         },
 
@@ -182,18 +177,18 @@
             var $treeBody = $('.tree-body');
 
 
-            var updateNodes = function() {
-                $treeBody.find('.jstree-open > i.jstree-icon')
+            var updateNodes = function($el) {
+                $el.parent().find('.jstree-open > i.jstree-icon')
                     .removeClass('glyphicon-triangle-right').addClass('glyphicon glyphicon-triangle-bottom');
-                $treeBody.find('.jstree-closed > i.jstree-icon')
+                $el.parent().find('.jstree-closed > i.jstree-icon')
                     .removeClass('glyphicon-triangle-bottom').addClass('glyphicon glyphicon-triangle-right');
             };
             $treeBody.on('open_node.jstree', function(e, data){
-                updateNodes();
+                updateNodes($('#'+data.node.id));
             });
 
             $treeBody.on('close_node.jstree', function(e, data){
-                updateNodes();
+                updateNodes($('#'+data.node.id));
             });
 
             $treeBody
@@ -205,7 +200,7 @@
                     if (selectedNodes.length) {
                         $('#' + selectedNodes[0].id)[0].scrollIntoView();
                     }
-                    updateNodes();
+                    updateNodes($('.tree-body'));
                 }.bind(this))
                 .jstree({
                     'plugins': ['wholerow'],
@@ -272,22 +267,35 @@
             $('.detail-wrapper').html(html);
         },
 
-        showMethodDetail: function(contextClass, methodName) {
-            var methodNode = _.find(this.data.contexts[contextClass].methods, function(method) { return method.name === methodName; });
-            var data = {
-                methodNode: methodNode,
-                name: methodNode.name
-            };
-            if (methodNode.contextClass) {
-                data.contextMethods = this.data.contexts[methodNode.contextClass].methods.map(function(method) {
-                    var href = '#method/' + methodNode.contextClass + '.' + method.name;
-                    return {
-                        href: href,
-                        method: method
-                    }
-                });
-            }
+        findMethodNode: function(contextClass, tokens) {
+            var methodNode = null;
+            var node = this.data.contexts[contextClass];
 
+            tokens.forEach(function(token) {
+                methodNode = _.find(node.methods, function(method) { return method.name === token; });
+                node = this.data.contexts[methodNode.contextClass];
+            }, this);
+
+            return methodNode;
+        },
+
+        findAncestors: function(contextClass, tokens) {
+            var ancestors = [];
+
+            tokens.forEach(function(token, index) {
+                if (index < tokens.length - 1) {
+                    var id = tokens.slice(0, index + 1).join('-');
+                    ancestors.push({
+                        id: id,
+                        text: token
+                    });
+                }
+            }, this);
+
+            return ancestors;
+        },
+
+        findUsages: function(contextClass) {
             var usages = [];
             _.forEach(this.data.contexts, function(context, clazz) {
                 context.methods.forEach(function(method) {
@@ -300,37 +308,57 @@
                     }
                 });
             });
-            data.usages = _.sortBy(usages, function(usage) { return (usage.method.name + usage.simpleClassName).toLowerCase(); });
-
-            this.showDetail(data);
+            return usages;
         },
 
         showPathDetail: function(path) {
-            var node = this.data.contexts[this.data.root.contextClass];
             var methodNode;
             var ancestors = [];
+            var usages = [];
+
             if (path) {
                 var tokens = path.split('-');
-                tokens.forEach(function(token, index) {
-                    var id = tokens.slice(0, index + 1).join('-');
-                    methodNode = _.find(node.methods, function(method) { return method.name === token; });
-                    node = this.data.contexts[methodNode.contextClass];
-                    if (index < tokens.length - 1) {
-                        ancestors.push({
-                            id: id,
-                            text: token
-                        });
-                    }
-                }, this);
+
+                var contextClass;
+                var pathTokens;
+                var methodIndex = tokens[0].lastIndexOf('.');
+                if (methodIndex === -1) { // absolute
+                    contextClass = this.data.root.contextClass;
+                    pathTokens = tokens;
+                } else { // relative
+                    var methodName = tokens[0].substr(methodIndex + 1);
+
+                    contextClass = tokens[0].substr(0, methodIndex);
+                    pathTokens = [methodName].concat(tokens.slice(1));
+                    usages = this.findUsages(contextClass);
+                }
+
+                methodNode = this.findMethodNode(contextClass, pathTokens);
+                ancestors = this.findAncestors(contextClass, pathTokens);
+
+                if (ancestors.length) {
+                    ancestors[0].id = contextClass + '.' + ancestors[0].id;
+                }
             } else {
                 methodNode = this.data.root;
             }
+
             var data = {
                 methodNode: methodNode,
                 name: methodNode.name,
                 ancestors: ancestors,
                 isRoot: !path
             };
+
+            if (methodNode.signatures) {
+                data.signatures = methodNode.signatures.map(function(signature) {
+                    if (signature.contextClass) {
+                        signature.context = this.data.contexts[signature.contextClass];
+                    }
+                    return signature;
+                }, this)
+            }
+
             if (methodNode.contextClass) {
                 data.contextMethods = this.data.contexts[methodNode.contextClass].methods.map(function(method) {
                     var href = '#path/' + (path ? path + '-' : '') + method.name;
@@ -340,10 +368,10 @@
                     }
                 });
             }
-            this.showDetail(data);
-        },
 
-        showDetail: function(data) {
+            data.usages = _.sortBy(usages, function(usage) { return (usage.method.name + usage.simpleClassName).toLowerCase(); });
+
+
             var html = Handlebars.templates['detail'](data);
             $('.detail-wrapper').html(html);
 
