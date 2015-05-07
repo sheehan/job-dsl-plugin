@@ -1,9 +1,5 @@
 (function($) {
 
-    /*
-    TODO
-    test
-     */
     var DslLoader = function() {
         this.dslsByUrl = {};
     };
@@ -23,8 +19,7 @@
 
         processContext: function(context) {
             var tokens = context.type.split('.');
-            var simpleClassName = tokens[tokens.length - 1];
-            context.simpleClassName = simpleClassName;
+            context.simpleClassName = tokens[tokens.length - 1];
 
             context.methods.forEach(function(method) {
                 if (method.signatures.every(function(sig) { return sig.deprecated; })) {

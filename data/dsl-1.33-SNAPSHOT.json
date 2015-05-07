@@ -2158,6 +2158,24 @@
             "type": "javaposse.jobdsl.dsl.helpers.properties.PropertiesContext",
             "methods": [
                 {
+                    "name": "customIcon",
+                    "signatures": [
+                        {
+                            "parameters": [
+                                {
+                                    "name": "iconFileName",
+                                    "type": "String"
+                                }
+                            ],
+                            "text": "customIcon(String iconFileName)",
+                            "availableSince": "1.33"
+                        }
+                    ],
+                    "plugin": "custom-job-icon",
+                    "html": "Allows to configure a custom icon for each job.\n     ",
+                    "firstSentenceCommentText": "Allows to configure a custom icon for each job."
+                },
+                {
                     "name": "methodMissing",
                     "signatures": [
                         {
@@ -8590,7 +8608,8 @@
                             "text": "step(Closure closure)",
                             "contextClass": "javaposse.jobdsl.dsl.helpers.step.StepContext"
                         }
-                    ]
+                    ],
+                    "plugin": "any-buildstep"
                 }
             ]
         },
@@ -10272,6 +10291,23 @@
             "type": "javaposse.jobdsl.dsl.helpers.publisher.RobotFrameworkContext",
             "methods": [
                 {
+                    "name": "disableArchiveOutput",
+                    "signatures": [
+                        {
+                            "parameters": [
+                                {
+                                    "name": "disableArchiveOutput",
+                                    "type": "boolean",
+                                    "defaultValue": "true"
+                                }
+                            ],
+                            "text": "disableArchiveOutput(boolean disableArchiveOutput = true)",
+                            "availableSince": "1.33"
+                        }
+                    ],
+                    "plugin": "robot"
+                },
+                {
                     "name": "logFileName",
                     "signatures": [
                         {
@@ -10292,12 +10328,29 @@
                             "parameters": [
                                 {
                                     "name": "onlyCritical",
-                                    "type": "boolean"
+                                    "type": "boolean",
+                                    "defaultValue": "true"
                                 }
                             ],
-                            "text": "onlyCritical(boolean onlyCritical)"
+                            "text": "onlyCritical(boolean onlyCritical = true)"
                         }
                     ]
+                },
+                {
+                    "name": "otherFiles",
+                    "signatures": [
+                        {
+                            "parameters": [
+                                {
+                                    "name": "files",
+                                    "type": "String..."
+                                }
+                            ],
+                            "text": "otherFiles(String... files)",
+                            "availableSince": "1.33"
+                        }
+                    ],
+                    "plugin": "robot"
                 },
                 {
                     "name": "outputFileName",
@@ -15955,6 +16008,19 @@
                         }
                     ],
                     "plugin": "extra-columns"
+                },
+                {
+                    "name": "customIcon",
+                    "signatures": [
+                        {
+                            "parameters": [
+                                
+                            ],
+                            "text": "customIcon()",
+                            "availableSince": "1.33"
+                        }
+                    ],
+                    "plugin": "custom-job-icon"
                 },
                 {
                     "name": "lastBuildConsole",
