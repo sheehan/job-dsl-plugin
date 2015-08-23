@@ -9,6 +9,7 @@ githubPages {
     repoUri = "git@github.com:$githubUser/job-dsl-plugin.git"
     pages {
         from '.'
+        exclude 'build'
     }
 }
 
@@ -17,8 +18,8 @@ task copyData(type: Copy) {
     into "${project.buildDir}/data"
 }
 
-//tasks.gulp_build.dependsOn('copyData')
-//tasks.publishGhPages.dependsOn('gulp_build')
+tasks.gulp_build.dependsOn('copyData')
+tasks.publishGhPages.dependsOn('gulp_build')
 
 task clean(type: Delete) {
     delete project.buildDir
