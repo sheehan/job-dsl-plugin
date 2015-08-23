@@ -575,9 +575,9 @@ this["Handlebars"]["templates"]["detail"] = Handlebars.template({"1":function(de
   return "                    <span class=\"label label-warning\">Deprecated</span>\n";
   },"11":function(depth0,helpers,partials,data) {
   var helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
-  return " {<span class=\"expand-closure\" data-path=\""
+  return " {<span class=\"expand-closure glyphicon glyphicon-option-horizontal\" data-path=\""
     + escapeExpression(((helper = (helper = helpers.path || (depth0 != null ? depth0.path : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"path","hash":{},"data":data}) : helper)))
-    + "\">…</span>}";
+    + "\"></span>}";
 },"13":function(depth0,helpers,partials,data) {
   var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, buffer = "                    <div class=\"method-doc\">";
   stack1 = ((helper = (helper = helpers.html || (depth0 != null ? depth0.html : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"html","hash":{},"data":data}) : helper));
