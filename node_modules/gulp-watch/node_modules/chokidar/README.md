@@ -1,10 +1,11 @@
-# Chokidar [![Mac/Linux Build Status](https://travis-ci.org/paulmillr/chokidar.svg?branch=master)](https://travis-ci.org/paulmillr/chokidar) [![Windows Build status](https://ci.appveyor.com/api/projects/status/jvv568xm6xsow034/branch/master?svg=true)](https://ci.appveyor.com/project/es128/chokidar/branch/master) [![Coverage Status](https://coveralls.io/repos/paulmillr/chokidar/badge.svg)](https://coveralls.io/r/paulmillr/chokidar)
+# Chokidar [![Mac/Linux Build Status](https://img.shields.io/travis/paulmillr/chokidar/master.svg?label=Mac%20OSX%20%26%20Linux)](https://travis-ci.org/paulmillr/chokidar) [![Windows Build status](https://img.shields.io/appveyor/ci/es128/chokidar/master.svg?label=Windows)](https://ci.appveyor.com/project/es128/chokidar/branch/master) [![Coverage Status](https://coveralls.io/repos/paulmillr/chokidar/badge.svg)](https://coveralls.io/r/paulmillr/chokidar) [![Join the chat at https://gitter.im/paulmillr/chokidar](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/paulmillr/chokidar?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 A neat wrapper around node.js fs.watch / fs.watchFile / fsevents.
 
 [![NPM](https://nodei.co/npm-dl/chokidar.png)](https://nodei.co/npm/chokidar/)
 [![NPM](https://nodei.co/npm/chokidar.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/chokidar/)
 
-#### [See what's new in v1.0](https://github.com/paulmillr/chokidar/blob/master/CHANGELOG.md#chokidar-100-rc1-21-january-2015)
+#### [See what's new in v1.0](https://github.com/paulmillr/chokidar/blob/master/CHANGELOG.md#chokidar-100-7-april-2015)
 
 ## Why?
 Node.js `fs.watch`:
@@ -32,9 +33,11 @@ It is used in
 [brunch](http://brunch.io),
 [karma](http://karma-runner.github.io),
 [PM2](https://github.com/Unitech/PM2),
+[browserify](http://browserify.org/),
+[webpack](http://webpack.github.io/),
+[BrowserSync](http://www.browsersync.io/),
 [socketstream](http://www.socketstream.org),
 [derby](http://derbyjs.com/),
-[watchify](https://github.com/substack/watchify),
 and [many others](https://www.npmjs.org/browse/depended/chokidar/).
 It has proven itself in production environments.
 
@@ -48,17 +51,26 @@ Then just require the package in your code:
 ```javascript
 var chokidar = require('chokidar');
 
+// One-liner for current directory, ignores .dotfiles
+chokidar.watch('.', {ignored: /[\/\\]\./}).on('all', function(event, path) {
+  console.log(event, path);
+});
+
+
+
 var watcher = chokidar.watch('file, dir, or glob', {
-  ignored: /[\/\\]\./, persistent: true
+  ignored: /[\/\\]\./,
+  persistent: true
 });
 
 var log = console.log.bind(console);
 
 watcher
   .on('add', function(path) { log('File', path, 'has been added'); })
-  .on('addDir', function(path) { log('Directory', path, 'has been added'); })
   .on('change', function(path) { log('File', path, 'has been changed'); })
   .on('unlink', function(path) { log('File', path, 'has been removed'); })
+  // More events.
+  .on('addDir', function(path) { log('Directory', path, 'has been added'); })
   .on('unlinkDir', function(path) { log('Directory', path, 'has been removed'); })
   .on('error', function(error) { log('Error happened', error); })
   .on('ready', function() { log('Initial scan complete. Ready for changes.'); })
@@ -80,9 +92,22 @@ watcher.unwatch('new-file*');
 // Only needed if watching is `persistent: true`.
 watcher.close();
 
-// One-liner
-require('chokidar').watch('.', {ignored: /[\/\\]\./}).on('all', function(event, path) {
-  console.log(event, path);
+// Full list of options. See below for descriptions.
+chokidar.watch('file', {
+  persistent: true,
+
+  ignored: '*.txt',
+  ignoreInitial: false,
+  followSymlinks: true,
+  cwd: '.',
+
+  usePolling: true,
+  alwaysStat: false,
+  depth: undefined,
+  interval: 100,
+
+  ignorePermissionErrors: false,
+  atomic: true
 });
 
 ```
@@ -102,10 +127,11 @@ after `ready`, even if the process continues to run.
 #### Path filtering
 
 * `ignored` ([anymatch](https://github.com/es128/anymatch)-compatible definition)
-Defines files/paths to be ignored. The **whole path** is tested, not just
-filename. If a function with two arguments is provided, it gets called
-twice per path - once with a single argument (the path), second time with
-two arguments (the path and the [`fs.Stats`](http://nodejs.org/api/fs.html#fs_class_fs_stats)
+Defines files/paths to be ignored. The whole relative or absolute path is
+tested, not just filename. If a function with two arguments is provided, it
+gets called twice per path - once with a single argument (the path), second
+time with two arguments (the path and the
+[`fs.Stats`](http://nodejs.org/api/fs.html#fs_class_fs_stats)
 object of that path).
 * `ignoreInitial` (default: `false`). Indicates whether chokidar
 should ignore the initial `add` events or not.
@@ -142,8 +168,9 @@ subdirectories will be traversed.
   ([see list of binary extensions](https://github.com/sindresorhus/binary-extensions/blob/master/binary-extensions.json))
 
 #### Errors
-* `ignorePermissionErrors` (default: `false`). Indicates
-whether to watch files that don't have read permissions.
+* `ignorePermissionErrors` (default: `false`). Indicates whether to watch files
+that don't have read permissions if possible. If watching fails due to `EPERM`
+or `EACCES` with this set to `true`, the errors will be suppressed silently.
 * `atomic` (default: `true` if `useFsEvents` and `usePolling` are `false`).
 Automatically filters out artifacts that occur when using editors that use
 "atomic writes" instead of writing directly to the source file.
@@ -161,6 +188,10 @@ and path for every event other than `ready`, `raw`, and `error`.
 * `.unwatch(path / paths)`: Stop watching files, directories, or glob patterns.
 Takes an array of strings or just one string.
 * `.close()`: Removes all listeners from watched files.
+
+## CLI
+
+If you need a CLI interface for your file watching, check out [chokidar-cli](https://github.com/kimmobrunfeldt/chokidar-cli) which allows you to either execute a command on each change, or get a stdio stream of change events.
 
 ## Install Troubleshooting
 

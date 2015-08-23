@@ -43,6 +43,9 @@ Definition.prototype.evalParams = function (context, mixinEnv, args, evaldArgume
         params = this.params.slice(0),
         i, j, val, name, isNamedFound, argIndex, argsLength = 0;
 
+    if (mixinEnv.frames && mixinEnv.frames[0] && mixinEnv.frames[0].functionRegistry) {
+        frame.functionRegistry = mixinEnv.frames[0].functionRegistry.inherit();
+    }
     mixinEnv = new contexts.Eval(mixinEnv, [frame].concat(mixinEnv.frames));
 
     if (args) {
@@ -149,7 +152,7 @@ Definition.prototype.matchCondition = function (args, context) {
         new contexts.Eval(context,
             [this.evalParams(context, /* the parameter variables*/
                 new contexts.Eval(context, this.frames ? this.frames.concat(context.frames) : context.frames), args, [])]
-            .concat(this.frames) // the parent namespace/mixin frames
+            .concat(this.frames || []) // the parent namespace/mixin frames
             .concat(context.frames)))) { // the current environment frames
         return false;
     }

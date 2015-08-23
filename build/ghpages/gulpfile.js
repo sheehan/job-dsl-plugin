@@ -10,6 +10,8 @@ var connect     = require('gulp-connect');
 var watch       = require('gulp-watch');
 var del         = require('del');
 var merge       = require('merge-stream');
+var request     = require('request');
+var source      = require('vinyl-source-stream');
 
 gulp.task('templates', function(){
     var templates = gulp.src('./src/templates/*.hbs')
@@ -24,7 +26,7 @@ gulp.task('templates', function(){
 
     return merge(js, templates)
         .pipe(concat('app.js'))
-        .pipe(gulp.dest('./dist/js/'));
+        .pipe(gulp.dest('./build/dist/js/'));
 });
 
 gulp.task('less', function () {
@@ -32,7 +34,7 @@ gulp.task('less', function () {
         .pipe(less())
         .pipe(minifyCss({keepBreaks:true}))
         .pipe(concat('app.css'))
-        .pipe(gulp.dest('./dist/css/'));
+        .pipe(gulp.dest('./build/dist/css/'));
 });
 
 gulp.task('watch', function () {
@@ -43,10 +45,16 @@ gulp.task('connect', ['watch'], function() {
     connect.server();
 });
 
-gulp.task('clean', function() {
-    del.sync(['dist']);
+gulp.task('download', function () {
+    return request('http://updates.jenkins-ci.org/update-center.json')
+        .pipe(source('update-center.jsonp'))
+        .pipe(gulp.dest('./build/data/'));
 });
 
-gulp.task('build', ['clean', 'templates', 'less']);
+gulp.task('clean', function() {
+    del.sync(['build']);
+});
+
+gulp.task('build', ['download', 'templates', 'less']);
 
 gulp.task('default', ['build']);
