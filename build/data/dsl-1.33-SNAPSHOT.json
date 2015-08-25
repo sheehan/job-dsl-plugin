@@ -3340,10 +3340,10 @@
                             "parameters": [
                                 {
                                     "name": "thresholdMode",
-                                    "type": "javaposse.jobdsl.dsl.helpers.publisher.ArchiveXUnitContext$ThresholdMode"
+                                    "type": "javaposse.jobdsl.dsl.helpers.publisher.ArchiveXUnitContext.ThresholdMode"
                                 }
                             ],
-                            "text": "thresholdMode(javaposse.jobdsl.dsl.helpers.publisher.ArchiveXUnitContext$ThresholdMode thresholdMode)"
+                            "text": "thresholdMode(javaposse.jobdsl.dsl.helpers.publisher.ArchiveXUnitContext.ThresholdMode thresholdMode)"
                         }
                     ]
                 },
@@ -4417,10 +4417,10 @@
                                 },
                                 {
                                     "name": "baseDir",
-                                    "type": "javaposse.jobdsl.dsl.helpers.step.condition.FileExistsCondition$BaseDir"
+                                    "type": "javaposse.jobdsl.dsl.helpers.step.condition.FileExistsCondition.BaseDir"
                                 }
                             ],
-                            "text": "fileExists(String file, javaposse.jobdsl.dsl.helpers.step.condition.FileExistsCondition$BaseDir baseDir)",
+                            "text": "fileExists(String file, javaposse.jobdsl.dsl.helpers.step.condition.FileExistsCondition.BaseDir baseDir)",
                             "availableSince": "1.23"
                         }
                     ]
@@ -5691,10 +5691,10 @@
                             "parameters": [
                                 {
                                     "name": "location",
-                                    "type": "javaposse.jobdsl.dsl.helpers.common.MavenContext$LocalRepositoryLocation"
+                                    "type": "javaposse.jobdsl.dsl.helpers.common.MavenContext.LocalRepositoryLocation"
                                 }
                             ],
-                            "text": "localRepository(javaposse.jobdsl.dsl.helpers.common.MavenContext$LocalRepositoryLocation location)",
+                            "text": "localRepository(javaposse.jobdsl.dsl.helpers.common.MavenContext.LocalRepositoryLocation location)",
                             "deprecated": true
                         },
                         {
@@ -6460,7 +6460,7 @@
                             ],
                             "text": "extension(String extension)",
                             "html": "Artifact extension, defaults to <code>jar</code>.\r\n     ",
-                            "firstSentenceCommentText": "Artifact extension, defaults to <code>jar</code>."
+                            "firstSentenceCommentText": "Artifact extension, defaults to jar."
                         }
                     ]
                 },
@@ -6580,7 +6580,7 @@
                             ],
                             "text": "releaseUpdatePolicy(String updatePolicy)",
                             "html": "Maven release update policy, defaults to <code>daily</code>.\r\n     ",
-                            "firstSentenceCommentText": "Maven release update policy, defaults to <code>daily</code>."
+                            "firstSentenceCommentText": "Maven release update policy, defaults to daily."
                         }
                     ]
                 },
@@ -6596,7 +6596,7 @@
                             ],
                             "text": "snapshotUpdatePolicy(String updatePolicy)",
                             "html": "Maven snapshot update policy, defaults to <code>daily</code>.\r\n     ",
-                            "firstSentenceCommentText": "Maven snapshot update policy, defaults to <code>daily</code>."
+                            "firstSentenceCommentText": "Maven snapshot update policy, defaults to daily."
                         }
                     ]
                 },
@@ -7468,10 +7468,10 @@
                             "parameters": [
                                 {
                                     "name": "runner",
-                                    "type": "javaposse.jobdsl.dsl.helpers.step.ConditionalStepsContext$EvaluationRunners"
+                                    "type": "javaposse.jobdsl.dsl.helpers.step.ConditionalStepsContext.EvaluationRunners"
                                 }
                             ],
-                            "text": "runner(javaposse.jobdsl.dsl.helpers.step.ConditionalStepsContext$EvaluationRunners runner)"
+                            "text": "runner(javaposse.jobdsl.dsl.helpers.step.ConditionalStepsContext.EvaluationRunners runner)"
                         }
                     ]
                 },
@@ -11972,11 +11972,11 @@
                                 },
                                 {
                                     "name": "behavior",
-                                    "type": "javaposse.jobdsl.dsl.helpers.publisher.PublisherContext$Behavior",
+                                    "type": "javaposse.jobdsl.dsl.helpers.publisher.PublisherContext.Behavior",
                                     "defaultValue": "Behavior.DoNothing"
                                 }
                             ],
-                            "text": "groovyPostBuild(String script, javaposse.jobdsl.dsl.helpers.publisher.PublisherContext$Behavior behavior = Behavior.DoNothing)",
+                            "text": "groovyPostBuild(String script, javaposse.jobdsl.dsl.helpers.publisher.PublisherContext.Behavior behavior = Behavior.DoNothing)",
                             "availableSince": "1.19",
                             "html": "Configures the Groovy Postbuild script plugin.\n     ",
                             "firstSentenceCommentText": "Configures the Groovy Postbuild script plugin."
@@ -16449,10 +16449,10 @@
                             "parameters": [
                                 {
                                     "name": "filter",
-                                    "type": "javaposse.jobdsl.dsl.views.ListView$StatusFilter"
+                                    "type": "javaposse.jobdsl.dsl.views.ListView.StatusFilter"
                                 }
                             ],
-                            "text": "statusFilter(javaposse.jobdsl.dsl.views.ListView$StatusFilter filter)"
+                            "text": "statusFilter(javaposse.jobdsl.dsl.views.ListView.StatusFilter filter)"
                         }
                     ]
                 }
@@ -16497,10 +16497,10 @@
                             "parameters": [
                                 {
                                     "name": "outputStyle",
-                                    "type": "javaposse.jobdsl.dsl.views.BuildPipelineView$OutputStyle"
+                                    "type": "javaposse.jobdsl.dsl.views.BuildPipelineView.OutputStyle"
                                 }
                             ],
-                            "text": "consoleOutputLinkStyle(javaposse.jobdsl.dsl.views.BuildPipelineView$OutputStyle outputStyle)"
+                            "text": "consoleOutputLinkStyle(javaposse.jobdsl.dsl.views.BuildPipelineView.OutputStyle outputStyle)"
                         }
                     ]
                 },
@@ -16895,10 +16895,10 @@
                             "parameters": [
                                 {
                                     "name": "filter",
-                                    "type": "javaposse.jobdsl.dsl.views.ListView$StatusFilter"
+                                    "type": "javaposse.jobdsl.dsl.views.ListView.StatusFilter"
                                 }
                             ],
-                            "text": "statusFilter(javaposse.jobdsl.dsl.views.ListView$StatusFilter filter)"
+                            "text": "statusFilter(javaposse.jobdsl.dsl.views.ListView.StatusFilter filter)"
                         }
                     ]
                 }
@@ -17179,10 +17179,10 @@
                             "parameters": [
                                 {
                                     "name": "sorting",
-                                    "type": "javaposse.jobdsl.dsl.views.DeliveryPipelineView$Sorting"
+                                    "type": "javaposse.jobdsl.dsl.views.DeliveryPipelineView.Sorting"
                                 }
                             ],
-                            "text": "sorting(javaposse.jobdsl.dsl.views.DeliveryPipelineView$Sorting sorting)"
+                            "text": "sorting(javaposse.jobdsl.dsl.views.DeliveryPipelineView.Sorting sorting)"
                         }
                     ]
                 },
@@ -18820,10 +18820,10 @@
                             "parameters": [
                                 {
                                     "name": "filter",
-                                    "type": "javaposse.jobdsl.dsl.views.ListView$StatusFilter"
+                                    "type": "javaposse.jobdsl.dsl.views.ListView.StatusFilter"
                                 }
                             ],
-                            "text": "statusFilter(javaposse.jobdsl.dsl.views.ListView$StatusFilter filter)"
+                            "text": "statusFilter(javaposse.jobdsl.dsl.views.ListView.StatusFilter filter)"
                         }
                     ]
                 }
@@ -20435,11 +20435,11 @@
                                 },
                                 {
                                     "name": "behavior",
-                                    "type": "javaposse.jobdsl.dsl.helpers.publisher.PublisherContext$Behavior",
+                                    "type": "javaposse.jobdsl.dsl.helpers.publisher.PublisherContext.Behavior",
                                     "defaultValue": "Behavior.DoNothing"
                                 }
                             ],
-                            "text": "groovyPostBuild(String script, javaposse.jobdsl.dsl.helpers.publisher.PublisherContext$Behavior behavior = Behavior.DoNothing)",
+                            "text": "groovyPostBuild(String script, javaposse.jobdsl.dsl.helpers.publisher.PublisherContext.Behavior behavior = Behavior.DoNothing)",
                             "availableSince": "1.19",
                             "html": "Configures the Groovy Postbuild script plugin.\n     ",
                             "firstSentenceCommentText": "Configures the Groovy Postbuild script plugin."
@@ -21316,7 +21316,7 @@
                             ],
                             "text": "snapshotDependencies(boolean checkSnapshotDependencies)",
                             "html": "If set to <code>true</code>, Jenkins will parse the POMs of this project, and see if any of its snapshot\n dependencies are built on this Jenkins as well. If so, Jenkins will set up build dependency relationship so that\n whenever the dependency job is built and a new SNAPSHOT jar is created, Jenkins will schedule a build of this\n project. Defaults to <code>false</code>.\n     ",
-                            "firstSentenceCommentText": "If set to <code>true</code>, Jenkins will parse the POMs of this project, and see if any of its snapshot\n dependencies are built on this Jenkins as well. "
+                            "firstSentenceCommentText": "If set to true, Jenkins will parse the POMs of this project, and see if any of its snapshot\n dependencies are built on this Jenkins as well. "
                         }
                     ]
                 },
@@ -22088,7 +22088,7 @@
                             ],
                             "text": "archivingDisabled(boolean archivingDisabled)",
                             "html": "If set, Jenkins  will not automatically archive all artifacts generated by this project, defaults to\n <code>false</code>.\n     ",
-                            "firstSentenceCommentText": "If set, Jenkins  will not automatically archive all artifacts generated by this project, defaults to\n <code>false</code>."
+                            "firstSentenceCommentText": "If set, Jenkins  will not automatically archive all artifacts generated by this project, defaults to\n false."
                         }
                     ]
                 },
@@ -22427,10 +22427,10 @@
                             "parameters": [
                                 {
                                     "name": "location",
-                                    "type": "javaposse.jobdsl.dsl.helpers.common.MavenContext$LocalRepositoryLocation"
+                                    "type": "javaposse.jobdsl.dsl.helpers.common.MavenContext.LocalRepositoryLocation"
                                 }
                             ],
-                            "text": "localRepository(javaposse.jobdsl.dsl.helpers.common.MavenContext$LocalRepositoryLocation location)",
+                            "text": "localRepository(javaposse.jobdsl.dsl.helpers.common.MavenContext.LocalRepositoryLocation location)",
                             "deprecated": true,
                             "availableSince": "1.17",
                             "html": "Set to use isolated local Maven repositories.\n     ",
@@ -22622,7 +22622,7 @@
                             "text": "perModuleEmail(boolean perModuleEmail)",
                             "deprecated": true,
                             "html": "If set, Jenkins will send an e-mail notifications for each module, defaults to <code>false</code>.\n     ",
-                            "firstSentenceCommentText": "If set, Jenkins will send an e-mail notifications for each module, defaults to <code>false</code>."
+                            "firstSentenceCommentText": "If set, Jenkins will send an e-mail notifications for each module, defaults to false."
                         }
                     ]
                 },
@@ -22827,7 +22827,7 @@
                             ],
                             "text": "runHeadless(boolean runHeadless)",
                             "html": "Set to allow Jenkins to configure the build process in headless mode, defaults to <code>false</code>.\n     ",
-                            "firstSentenceCommentText": "Set to allow Jenkins to configure the build process in headless mode, defaults to <code>false</code>."
+                            "firstSentenceCommentText": "Set to allow Jenkins to configure the build process in headless mode, defaults to false."
                         }
                     ]
                 },
@@ -26935,7 +26935,7 @@
                             "text": "userContent(String path, java.io.InputStream content)",
                             "availableSince": "1.33",
                             "html": "Upload the stream as <a href=\"https://wiki.jenkins-ci.org/display/JENKINS/User+Content\">user content</a>.\n Use <a href='../../../DslFactory.html#streamFileFromWorkspace(java.lang.String)' title='DslFactory.streamFileFromWorkspace'>DslFactory.streamFileFromWorkspace</a> to read the content from a file.\n     ",
-                            "firstSentenceCommentText": "Upload the stream as <a href=\"https://wiki.jenkins-ci.org/display/JENKINS/User+Content\">user content</a>.\n "
+                            "firstSentenceCommentText": "Upload the stream as user content.\n "
                         }
                     ],
                     "examples": "// save the file images/logo.png from the seed job's workspace as user content\nuserContent('company-logo.png', streamFileFromWorkspace('images/logo.png'))\n"

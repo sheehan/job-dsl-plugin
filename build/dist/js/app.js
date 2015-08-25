@@ -1,5 +1,8 @@
 (function($) {
 
+    /**
+     * Loads and caches DSL data.
+     */
     var DslLoader = function() {
         this.dslsByUrl = {};
     };
@@ -9,15 +12,25 @@
             var dsl = this.dslsByUrl[url];
             if (!dsl) {
                 return $.get(url).then(function(data) {
-                    _.forEach(data.contexts, function(context) { this.processContext(context); }, this);
-                    this.dslsByUrl[url] = data;
-                    return data;
+                    var dsl = new Dsl(data);
+                    this.dslsByUrl[url] = dsl;
+                    return dsl;
                 }.bind(this));
             }
             return $.Deferred().resolveWith(null, [dsl]);
-        },
+        }
+    });
 
-        processContext: function(context) {
+    /**
+     * Provides access to DSL data.
+     */
+    var Dsl = function(data) {
+        this.data = data;
+        _.forEach(data.contexts, this._processContext.bind(this));
+    };
+    _.extend(Dsl.prototype, {
+
+        _processContext: function(context) {
             var tokens = context.type.split('.');
             context.simpleClassName = tokens[tokens.length - 1];
 
@@ -35,6 +48,176 @@
                     method.plugin = window.updateCenter.data.plugins[method.plugin];
                 }
             });
+        },
+
+        getContext: function(contextClass) {
+            return this.data.contexts[contextClass];
+        },
+
+        getRootContextClass: function() {
+            return this.data.root.contextClass;
+        },
+
+        getPluginList: function() {
+            var plugins = [];
+
+            _.forEach(this.data.contexts, function(context) {
+                context.methods.forEach(function(method) {
+                    if (method.plugin) {
+                        plugins.push(method.plugin);
+                    }
+                });
+            });
+
+            plugins = _.uniq(plugins);
+            return _.sortBy(plugins, 'name')
+        },
+
+        findUsages: function(contextClass) {
+            var usages = [];
+            _.forEach(this.data.contexts, function(context, clazz) {
+                context.methods.forEach(function(method) {
+                    if (method.contextClass === contextClass) {
+                        usages.push({
+                            method: method,
+                            context: context,
+                            simpleClassName: context.simpleClassName
+                        });
+                    }
+                });
+            });
+            return usages;
+        },
+
+        findPluginUsages: function(plugin) {
+            var usages = [];
+            _.forEach(this.data.contexts, function(context) {
+                context.methods.forEach(function(method) {
+                    if (method.plugin === plugin) {
+                        usages.push({method: method, context: context});
+                    }
+                });
+            });
+            return usages;
+        },
+
+        findMethodNode: function(contextClass, tokens) {
+            var methodNode = null;
+            var node = this.data.contexts[contextClass];
+
+            tokens.forEach(function(token) {
+                methodNode = _.find(node.methods, function(method) { return method.name === token; });
+                node = this.data.contexts[methodNode.contextClass];
+            }, this);
+
+            return methodNode;
+        },
+
+        findAncestors: function(contextClass, tokens) {
+            var ancestors = [];
+
+            tokens.forEach(function(token, index) {
+                if (index < tokens.length - 1) {
+                    var id = tokens.slice(0, index + 1).join('-');
+                    ancestors.push({
+                        id: id,
+                        text: token
+                    });
+                }
+            }, this);
+
+            return ancestors;
+        },
+
+        getContextSignatures: function(contextClass, path) {
+            var signatures = [];
+
+            this.data.contexts[contextClass].methods.forEach(function(method) {
+                var methodPath = (path ? path + '-' : '') + method.name;
+                Array.prototype.push.apply(signatures, this.getSignatures(method, methodPath));
+            }, this);
+
+            return signatures;
+        },
+
+        getSignatures: function(method, path) {
+            var href = '#path/' + (path ? path + '-' : '') + method.name;
+            return method.signatures.map(function(signature) {
+
+                if (signature.contextClass) {
+                    signature.context = this.data.contexts[signature.contextClass];
+                } // TODO
+
+                var params = signature.parameters;
+                if (signature.context) {
+                    params = params.slice(0, params.length - 1);
+                }
+                var paramTokens = params.map(function(param) {
+                    var token = param.type + ' ' + param.name;
+                    if (param.defaultValue) {
+                        token += ' = ' + param.defaultValue;
+                    }
+                    return token;
+                });
+                var text = paramTokens.join(', ');
+                if (paramTokens.length || !signature.context) {
+                    text = '(' + text + ')';
+                }
+
+                return {
+                    name: method.name,
+                    href: href,
+                    path: path,
+                    availableSince: signature.availableSince,
+                    deprecated: signature.deprecated,
+                    text: text,
+                    html: signature.html,
+                    context: signature.context,
+                    comment: signature.firstSentenceCommentText
+                };
+            }, this)
+        },
+
+        getPathInfo: function(path) {
+            var methodNode;
+            var ancestors = [];
+            var usages = [];
+            if (path) {
+                var tokens = path.split('-');
+
+                var contextClass;
+                var pathTokens;
+                var methodIndex = tokens[0].lastIndexOf('.');
+                if (methodIndex === -1) { // absolute
+                    contextClass = this.data.root.contextClass;
+                    pathTokens = tokens;
+                } else { // relative
+                    var methodName = tokens[0].substr(methodIndex + 1);
+
+                    contextClass = tokens[0].substr(0, methodIndex);
+                    pathTokens = [methodName].concat(tokens.slice(1));
+                    usages = this.findUsages(contextClass);
+                }
+
+                methodNode = this.findMethodNode(contextClass, pathTokens);
+                ancestors = this.findAncestors(contextClass, pathTokens);
+
+                if (ancestors.length) {
+                    ancestors[0].id = contextClass + '.' + ancestors[0].id;
+                }
+            } else {
+                methodNode = this.data.root;
+            }
+
+            return {
+                methodNode: methodNode,
+                ancestors: ancestors,
+                usages: usages
+            };
+        },
+
+        getAllContexts: function() {
+            return this.data.contexts;
         }
     });
 
@@ -86,13 +269,13 @@
             this.dslLoader.fetch(url).then(this.onDslFetchComplete.bind(this));
         },
 
-        onDslFetchComplete: function(data) {
-            this.data = data;
-            this.plugins = this.getPluginList(data);
-            this.initTree(data);
+        onDslFetchComplete: function(dsl) {
+            this.dsl = dsl;
+            this.plugins = this.dsl.getPluginList();
+            this.initTree();
 
             var allItems = [];
-            _.forEach(this.data.contexts, function(context, clazz) {
+            _.forEach(this.dsl.getAllContexts(), function(context, clazz) {
                 context.methods.forEach(function(method) {
                     allItems.push({
                         name: method.name,
@@ -109,30 +292,33 @@
                 };
             }));
             allItems = _.sortBy(allItems, function(item) { return item.name.toLowerCase(); });
+            this.allItems = allItems;
 
-            $('.search-input').keyup(function() {
-                var val = $('.search-input').val();
-                var $treeBody = $('.tree-body');
-                var $searchResults = $('.search-results');
-                if (val) {
-                    if ($treeBody.is(':visible')) {
-                        $treeBody.hide();
-                        $searchResults.show();
-                    }
-
-                    var matches = allItems.filter(function(item) {
-                        return item.name.toLowerCase().indexOf(val) !== -1; // TODO
-                    }, this);
-                    var html = Handlebars.templates['searchResults']({results: matches});
-                    $searchResults.html(html);
-                    // update result list
-                } else {
-                    $treeBody.show();
-                    $searchResults.hide();
-                }
-            }.bind(this));
+            $('.search-input').keyup(this.onSearch.bind(this));
 
             this.updateDetailFromHash();
+        },
+
+        onSearch: function() {
+            var val = $('.search-input').val();
+            var $treeBody = $('.tree-body');
+            var $searchResults = $('.search-results');
+            if (val) {
+                if ($treeBody.is(':visible')) {
+                    $treeBody.hide();
+                    $searchResults.show();
+                }
+
+                var matches = this.allItems.filter(function(item) {
+                    return item.name.toLowerCase().indexOf(val) !== -1; // TODO
+                }, this);
+                var html = Handlebars.templates['searchResults']({results: matches});
+                $searchResults.html(html);
+                // update result list
+            } else {
+                $treeBody.show();
+                $searchResults.hide();
+            }
         },
 
         initLayout: function() {
@@ -153,24 +339,8 @@
             });
         },
 
-        getPluginList: function(data) {
-            var plugins = [];
-
-            _.forEach(data.contexts, function(context) {
-                context.methods.forEach(function(method) {
-                    if (method.plugin) {
-                        plugins.push(method.plugin);
-                    }
-                });
-            });
-
-            plugins = _.uniq(plugins);
-            return _.sortBy(plugins, 'name');
-        },
-
-        initTree: function(data) {
+        initTree: function() {
             var $treeBody = $('.tree-body');
-
 
             var updateNodes = function($el) {
                 $el.parent().find('.jstree-open > i.jstree-icon')
@@ -201,8 +371,8 @@
                     'plugins': ['wholerow'],
                     'core': {
                         'data': function(node, cb) {
-                            var contextClass = node.id === '#' ? data.root.contextClass : node.original.methodNode.contextClass;
-                            var methods = data.contexts[contextClass].methods;
+                            var contextClass = node.id === '#' ? this.dsl.getRootContextClass() : node.original.methodNode.contextClass;
+                            var methods = this.dsl.getContext(contextClass).methods;
                             var treeNodes = methods.map(function(method) {
                                 return this.buildJstreeNode(method, node);
                             }, this);
@@ -248,104 +418,13 @@
         },
 
         showPluginDetail: function(plugin) {
-
-            var usages = [];
-            _.forEach(this.data.contexts, function(context) {
-                context.methods.forEach(function(method) {
-                    if (method.plugin === plugin) {
-                        usages.push({method: method, context: context});
-                    }
-                });
-            });
-
+            var usages = this.findPluginUsages(plugin);
             var html = Handlebars.templates['pluginDetail']({plugin: plugin, usages: usages});
             $('.detail-wrapper').html(html);
         },
 
-        findMethodNode: function(contextClass, tokens) {
-            var methodNode = null;
-            var node = this.data.contexts[contextClass];
-
-            tokens.forEach(function(token) {
-                methodNode = _.find(node.methods, function(method) { return method.name === token; });
-                node = this.data.contexts[methodNode.contextClass];
-            }, this);
-
-            return methodNode;
-        },
-
-        findAncestors: function(contextClass, tokens) {
-            var ancestors = [];
-
-            tokens.forEach(function(token, index) {
-                if (index < tokens.length - 1) {
-                    var id = tokens.slice(0, index + 1).join('-');
-                    ancestors.push({
-                        id: id,
-                        text: token
-                    });
-                }
-            }, this);
-
-            return ancestors;
-        },
-
-        findUsages: function(contextClass) {
-            var usages = [];
-            _.forEach(this.data.contexts, function(context, clazz) {
-                context.methods.forEach(function(method) {
-                    if (method.contextClass === contextClass) {
-                        usages.push({
-                            method: method,
-                            context: context,
-                            simpleClassName: context.simpleClassName
-                        });
-                    }
-                });
-            });
-            return usages;
-        },
-
-        getPathInfo: function(path) {
-            var methodNode;
-            var ancestors = [];
-            var usages = [];
-            if (path) {
-                var tokens = path.split('-');
-
-                var contextClass;
-                var pathTokens;
-                var methodIndex = tokens[0].lastIndexOf('.');
-                if (methodIndex === -1) { // absolute
-                    contextClass = this.data.root.contextClass;
-                    pathTokens = tokens;
-                } else { // relative
-                    var methodName = tokens[0].substr(methodIndex + 1);
-
-                    contextClass = tokens[0].substr(0, methodIndex);
-                    pathTokens = [methodName].concat(tokens.slice(1));
-                    usages = this.findUsages(contextClass);
-                }
-
-                methodNode = this.findMethodNode(contextClass, pathTokens);
-                ancestors = this.findAncestors(contextClass, pathTokens);
-
-                if (ancestors.length) {
-                    ancestors[0].id = contextClass + '.' + ancestors[0].id;
-                }
-            } else {
-                methodNode = this.data.root;
-            }
-
-            return {
-                methodNode: methodNode,
-                ancestors: ancestors,
-                usages: usages
-            };
-        },
-
         showPathDetail: function(path) {
-            var pathInfo = this.getPathInfo(path);
+            var pathInfo = this.dsl.getPathInfo(path);
             var methodNode = pathInfo.methodNode;
             var ancestors = pathInfo.ancestors;
             var usages = pathInfo.usages;
@@ -357,48 +436,31 @@
             };
 
             if (methodNode.signatures) {
-                data.signatures = this.getSignatures(methodNode, path)
-            }
-
-            if (methodNode.contextClass) {
-                data.contextMethods = this.data.contexts[methodNode.contextClass].methods.map(function(method) {
-                    return {
-                        signatures: this.getSignatures(method, path)
-                    }
-                }, this);
+                data.signatures = this.dsl.getSignatures(methodNode, path)
             }
 
             data.usages = _.sortBy(usages, function(usage) { return (usage.method.name + usage.simpleClassName).toLowerCase(); });
 
-            var html;
+            var html,
+                $detailWrapper = $('.detail-wrapper');
             if (path) {
                 html = Handlebars.templates['detail'](data);
-                $('.detail-wrapper').html(html);
+                $detailWrapper.html(html);
             } else {
                 html = Handlebars.templates['root'](data);
-                $('.detail-wrapper').html(html);
+                $detailWrapper.html(html);
 
-                var signatures = [];
-                this.data.contexts[methodNode.contextClass].methods.forEach(function(method) {
-                    var methodPath = (path ? path + '-' : '') + method.name;
-                    Array.prototype.push.apply(signatures, this.getSignatures(method, methodPath));
-                }, this);
-
+                var signatures = this.dsl.getContextSignatures(methodNode.contextClass, path);
 
                 var contextHtml = Handlebars.templates['context']({
                     signatures: signatures
                 });
-                $('.detail-wrapper').find('.context-methods-section').html(contextHtml);
+                $detailWrapper.find('.context-methods-section').html(contextHtml);
             }
 
-            $('pre.highlight')
-                .add('.method-doc pre code')
-                .add('span.highlight')
-                .each(function(i, block) {
-                    hljs.highlightBlock(block);
-                });
+            this.highlightCode($('.highlight'));
 
-            $('.detail-wrapper .expand-closure').click(this.onExpandClick.bind(this));
+            $detailWrapper.find('.expand-closure').click(this.onExpandClick.bind(this));
         },
 
         onExpandClick: function(e) {
@@ -408,13 +470,8 @@
 
             $el.hide();
 
-            var pathInfo = this.getPathInfo(path);
-            var context = this.data.contexts[pathInfo.methodNode.contextClass];
-            var signatures = [];
-            context.methods.forEach(function(method) {
-                var methodPath = (path ? path + '-' : '') + method.name;
-                Array.prototype.push.apply(signatures, this.getSignatures(method, methodPath));
-            }, this);
+            var pathInfo = this.dsl.getPathInfo(path);
+            var signatures = this.dsl.getContextSignatures(pathInfo.methodNode.contextClass, path);
 
             var contextHtml = Handlebars.templates['context']({
                 signatures: signatures
@@ -422,55 +479,16 @@
             var $contextHtml = $(contextHtml);
             $contextHtml.insertAfter($el);
 
-            $contextHtml.find('.highlight').each(function(i, block) {
-                hljs.highlightBlock(block);
-            });
+            this.highlightCode($contextHtml.find('.highlight'));
 
             $contextHtml.find('.expand-closure').click(this.onExpandClick.bind(this));
         },
 
-        getSignatures: function(method, path) {
-            var href = '#path/' + (path ? path + '-' : '') + method.name;
-            return method.signatures.map(function(signature) {
-
-                if (signature.contextClass) {
-                    signature.context = this.data.contexts[signature.contextClass];
-                } // TODO
-
-                var params = signature.parameters;
-                if (signature.context) {
-                    params = params.slice(0, params.length - 1);
-                }
-                var paramTokens = params.map(function(param) {
-                    var token = param.type + ' ' + param.name;
-                    if (param.defaultValue) {
-                        token += ' = ' + param.defaultValue;
-                    }
-                    return token;
-                });
-                var text = paramTokens.join(', ');
-                if (paramTokens.length || !signature.context) {
-                    text = '(' + text + ')';
-                }
-                text = text;
-
-                return {
-                    name: method.name,
-                    href: href,
-                    path: path,
-                    availableSince: signature.availableSince,
-                    deprecated: signature.deprecated,
-                    text: text,
-                    html: signature.html,
-                    context: signature.context,
-                    comment: signature.firstSentenceCommentText
-                };
-            }, this)
-        },
-
-        getTreeNodeAncestors: function(node) {
-            var parentNodes = node.parents.map(function(parentId) { return this.jstree.get_node(parentId); }, this).reverse();
-            return parentNodes.filter(function(parentNode) { return parentNode.text; });
+        highlightCode: function($elements) {
+            $elements.each(function(i, block) {
+                hljs.highlightBlock(block);
+                $(block).removeClass('ruby'); // TODO hljs bug?
+            });
         },
 
         buildJstreeNode: function(node, parent) {
@@ -584,23 +602,18 @@ this["Handlebars"]["templates"]["detail"] = Handlebars.template({"1":function(de
   if (stack1 != null) { buffer += stack1; }
   return buffer + "</div>\n";
 },"15":function(depth0,helpers,partials,data) {
-  var stack1, lambda=this.lambda, buffer = "            <div class=\"method-doc\">";
-  stack1 = lambda(((stack1 = (depth0 != null ? depth0.methodNode : depth0)) != null ? stack1.html : stack1), depth0);
-  if (stack1 != null) { buffer += stack1; }
-  return buffer + "</div>\n";
-},"17":function(depth0,helpers,partials,data) {
   var stack1, lambda=this.lambda, escapeExpression=this.escapeExpression;
   return "            <h3 class=\"section-header\">Examples</h3>\n\n            <pre class=\"highlight groovy\">"
     + escapeExpression(lambda(((stack1 = (depth0 != null ? depth0.methodNode : depth0)) != null ? stack1.examples : stack1), depth0))
     + "</pre>\n";
-},"19":function(depth0,helpers,partials,data) {
+},"17":function(depth0,helpers,partials,data) {
   var stack1, buffer = "            <h3 class=\"section-header\">Usages</h3>\n            <ul class=\"usages\">\n";
-  stack1 = helpers.each.call(depth0, (depth0 != null ? depth0.usages : depth0), {"name":"each","hash":{},"fn":this.program(20, data),"inverse":this.noop,"data":data});
+  stack1 = helpers.each.call(depth0, (depth0 != null ? depth0.usages : depth0), {"name":"each","hash":{},"fn":this.program(18, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
   return buffer + "            </ul>\n";
-},"20":function(depth0,helpers,partials,data) {
+},"18":function(depth0,helpers,partials,data) {
   var stack1, lambda=this.lambda, escapeExpression=this.escapeExpression, buffer = "                    <li>\n                        <div class=\"method-name ";
-  stack1 = helpers['if'].call(depth0, ((stack1 = (depth0 != null ? depth0.method : depth0)) != null ? stack1.deprecated : stack1), {"name":"if","hash":{},"fn":this.program(21, data),"inverse":this.noop,"data":data});
+  stack1 = helpers['if'].call(depth0, ((stack1 = (depth0 != null ? depth0.method : depth0)) != null ? stack1.deprecated : stack1), {"name":"if","hash":{},"fn":this.program(19, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
   return buffer + "\">\n                            <a href=\"#method/"
     + escapeExpression(lambda(((stack1 = (depth0 != null ? depth0.context : depth0)) != null ? stack1.type : stack1), depth0))
@@ -613,7 +626,7 @@ this["Handlebars"]["templates"]["detail"] = Handlebars.template({"1":function(de
     + "</a>\n                            : <span class=\"simple-class-name\">"
     + escapeExpression(lambda(((stack1 = (depth0 != null ? depth0.context : depth0)) != null ? stack1.simpleClassName : stack1), depth0))
     + "</span>\n                        </div>\n                    </li>\n";
-},"21":function(depth0,helpers,partials,data) {
+},"19":function(depth0,helpers,partials,data) {
   return "deprecated";
   },"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
   var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, buffer = "<div class=\"detail\">\n";
@@ -628,13 +641,10 @@ this["Handlebars"]["templates"]["detail"] = Handlebars.template({"1":function(de
   stack1 = helpers.each.call(depth0, (depth0 != null ? depth0.signatures : depth0), {"name":"each","hash":{},"fn":this.program(6, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
   buffer += "        </div>\n\n";
-  stack1 = helpers['if'].call(depth0, ((stack1 = (depth0 != null ? depth0.methodNode : depth0)) != null ? stack1.html : stack1), {"name":"if","hash":{},"fn":this.program(15, data),"inverse":this.noop,"data":data});
+  stack1 = helpers['if'].call(depth0, ((stack1 = (depth0 != null ? depth0.methodNode : depth0)) != null ? stack1.examples : stack1), {"name":"if","hash":{},"fn":this.program(15, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
   buffer += "\n";
-  stack1 = helpers['if'].call(depth0, ((stack1 = (depth0 != null ? depth0.methodNode : depth0)) != null ? stack1.examples : stack1), {"name":"if","hash":{},"fn":this.program(17, data),"inverse":this.noop,"data":data});
-  if (stack1 != null) { buffer += stack1; }
-  buffer += "\n";
-  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.usages : depth0), {"name":"if","hash":{},"fn":this.program(19, data),"inverse":this.noop,"data":data});
+  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.usages : depth0), {"name":"if","hash":{},"fn":this.program(17, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
   return buffer + "    </div>\n</div>";
 },"useData":true});
@@ -673,7 +683,7 @@ this["Handlebars"]["templates"]["pluginDetail"] = Handlebars.template({"1":funct
 this["Handlebars"] = this["Handlebars"] || {};
 this["Handlebars"]["templates"] = this["Handlebars"]["templates"] || {};
 this["Handlebars"]["templates"]["root"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
-  return "<div class=\"detail\">\n    <div class=\"method-detail\">\n        <h2>Jenkins Job DSL API</h2>\n\n        <div class=\"method-doc\">\n            <p>\n                Welcome to the Job DSL API Viewer. This is the Job DSL reference, showing all available DSL methods. Use the navigation\n                on the left to browse all methods starting from the methods available in the script context.\n            </p>\n            <p>\n                For further documentation, please go to the <a href=\"https://github.com/jenkinsci/job-dsl-plugin/wiki\">Job DSL Wiki</a>.\n            </p>\n        </div>\n\n        <h3 class=\"section-header\">Top Level Methods</h3>\n        <div class=\"context-methods-section\"></div>\n    </div>\n</div>";
+  return "<div class=\"detail\">\n    <div class=\"method-detail\">\n        <h2>Jenkins Job DSL API</h2>\n\n        <div class=\"method-doc\">\n            <p>\n                Welcome to the Job DSL API Viewer. This is the Job DSL reference, showing all available DSL methods. Use the navigation\n                on the left to browse all methods starting from the methods available in the script context.\n            </p>\n            <p>\n                For further documentation, please go to the <a href=\"https://github.com/jenkinsci/job-dsl-plugin/wiki\">Job DSL Wiki</a>.\n            </p>\n        </div>\n\n        <h3 class=\"section-header\">Top-Level Methods</h3>\n        <div class=\"context-methods-section\"></div>\n    </div>\n</div>";
   },"useData":true});
 this["Handlebars"] = this["Handlebars"] || {};
 this["Handlebars"]["templates"] = this["Handlebars"]["templates"] || {};
