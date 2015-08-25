@@ -92,6 +92,8 @@ ruleset {
         exclude 'UnnecessaryElseStatement'
         // we don't care for now, does not necessarily lead to better code
         exclude 'UnnecessaryObjectReferences'
+        // we do "unnecessary" overrides for the @NoDoc annotation
+        exclude 'UnnecessaryOverridingMethod'
     }
 
     ruleset('rulesets/unused.xml')

@@ -6,6 +6,7 @@ import javaposse.jobdsl.dsl.ContextHelper
 import javaposse.jobdsl.dsl.DslContext
 import javaposse.jobdsl.dsl.Job
 import javaposse.jobdsl.dsl.JobManagement
+import javaposse.jobdsl.dsl.NoDoc
 import javaposse.jobdsl.dsl.WithXmlAction
 import javaposse.jobdsl.dsl.helpers.LocalRepositoryLocation
 import javaposse.jobdsl.dsl.helpers.common.MavenContext
@@ -25,6 +26,7 @@ class MavenJob extends Job {
     }
 
     @Override
+    @NoDoc
     void steps(@DslContext(StepContext) Closure closure) {
         throw new IllegalStateException('steps cannot be applied for Maven jobs')
     }
