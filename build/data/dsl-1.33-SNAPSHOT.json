@@ -15969,179 +15969,6 @@
                 }
             ]
         },
-        "javaposse.jobdsl.dsl.views.ColumnsContext": {
-            "type": "javaposse.jobdsl.dsl.views.ColumnsContext",
-            "methods": [
-                {
-                    "name": "buildButton",
-                    "signatures": [
-                        {
-                            "parameters": [
-                                
-                            ],
-                            "text": "buildButton()"
-                        }
-                    ]
-                },
-                {
-                    "name": "categorizedJob",
-                    "signatures": [
-                        {
-                            "parameters": [
-                                
-                            ],
-                            "text": "categorizedJob()",
-                            "availableSince": "1.31"
-                        }
-                    ],
-                    "plugin": "categorized-view"
-                },
-                {
-                    "name": "claim",
-                    "signatures": [
-                        {
-                            "parameters": [
-                                
-                            ],
-                            "text": "claim()",
-                            "availableSince": "1.29"
-                        }
-                    ],
-                    "plugin": "claim"
-                },
-                {
-                    "name": "configureProject",
-                    "signatures": [
-                        {
-                            "parameters": [
-                                
-                            ],
-                            "text": "configureProject()",
-                            "availableSince": "1.31"
-                        }
-                    ],
-                    "plugin": "extra-columns"
-                },
-                {
-                    "name": "customIcon",
-                    "signatures": [
-                        {
-                            "parameters": [
-                                
-                            ],
-                            "text": "customIcon()",
-                            "availableSince": "1.33"
-                        }
-                    ],
-                    "plugin": "custom-job-icon"
-                },
-                {
-                    "name": "lastBuildConsole",
-                    "signatures": [
-                        {
-                            "parameters": [
-                                
-                            ],
-                            "text": "lastBuildConsole()",
-                            "availableSince": "1.23"
-                        }
-                    ],
-                    "plugin": "extra-columns"
-                },
-                {
-                    "name": "lastBuildNode",
-                    "signatures": [
-                        {
-                            "parameters": [
-                                
-                            ],
-                            "text": "lastBuildNode()",
-                            "availableSince": "1.31"
-                        }
-                    ],
-                    "plugin": "build-node-column"
-                },
-                {
-                    "name": "lastDuration",
-                    "signatures": [
-                        {
-                            "parameters": [
-                                
-                            ],
-                            "text": "lastDuration()"
-                        }
-                    ]
-                },
-                {
-                    "name": "lastFailure",
-                    "signatures": [
-                        {
-                            "parameters": [
-                                
-                            ],
-                            "text": "lastFailure()"
-                        }
-                    ]
-                },
-                {
-                    "name": "lastSuccess",
-                    "signatures": [
-                        {
-                            "parameters": [
-                                
-                            ],
-                            "text": "lastSuccess()"
-                        }
-                    ]
-                },
-                {
-                    "name": "name",
-                    "signatures": [
-                        {
-                            "parameters": [
-                                
-                            ],
-                            "text": "name()"
-                        }
-                    ]
-                },
-                {
-                    "name": "robotResults",
-                    "signatures": [
-                        {
-                            "parameters": [
-                                
-                            ],
-                            "text": "robotResults()",
-                            "availableSince": "1.33"
-                        }
-                    ],
-                    "plugin": "robot"
-                },
-                {
-                    "name": "status",
-                    "signatures": [
-                        {
-                            "parameters": [
-                                
-                            ],
-                            "text": "status()"
-                        }
-                    ]
-                },
-                {
-                    "name": "weather",
-                    "signatures": [
-                        {
-                            "parameters": [
-                                
-                            ],
-                            "text": "weather()"
-                        }
-                    ]
-                }
-            ]
-        },
         "javaposse.jobdsl.dsl.views.jobfilter.RegexFilter": {
             "type": "javaposse.jobdsl.dsl.views.jobfilter.RegexFilter",
             "methods": [
@@ -16155,7 +15982,9 @@
                                     "type": "javaposse.jobdsl.dsl.views.jobfilter.MatchType"
                                 }
                             ],
-                            "text": "matchType(javaposse.jobdsl.dsl.views.jobfilter.MatchType matchType)"
+                            "text": "matchType(javaposse.jobdsl.dsl.views.jobfilter.MatchType matchType)",
+                            "html": "Specifies whether the filter includes or excludes jobs from the view.\n Possible values are <TT>MatchType.INCLUDE_MATCHED</TT>, <TT>MatchType.INCLUDE_UNMATCHED</TT>,\n <TT>MatchType.EXCLUDE_MATCHED</TT> or <TT>MatchType.EXCLUDE_UNMATCHED</TT>.",
+                            "firstSentenceCommentText": "Specifies whether the filter includes or excludes jobs from the view.\n "
                         }
                     ]
                 },
@@ -16169,7 +15998,9 @@
                                     "type": "javaposse.jobdsl.dsl.views.jobfilter.RegexMatchValue"
                                 }
                             ],
-                            "text": "matchValue(javaposse.jobdsl.dsl.views.jobfilter.RegexMatchValue value)"
+                            "text": "matchValue(javaposse.jobdsl.dsl.views.jobfilter.RegexMatchValue value)",
+                            "html": "Selects the value to be matched. Possible values are <TT>RegexMatchValue.NAME</TT>,\n <TT>RegexMatchValue.DESCRIPTION</TT>, <TT>RegexMatchValue.SCM</TT>, <TT>RegexMatchValue.EMAIL</TT>,\n <TT>RegexMatchValue.MAVEN</TT>, <TT>RegexMatchValue.SCHEDULE</TT> or <TT>RegexMatchValue.NODE</TT>.",
+                            "firstSentenceCommentText": "Selects the value to be matched. "
                         }
                     ]
                 },
@@ -16183,7 +16014,9 @@
                                     "type": "String"
                                 }
                             ],
-                            "text": "regex(String regex)"
+                            "text": "regex(String regex)",
+                            "html": "Sets the regular expression used for filtering the selected value.",
+                            "firstSentenceCommentText": "Sets the regular expression used for filtering the selected value."
                         }
                     ]
                 }
@@ -16202,7 +16035,9 @@
                                     "type": "javaposse.jobdsl.dsl.views.jobfilter.MatchType"
                                 }
                             ],
-                            "text": "matchType(javaposse.jobdsl.dsl.views.jobfilter.MatchType matchType)"
+                            "text": "matchType(javaposse.jobdsl.dsl.views.jobfilter.MatchType matchType)",
+                            "html": "Specifies whether the filter includes or excludes jobs from the view.\n Possible values are <TT>MatchType.INCLUDE_MATCHED</TT>, <TT>MatchType.INCLUDE_UNMATCHED</TT>,\n <TT>MatchType.EXCLUDE_MATCHED</TT> or <TT>MatchType.EXCLUDE_UNMATCHED</TT>.",
+                            "firstSentenceCommentText": "Specifies whether the filter includes or excludes jobs from the view.\n "
                         }
                     ]
                 },
@@ -16216,7 +16051,9 @@
                                     "type": "javaposse.jobdsl.dsl.views.jobfilter.Status..."
                                 }
                             ],
-                            "text": "status(javaposse.jobdsl.dsl.views.jobfilter.Status... status)"
+                            "text": "status(javaposse.jobdsl.dsl.views.jobfilter.Status... status)",
+                            "html": "Selects the status of the jobs to be included or excluded. Possible values are <TT>Status.UNSTABLE</TT>,\n <TT>Status.FAILED</TT>, <TT>Status.ABORTED</TT>, <TT>Status.DISABLED</TT> or {",
+                            "firstSentenceCommentText": "Selects the status of the jobs to be included or excluded. "
                         }
                     ]
                 }
@@ -16236,9 +16073,12 @@
                                 }
                             ],
                             "text": "regex(Closure regexFilterClosure)",
+                            "html": "Adds a regular expression filter.",
+                            "firstSentenceCommentText": "Adds a regular expression filter.",
                             "contextClass": "javaposse.jobdsl.dsl.views.jobfilter.RegexFilter"
                         }
-                    ]
+                    ],
+                    "examples": "listView('example') {\n    jobFilters {\n        regex {\n            matchType(MatchType.EXCLUDE_MATCHED)\n            matchValue(RegexMatchValue.DESCRIPTION)\n            regex('.*project-a.*')\n        }\n    }\n}\n"
                 },
                 {
                     "name": "status",
@@ -16251,9 +16091,12 @@
                                 }
                             ],
                             "text": "status(Closure statusesFilterClosure)",
+                            "html": "Adds a job status filter.",
+                            "firstSentenceCommentText": "Adds a job status filter.",
                             "contextClass": "javaposse.jobdsl.dsl.views.jobfilter.JobStatusesFilter"
                         }
-                    ]
+                    ],
+                    "examples": "listView('example') {\n    jobFilters {\n        status {\n            matchType(MatchType.INCLUDE_MATCHED)\n            status(Status.FAILED)\n        }\n    }\n}\n"
                 }
             ]
         },
@@ -16270,9 +16113,12 @@
                                     "type": "String"
                                 }
                             ],
-                            "text": "name(String jobName)"
+                            "text": "name(String jobName)",
+                            "html": "Adds jobs to the view. Can be called multiple times to added more jobs.",
+                            "firstSentenceCommentText": "Adds jobs to the view. "
                         }
-                    ]
+                    ],
+                    "examples": "listView('example') {\n    jobs {\n        name('build')\n        name('test')\n    }\n}\n"
                 },
                 {
                     "name": "names",
@@ -16284,9 +16130,12 @@
                                     "type": "String..."
                                 }
                             ],
-                            "text": "names(String... jobNames)"
+                            "text": "names(String... jobNames)",
+                            "html": "Adds jobs to the view. Can be called multiple times to added more jobs.",
+                            "firstSentenceCommentText": "Adds jobs to the view. "
                         }
-                    ]
+                    ],
+                    "examples": "listView('example') {\n    jobs {\n        names('build', 'test')\n    }\n}\n"
                 },
                 {
                     "name": "regex",
@@ -16298,30 +16147,18 @@
                                     "type": "String"
                                 }
                             ],
-                            "text": "regex(String regex)"
+                            "text": "regex(String regex)",
+                            "html": "If configured, the regular expression will be applied to all job names. Those that match the regular expression\n will be shown in the view.",
+                            "firstSentenceCommentText": "If configured, the regular expression will be applied to all job names. "
                         }
-                    ]
+                    ],
+                    "examples": "listView('example') {\n    jobs {\n        regex('project-A-.+')\n    }\n}\n"
                 }
             ]
         },
         "javaposse.jobdsl.dsl.views.BuildMonitorView": {
             "type": "javaposse.jobdsl.dsl.views.BuildMonitorView",
             "methods": [
-                {
-                    "name": "columns",
-                    "signatures": [
-                        {
-                            "parameters": [
-                                {
-                                    "name": "columnsClosure",
-                                    "type": "Closure"
-                                }
-                            ],
-                            "text": "columns(Closure columnsClosure)",
-                            "contextClass": "javaposse.jobdsl.dsl.views.ColumnsContext"
-                        }
-                    ]
-                },
                 {
                     "name": "configure",
                     "signatures": [
@@ -16332,9 +16169,12 @@
                                     "type": "Closure"
                                 }
                             ],
-                            "text": "configure(Closure withXmlClosure)"
+                            "text": "configure(Closure withXmlClosure)",
+                            "html": "Allows direct manipulation of the generated XML.\n     ",
+                            "firstSentenceCommentText": "Allows direct manipulation of the generated XML."
                         }
-                    ]
+                    ],
+                    "examples": "buildMonitorView('example') {\n    configure { view ->\n        view / icon(class: 'org.example.MyViewIcon')\n    }\n}\n"
                 },
                 {
                     "name": "description",
@@ -16342,13 +16182,16 @@
                         {
                             "parameters": [
                                 {
-                                    "name": "descriptionArg",
+                                    "name": "description",
                                     "type": "String"
                                 }
                             ],
-                            "text": "description(String descriptionArg)"
+                            "text": "description(String description)",
+                            "html": "Sets a description for the view.",
+                            "firstSentenceCommentText": "Sets a description for the view."
                         }
-                    ]
+                    ],
+                    "examples": "buildMonitorView('project-a') {\n    description('View for project A')\n}\n"
                 },
                 {
                     "name": "filterBuildQueue",
@@ -16356,14 +16199,17 @@
                         {
                             "parameters": [
                                 {
-                                    "name": "filterBuildQueueArg",
+                                    "name": "filterBuildQueue",
                                     "type": "boolean",
                                     "defaultValue": "true"
                                 }
                             ],
-                            "text": "filterBuildQueue(boolean filterBuildQueueArg = true)"
+                            "text": "filterBuildQueue(boolean filterBuildQueue = true)",
+                            "html": "If set to <TT>true</TT>. only jobs in this view will be shown in the build queue. Defaults to <TT>false</TT>.",
+                            "firstSentenceCommentText": "If set to true. only jobs in this view will be shown in the build queue. "
                         }
-                    ]
+                    ],
+                    "examples": "buildMonitorView('example') {\n    filterBuildQueue()\n}\n"
                 },
                 {
                     "name": "filterExecutors",
@@ -16371,14 +16217,17 @@
                         {
                             "parameters": [
                                 {
-                                    "name": "filterExecutorsArg",
+                                    "name": "filterExecutors",
                                     "type": "boolean",
                                     "defaultValue": "true"
                                 }
                             ],
-                            "text": "filterExecutors(boolean filterExecutorsArg = true)"
+                            "text": "filterExecutors(boolean filterExecutors = true)",
+                            "html": "If set to <TT>true</TT>, only those build executors will be shown that could execute the jobs in this view.\n Defaults to <TT>false</TT>.",
+                            "firstSentenceCommentText": "If set to true, only those build executors will be shown that could execute the jobs in this view.\n "
                         }
-                    ]
+                    ],
+                    "examples": "buildMonitorView('example') {\n    filterExecutors()\n}\n"
                 },
                 {
                     "name": "jobFilters",
@@ -16392,9 +16241,12 @@
                             ],
                             "text": "jobFilters(Closure jobFiltersClosure)",
                             "availableSince": "1.29",
+                            "html": "Adds or removes jobs from the view by specifying filters.\n     ",
+                            "firstSentenceCommentText": "Adds or removes jobs from the view by specifying filters.",
                             "contextClass": "javaposse.jobdsl.dsl.views.JobFiltersContext"
                         }
-                    ]
+                    ],
+                    "examples": "buildMonitorView('example') {\n    jobFilters {\n        regex {\n            matchType(MatchType.EXCLUDE_MATCHED)\n            matchValue(RegexMatchValue.DESCRIPTION)\n            regex('.*project-a.*')\n        }\n        status {\n            matchType(MatchType.INCLUDE_MATCHED)\n            status(Status.FAILED)\n        }\n    }\n}\n"
                 },
                 {
                     "name": "jobs",
@@ -16407,9 +16259,12 @@
                                 }
                             ],
                             "text": "jobs(Closure jobsClosure)",
+                            "html": "Adds jobs to the view.",
+                            "firstSentenceCommentText": "Adds jobs to the view.",
                             "contextClass": "javaposse.jobdsl.dsl.views.JobsContext"
                         }
-                    ]
+                    ],
+                    "examples": "buildMonitorView('example') {\n    jobs {\n        name('build')\n        name('test')\n        names('compile', 'deploy')\n        regex('project-A-.+')\n    }\n}\n"
                 },
                 {
                     "name": "name",
@@ -16438,9 +16293,12 @@
                                 }
                             ],
                             "text": "recurse(boolean shouldRecurse = true)",
-                            "availableSince": "1.31"
+                            "availableSince": "1.31",
+                            "html": "If set to <TT>true</TT>, jobs from sub-folders will be shown.\n Defaults to <TT>false</TT>.\n     ",
+                            "firstSentenceCommentText": "If set to true, jobs from sub-folders will be shown.\n "
                         }
-                    ]
+                    ],
+                    "examples": "buildMonitorView('project-A') {\n    recurse()\n}\n"
                 },
                 {
                     "name": "statusFilter",
@@ -16452,9 +16310,12 @@
                                     "type": "javaposse.jobdsl.dsl.views.ListView.StatusFilter"
                                 }
                             ],
-                            "text": "statusFilter(javaposse.jobdsl.dsl.views.ListView.StatusFilter filter)"
+                            "text": "statusFilter(javaposse.jobdsl.dsl.views.ListView.StatusFilter filter)",
+                            "html": "Filter the job list by enabled/disabled status. Valid values are <TT>StatusFilter.ALL</TT> (default),\n <TT>StatusFilter.ENABLED</TT> and <TT>StatusFilter.DISABLED</TT>.",
+                            "firstSentenceCommentText": "Filter the job list by enabled/disabled status. "
                         }
-                    ]
+                    ],
+                    "examples": "buildMonitorView('project-A') {\n    statusFilter(StatusFilter.ENABLED)\n}\n"
                 }
             ]
         },
@@ -16472,9 +16333,12 @@
                                     "defaultValue": "true"
                                 }
                             ],
-                            "text": "alwaysAllowManualTrigger(boolean alwaysAllowManualTrigger = true)"
+                            "text": "alwaysAllowManualTrigger(boolean alwaysAllowManualTrigger = true)",
+                            "html": "Use this method if you want to be able to execute a successful pipeline step again. Defaults to <TT>false</TT>.",
+                            "firstSentenceCommentText": "Use this method if you want to be able to execute a successful pipeline step again. "
                         }
-                    ]
+                    ],
+                    "examples": "buildPipelineView('example') {\n    alwaysAllowManualTrigger()\n}\n"
                 },
                 {
                     "name": "configure",
@@ -16486,9 +16350,12 @@
                                     "type": "Closure"
                                 }
                             ],
-                            "text": "configure(Closure withXmlClosure)"
+                            "text": "configure(Closure withXmlClosure)",
+                            "html": "Allows direct manipulation of the generated XML.\n     ",
+                            "firstSentenceCommentText": "Allows direct manipulation of the generated XML."
                         }
-                    ]
+                    ],
+                    "examples": "buildPipelineView('example') {\n    configure { view ->\n        view / icon(class: 'org.example.MyViewIcon')\n    }\n}\n"
                 },
                 {
                     "name": "consoleOutputLinkStyle",
@@ -16500,9 +16367,12 @@
                                     "type": "javaposse.jobdsl.dsl.views.BuildPipelineView.OutputStyle"
                                 }
                             ],
-                            "text": "consoleOutputLinkStyle(javaposse.jobdsl.dsl.views.BuildPipelineView.OutputStyle outputStyle)"
+                            "text": "consoleOutputLinkStyle(javaposse.jobdsl.dsl.views.BuildPipelineView.OutputStyle outputStyle)",
+                            "html": "Defines the console output style. Options are <TT>OutputStyle.Lightbox</TT>, <TT>OutputStyle.NewWindow</TT> and\n <TT>OutputStyle.ThisWindow</TT>.",
+                            "firstSentenceCommentText": "Defines the console output style. "
                         }
-                    ]
+                    ],
+                    "examples": "buildPipelineView('example') {\n    consoleOutputLinkStyle(OutputStyle.Lightbox)\n}"
                 },
                 {
                     "name": "customCssUrl",
@@ -16514,9 +16384,12 @@
                                     "type": "String"
                                 }
                             ],
-                            "text": "customCssUrl(String customCssUrl)"
+                            "text": "customCssUrl(String customCssUrl)",
+                            "html": "Sets a URL for custom CSS files.",
+                            "firstSentenceCommentText": "Sets a URL for custom CSS files."
                         }
-                    ]
+                    ],
+                    "examples": "buildPipelineView('example') {\n    customCssUrl('url/to/custom/css/files')\n}\n"
                 },
                 {
                     "name": "description",
@@ -16524,13 +16397,16 @@
                         {
                             "parameters": [
                                 {
-                                    "name": "descriptionArg",
+                                    "name": "description",
                                     "type": "String"
                                 }
                             ],
-                            "text": "description(String descriptionArg)"
+                            "text": "description(String description)",
+                            "html": "Sets a description for the view.",
+                            "firstSentenceCommentText": "Sets a description for the view."
                         }
-                    ]
+                    ],
+                    "examples": "buildPipelineView('project-a') {\n    description('View for project A')\n}\n"
                 },
                 {
                     "name": "displayedBuilds",
@@ -16542,9 +16418,12 @@
                                     "type": "int"
                                 }
                             ],
-                            "text": "displayedBuilds(int displayedBuilds)"
+                            "text": "displayedBuilds(int displayedBuilds)",
+                            "html": "Sets number of displayed builds. Defaults to 1 and must be greater than zero.",
+                            "firstSentenceCommentText": "Sets number of displayed builds. "
                         }
-                    ]
+                    ],
+                    "examples": "buildPipelineView('example') {\n    displayedBuilds(5)\n}\n"
                 },
                 {
                     "name": "filterBuildQueue",
@@ -16552,14 +16431,17 @@
                         {
                             "parameters": [
                                 {
-                                    "name": "filterBuildQueueArg",
+                                    "name": "filterBuildQueue",
                                     "type": "boolean",
                                     "defaultValue": "true"
                                 }
                             ],
-                            "text": "filterBuildQueue(boolean filterBuildQueueArg = true)"
+                            "text": "filterBuildQueue(boolean filterBuildQueue = true)",
+                            "html": "If set to <TT>true</TT>. only jobs in this view will be shown in the build queue. Defaults to <TT>false</TT>.",
+                            "firstSentenceCommentText": "If set to true. only jobs in this view will be shown in the build queue. "
                         }
-                    ]
+                    ],
+                    "examples": "buildPipelineView('example') {\n    filterBuildQueue()\n}\n"
                 },
                 {
                     "name": "filterExecutors",
@@ -16567,14 +16449,17 @@
                         {
                             "parameters": [
                                 {
-                                    "name": "filterExecutorsArg",
+                                    "name": "filterExecutors",
                                     "type": "boolean",
                                     "defaultValue": "true"
                                 }
                             ],
-                            "text": "filterExecutors(boolean filterExecutorsArg = true)"
+                            "text": "filterExecutors(boolean filterExecutors = true)",
+                            "html": "If set to <TT>true</TT>, only those build executors will be shown that could execute the jobs in this view.\n Defaults to <TT>false</TT>.",
+                            "firstSentenceCommentText": "If set to true, only those build executors will be shown that could execute the jobs in this view.\n "
                         }
-                    ]
+                    ],
+                    "examples": "buildPipelineView('example') {\n    filterExecutors()\n}\n"
                 },
                 {
                     "name": "name",
@@ -16601,9 +16486,12 @@
                                     "type": "int"
                                 }
                             ],
-                            "text": "refreshFrequency(int refreshFrequency)"
+                            "text": "refreshFrequency(int refreshFrequency)",
+                            "html": "Frequency at which the Build Pipeline Plugin updates the build cards in seconds. Defaults to 3.",
+                            "firstSentenceCommentText": "Frequency at which the Build Pipeline Plugin updates the build cards in seconds. "
                         }
-                    ]
+                    ],
+                    "examples": "buildPipelineView('example') {\n    refreshFrequency(60)\n}\n"
                 },
                 {
                     "name": "selectedJob",
@@ -16615,9 +16503,12 @@
                                     "type": "String"
                                 }
                             ],
-                            "text": "selectedJob(String selectedJob)"
+                            "text": "selectedJob(String selectedJob)",
+                            "html": "Defines the first job in the pipeline.",
+                            "firstSentenceCommentText": "Defines the first job in the pipeline."
                         }
-                    ]
+                    ],
+                    "examples": "buildPipelineView('example') {\n    selectedJob('project-a-compile')\n}\n"
                 },
                 {
                     "name": "showPipelineDefinitionHeader",
@@ -16630,9 +16521,12 @@
                                     "defaultValue": "true"
                                 }
                             ],
-                            "text": "showPipelineDefinitionHeader(boolean showPipelineDefinitionHeader = true)"
+                            "text": "showPipelineDefinitionHeader(boolean showPipelineDefinitionHeader = true)",
+                            "html": "Use this method if you want to show the pipeline definition header in the pipeline view. Defaults to\n <TT>false</TT>.",
+                            "firstSentenceCommentText": "Use this method if you want to show the pipeline definition header in the pipeline view. "
                         }
-                    ]
+                    ],
+                    "examples": "buildPipelineView('example') {\n    showPipelineDefinitionHeader()\n}\n"
                 },
                 {
                     "name": "showPipelineParameters",
@@ -16645,9 +16539,12 @@
                                     "defaultValue": "true"
                                 }
                             ],
-                            "text": "showPipelineParameters(boolean showPipelineParameters = true)"
+                            "text": "showPipelineParameters(boolean showPipelineParameters = true)",
+                            "html": "Use this method if you want to display the parameters used to run the first job in each pipeline's revision box.\n Defaults to <TT>false</TT>.",
+                            "firstSentenceCommentText": "Use this method if you want to display the parameters used to run the first job in each pipeline's revision box.\n "
                         }
-                    ]
+                    ],
+                    "examples": "buildPipelineView('example') {\n    showPipelineParameters()\n}\n"
                 },
                 {
                     "name": "showPipelineParametersInHeaders",
@@ -16660,9 +16557,12 @@
                                     "defaultValue": "true"
                                 }
                             ],
-                            "text": "showPipelineParametersInHeaders(boolean showPipelineParametersInHeaders = true)"
+                            "text": "showPipelineParametersInHeaders(boolean showPipelineParametersInHeaders = true)",
+                            "html": "Use this method if you want to display the parameters used to run the latest successful job in the pipeline's\n project headers. Defaults to <TT>false</TT>.",
+                            "firstSentenceCommentText": "Use this method if you want to display the parameters used to run the latest successful job in the pipeline's\n project headers. "
                         }
-                    ]
+                    ],
+                    "examples": "buildPipelineView('example') {\n    showPipelineParametersInHeaders()\n}\n"
                 },
                 {
                     "name": "startsWithParameters",
@@ -16676,9 +16576,13 @@
                                 }
                             ],
                             "text": "startsWithParameters(boolean startsWithParameters = true)",
-                            "availableSince": "1.26"
+                            "availableSince": "1.26",
+                            "html": "Use this method if you want toggle the \"Pipeline starts with parameters\" option in the pipeline view\n configuration. Defaults to <TT>false</TT>.\n     ",
+                            "firstSentenceCommentText": "Use this method if you want toggle the \"Pipeline starts with parameters\" option in the pipeline view\n configuration. "
                         }
-                    ]
+                    ],
+                    "plugin": "build-pipeline-plugin",
+                    "examples": "buildPipelineView('example') {\n    startsWithParameters()\n}\n"
                 },
                 {
                     "name": "title",
@@ -16690,9 +16594,12 @@
                                     "type": "String"
                                 }
                             ],
-                            "text": "title(String title)"
+                            "text": "title(String title)",
+                            "html": "Sets a title for the pipeline.",
+                            "firstSentenceCommentText": "Sets a title for the pipeline."
                         }
-                    ]
+                    ],
+                    "examples": "buildPipelineView('example') {\n    title('Project A CI Pipeline')\n}\n"
                 },
                 {
                     "name": "triggerOnlyLatestJob",
@@ -16705,9 +16612,12 @@
                                     "defaultValue": "true"
                                 }
                             ],
-                            "text": "triggerOnlyLatestJob(boolean triggerOnlyLatestJob = true)"
+                            "text": "triggerOnlyLatestJob(boolean triggerOnlyLatestJob = true)",
+                            "html": "Use this method to restrict the display of a trigger button to only the most recent successful build pipelines.\n This option will also limit retries to just unsuccessful builds of the most recent build pipelines. Defaults to\n <TT>false</TT>.",
+                            "firstSentenceCommentText": "Use this method to restrict the display of a trigger button to only the most recent successful build pipelines.\n "
                         }
-                    ]
+                    ],
+                    "examples": "buildPipelineView('example') {\n    triggerOnlyLatestJob()\n}\n"
                 }
             ]
         },
@@ -16729,7 +16639,211 @@
                                     "defaultValue": "null"
                                 }
                             ],
-                            "text": "regexGroupingRule(String groupRegex, String namingRule = null)"
+                            "text": "regexGroupingRule(String groupRegex, String namingRule = null)",
+                            "html": "Adds a rule to build groups of jobs that will be categorized by using a regular expression.",
+                            "firstSentenceCommentText": "Adds a rule to build groups of jobs that will be categorized by using a regular expression."
+                        }
+                    ],
+                    "examples": "categorizedJobsView('example') {\n    categorizationCriteria {\n        regexGroupingRule(/^configuration_([^_]+).*$/)\n    }\n}\n"
+                }
+            ]
+        },
+        "javaposse.jobdsl.dsl.views.ColumnsContext": {
+            "type": "javaposse.jobdsl.dsl.views.ColumnsContext",
+            "methods": [
+                {
+                    "name": "buildButton",
+                    "signatures": [
+                        {
+                            "parameters": [
+                                
+                            ],
+                            "text": "buildButton()",
+                            "html": "Adds a column showing a button for scheduling a build.",
+                            "firstSentenceCommentText": "Adds a column showing a button for scheduling a build."
+                        }
+                    ]
+                },
+                {
+                    "name": "categorizedJob",
+                    "signatures": [
+                        {
+                            "parameters": [
+                                
+                            ],
+                            "text": "categorizedJob()",
+                            "availableSince": "1.31",
+                            "html": "Adds a column for showing a job's category.\n     ",
+                            "firstSentenceCommentText": "Adds a column for showing a job's category."
+                        }
+                    ],
+                    "plugin": "categorized-view"
+                },
+                {
+                    "name": "claim",
+                    "signatures": [
+                        {
+                            "parameters": [
+                                
+                            ],
+                            "text": "claim()",
+                            "availableSince": "1.29",
+                            "html": "Adds a column for showing that a build has been claimed.\n     ",
+                            "firstSentenceCommentText": "Adds a column for showing that a build has been claimed."
+                        }
+                    ],
+                    "plugin": "claim"
+                },
+                {
+                    "name": "configureProject",
+                    "signatures": [
+                        {
+                            "parameters": [
+                                
+                            ],
+                            "text": "configureProject()",
+                            "availableSince": "1.31",
+                            "html": "Adds a column showing a button for opening the item's configuration.\n     ",
+                            "firstSentenceCommentText": "Adds a column showing a button for opening the item's configuration."
+                        }
+                    ],
+                    "plugin": "extra-columns"
+                },
+                {
+                    "name": "customIcon",
+                    "signatures": [
+                        {
+                            "parameters": [
+                                
+                            ],
+                            "text": "customIcon()",
+                            "availableSince": "1.33",
+                            "html": "Adds a column showing a custom icon.\n     ",
+                            "firstSentenceCommentText": "Adds a column showing a custom icon."
+                        }
+                    ],
+                    "plugin": "custom-job-icon"
+                },
+                {
+                    "name": "lastBuildConsole",
+                    "signatures": [
+                        {
+                            "parameters": [
+                                
+                            ],
+                            "text": "lastBuildConsole()",
+                            "availableSince": "1.23",
+                            "html": "Adds a column showing a button for opening the console output.\n     ",
+                            "firstSentenceCommentText": "Adds a column showing a button for opening the console output."
+                        }
+                    ],
+                    "plugin": "extra-columns"
+                },
+                {
+                    "name": "lastBuildNode",
+                    "signatures": [
+                        {
+                            "parameters": [
+                                
+                            ],
+                            "text": "lastBuildNode()",
+                            "availableSince": "1.31",
+                            "html": "Adds a column for showing the node which executed the last build.\n     ",
+                            "firstSentenceCommentText": "Adds a column for showing the node which executed the last build."
+                        }
+                    ],
+                    "plugin": "build-node-column"
+                },
+                {
+                    "name": "lastDuration",
+                    "signatures": [
+                        {
+                            "parameters": [
+                                
+                            ],
+                            "text": "lastDuration()",
+                            "html": "Adds a column showing the duration of the last build.",
+                            "firstSentenceCommentText": "Adds a column showing the duration of the last build."
+                        }
+                    ]
+                },
+                {
+                    "name": "lastFailure",
+                    "signatures": [
+                        {
+                            "parameters": [
+                                
+                            ],
+                            "text": "lastFailure()",
+                            "html": "Adds a column showing the last failed build.",
+                            "firstSentenceCommentText": "Adds a column showing the last failed build."
+                        }
+                    ]
+                },
+                {
+                    "name": "lastSuccess",
+                    "signatures": [
+                        {
+                            "parameters": [
+                                
+                            ],
+                            "text": "lastSuccess()",
+                            "html": "Adds a column showing the last successful build.",
+                            "firstSentenceCommentText": "Adds a column showing the last successful build."
+                        }
+                    ]
+                },
+                {
+                    "name": "name",
+                    "signatures": [
+                        {
+                            "parameters": [
+                                
+                            ],
+                            "text": "name()",
+                            "html": "Adds a column showing the item name.",
+                            "firstSentenceCommentText": "Adds a column showing the item name."
+                        }
+                    ]
+                },
+                {
+                    "name": "robotResults",
+                    "signatures": [
+                        {
+                            "parameters": [
+                                
+                            ],
+                            "text": "robotResults()",
+                            "availableSince": "1.33",
+                            "html": "Adds a column for showing Robot Framework test results.\n     ",
+                            "firstSentenceCommentText": "Adds a column for showing Robot Framework test results."
+                        }
+                    ],
+                    "plugin": "robot"
+                },
+                {
+                    "name": "status",
+                    "signatures": [
+                        {
+                            "parameters": [
+                                
+                            ],
+                            "text": "status()",
+                            "html": "Adds a column showing the status of the last build.",
+                            "firstSentenceCommentText": "Adds a column showing the status of the last build."
+                        }
+                    ]
+                },
+                {
+                    "name": "weather",
+                    "signatures": [
+                        {
+                            "parameters": [
+                                
+                            ],
+                            "text": "weather()",
+                            "html": "Adds a weather report showing the aggregated status of recent builds.",
+                            "firstSentenceCommentText": "Adds a weather report showing the aggregated status of recent builds."
                         }
                     ]
                 }
@@ -16749,9 +16863,12 @@
                                 }
                             ],
                             "text": "categorizationCriteria(Closure categorizationCriteriaClosure)",
+                            "html": "Adds grouping rules.",
+                            "firstSentenceCommentText": "Adds grouping rules.",
                             "contextClass": "javaposse.jobdsl.dsl.views.CategorizationCriteriaContext"
                         }
-                    ]
+                    ],
+                    "examples": "categorizedJobsView('example') {\n    categorizationCriteria {\n        regexGroupingRule(/^configuration_([^_]+).*$/)\n    }\n}\n"
                 },
                 {
                     "name": "columns",
@@ -16764,9 +16881,12 @@
                                 }
                             ],
                             "text": "columns(Closure columnsClosure)",
+                            "html": "Adds columns to the views. The view will have no columns by default.",
+                            "firstSentenceCommentText": "Adds columns to the views. ",
                             "contextClass": "javaposse.jobdsl.dsl.views.ColumnsContext"
                         }
-                    ]
+                    ],
+                    "examples": "categorizedJobsView('project-A') {\n    columns {\n        status()\n        weather()\n        name()\n        lastSuccess()\n        lastFailure()\n        lastDuration()\n        buildButton()\n    }\n}\n"
                 },
                 {
                     "name": "configure",
@@ -16778,9 +16898,12 @@
                                     "type": "Closure"
                                 }
                             ],
-                            "text": "configure(Closure withXmlClosure)"
+                            "text": "configure(Closure withXmlClosure)",
+                            "html": "Allows direct manipulation of the generated XML.\n     ",
+                            "firstSentenceCommentText": "Allows direct manipulation of the generated XML."
                         }
-                    ]
+                    ],
+                    "examples": "categorizedJobsView('example') {\n    configure { view ->\n        view / icon(class: 'org.example.MyViewIcon')\n    }\n}\n"
                 },
                 {
                     "name": "description",
@@ -16788,13 +16911,16 @@
                         {
                             "parameters": [
                                 {
-                                    "name": "descriptionArg",
+                                    "name": "description",
                                     "type": "String"
                                 }
                             ],
-                            "text": "description(String descriptionArg)"
+                            "text": "description(String description)",
+                            "html": "Sets a description for the view.",
+                            "firstSentenceCommentText": "Sets a description for the view."
                         }
-                    ]
+                    ],
+                    "examples": "categorizedJobsView('project-a') {\n    description('View for project A')\n}\n"
                 },
                 {
                     "name": "filterBuildQueue",
@@ -16802,14 +16928,17 @@
                         {
                             "parameters": [
                                 {
-                                    "name": "filterBuildQueueArg",
+                                    "name": "filterBuildQueue",
                                     "type": "boolean",
                                     "defaultValue": "true"
                                 }
                             ],
-                            "text": "filterBuildQueue(boolean filterBuildQueueArg = true)"
+                            "text": "filterBuildQueue(boolean filterBuildQueue = true)",
+                            "html": "If set to <TT>true</TT>. only jobs in this view will be shown in the build queue. Defaults to <TT>false</TT>.",
+                            "firstSentenceCommentText": "If set to true. only jobs in this view will be shown in the build queue. "
                         }
-                    ]
+                    ],
+                    "examples": "categorizedJobsView('example') {\n    filterBuildQueue()\n}\n"
                 },
                 {
                     "name": "filterExecutors",
@@ -16817,14 +16946,17 @@
                         {
                             "parameters": [
                                 {
-                                    "name": "filterExecutorsArg",
+                                    "name": "filterExecutors",
                                     "type": "boolean",
                                     "defaultValue": "true"
                                 }
                             ],
-                            "text": "filterExecutors(boolean filterExecutorsArg = true)"
+                            "text": "filterExecutors(boolean filterExecutors = true)",
+                            "html": "If set to <TT>true</TT>, only those build executors will be shown that could execute the jobs in this view.\n Defaults to <TT>false</TT>.",
+                            "firstSentenceCommentText": "If set to true, only those build executors will be shown that could execute the jobs in this view.\n "
                         }
-                    ]
+                    ],
+                    "examples": "categorizedJobsView('example') {\n    filterExecutors()\n}\n"
                 },
                 {
                     "name": "jobFilters",
@@ -16838,9 +16970,12 @@
                             ],
                             "text": "jobFilters(Closure jobFiltersClosure)",
                             "availableSince": "1.29",
+                            "html": "Adds or removes jobs from the view by specifying filters.\n     ",
+                            "firstSentenceCommentText": "Adds or removes jobs from the view by specifying filters.",
                             "contextClass": "javaposse.jobdsl.dsl.views.JobFiltersContext"
                         }
-                    ]
+                    ],
+                    "examples": "categorizedJobsView('example') {\n    jobFilters {\n        regex {\n            matchType(MatchType.EXCLUDE_MATCHED)\n            matchValue(RegexMatchValue.DESCRIPTION)\n            regex('.*project-a.*')\n        }\n        status {\n            matchType(MatchType.INCLUDE_MATCHED)\n            status(Status.FAILED)\n        }\n    }\n}\n"
                 },
                 {
                     "name": "jobs",
@@ -16853,9 +16988,12 @@
                                 }
                             ],
                             "text": "jobs(Closure jobsClosure)",
+                            "html": "Adds jobs to the view.",
+                            "firstSentenceCommentText": "Adds jobs to the view.",
                             "contextClass": "javaposse.jobdsl.dsl.views.JobsContext"
                         }
-                    ]
+                    ],
+                    "examples": "categorizedJobsView('example') {\n    jobs {\n        name('build')\n        name('test')\n        names('compile', 'deploy')\n        regex('project-A-.+')\n    }\n}\n"
                 },
                 {
                     "name": "name",
@@ -16884,9 +17022,12 @@
                                 }
                             ],
                             "text": "recurse(boolean shouldRecurse = true)",
-                            "availableSince": "1.31"
+                            "availableSince": "1.31",
+                            "html": "If set to <TT>true</TT>, jobs from sub-folders will be shown.\n Defaults to <TT>false</TT>.\n     ",
+                            "firstSentenceCommentText": "If set to true, jobs from sub-folders will be shown.\n "
                         }
-                    ]
+                    ],
+                    "examples": "categorizedJobsView('project-A') {\n    recurse()\n}\n"
                 },
                 {
                     "name": "statusFilter",
@@ -16898,9 +17039,12 @@
                                     "type": "javaposse.jobdsl.dsl.views.ListView.StatusFilter"
                                 }
                             ],
-                            "text": "statusFilter(javaposse.jobdsl.dsl.views.ListView.StatusFilter filter)"
+                            "text": "statusFilter(javaposse.jobdsl.dsl.views.ListView.StatusFilter filter)",
+                            "html": "Filter the job list by enabled/disabled status. Valid values are <TT>StatusFilter.ALL</TT> (default),\n <TT>StatusFilter.ENABLED</TT> and <TT>StatusFilter.DISABLED</TT>.",
+                            "firstSentenceCommentText": "Filter the job list by enabled/disabled status. "
                         }
-                    ]
+                    ],
+                    "examples": "categorizedJobsView('project-A') {\n    statusFilter(StatusFilter.ENABLED)\n}\n"
                 }
             ]
         },
@@ -16973,9 +17117,12 @@
                                     "type": "String"
                                 }
                             ],
-                            "text": "component(String name, String initialJobName)"
+                            "text": "component(String name, String initialJobName)",
+                            "html": "Add a pipeline by specifying name and start job.",
+                            "firstSentenceCommentText": "Add a pipeline by specifying name and start job."
                         }
-                    ]
+                    ],
+                    "examples": "deliveryPipelineView('example') {\n    pipelines {\n        component('Sub System A', 'compile-a')\n        component('Sub System B', 'compile-b')\n    }\n}\n"
                 },
                 {
                     "name": "regex",
@@ -16987,9 +17134,12 @@
                                     "type": "String"
                                 }
                             ],
-                            "text": "regex(String regex)"
+                            "text": "regex(String regex)",
+                            "html": "Add a pipeline by specifying a regular expression.",
+                            "firstSentenceCommentText": "Add a pipeline by specifying a regular expression."
                         }
-                    ]
+                    ],
+                    "examples": "deliveryPipelineView('example') {\n    pipelines {\n        regex(/compile-(.*)/)\n    }\n}\n"
                 }
             ]
         },
@@ -17006,9 +17156,12 @@
                                     "type": "int"
                                 }
                             ],
-                            "text": "columns(int number)"
+                            "text": "columns(int number)",
+                            "html": "Sets the number of columns used for showing pipelines. Defaults to 1.",
+                            "firstSentenceCommentText": "Sets the number of columns used for showing pipelines. "
                         }
-                    ]
+                    ],
+                    "examples": "deliveryPipelineView('example') {\n    columns(2)\n}\n"
                 },
                 {
                     "name": "configure",
@@ -17020,23 +17173,12 @@
                                     "type": "Closure"
                                 }
                             ],
-                            "text": "configure(Closure withXmlClosure)"
+                            "text": "configure(Closure withXmlClosure)",
+                            "html": "Allows direct manipulation of the generated XML.\n     ",
+                            "firstSentenceCommentText": "Allows direct manipulation of the generated XML."
                         }
-                    ]
-                },
-                {
-                    "name": "description",
-                    "signatures": [
-                        {
-                            "parameters": [
-                                {
-                                    "name": "descriptionArg",
-                                    "type": "String"
-                                }
-                            ],
-                            "text": "description(String descriptionArg)"
-                        }
-                    ]
+                    ],
+                    "examples": "deliveryPipelineView('example') {\n    configure { view ->\n        view / icon(class: 'org.example.MyViewIcon')\n    }\n}\n"
                 },
                 {
                     "name": "enableManualTriggers",
@@ -17049,39 +17191,12 @@
                                     "defaultValue": "true"
                                 }
                             ],
-                            "text": "enableManualTriggers(boolean value = true)"
+                            "text": "enableManualTriggers(boolean value = true)",
+                            "html": "Show a button if a task is manual. Defaults to <TT>false</TT>.",
+                            "firstSentenceCommentText": "Show a button if a task is manual. "
                         }
-                    ]
-                },
-                {
-                    "name": "filterBuildQueue",
-                    "signatures": [
-                        {
-                            "parameters": [
-                                {
-                                    "name": "filterBuildQueueArg",
-                                    "type": "boolean",
-                                    "defaultValue": "true"
-                                }
-                            ],
-                            "text": "filterBuildQueue(boolean filterBuildQueueArg = true)"
-                        }
-                    ]
-                },
-                {
-                    "name": "filterExecutors",
-                    "signatures": [
-                        {
-                            "parameters": [
-                                {
-                                    "name": "filterExecutorsArg",
-                                    "type": "boolean",
-                                    "defaultValue": "true"
-                                }
-                            ],
-                            "text": "filterExecutors(boolean filterExecutorsArg = true)"
-                        }
-                    ]
+                    ],
+                    "examples": "deliveryPipelineView('example') {\n    enableManualTriggers()\n}\n"
                 },
                 {
                     "name": "name",
@@ -17108,9 +17223,12 @@
                                     "type": "int"
                                 }
                             ],
-                            "text": "pipelineInstances(int number)"
+                            "text": "pipelineInstances(int number)",
+                            "html": "Sets the number of pipelines instances shown for each pipeline. Defaults to 3.",
+                            "firstSentenceCommentText": "Sets the number of pipelines instances shown for each pipeline. "
                         }
-                    ]
+                    ],
+                    "examples": "deliveryPipelineView('example') {\n    configure { view ->\n        view / icon(class: 'org.example.MyViewIcon')\n    }\n}\n"
                 },
                 {
                     "name": "pipelines",
@@ -17123,9 +17241,12 @@
                                 }
                             ],
                             "text": "pipelines(Closure pipelinesClosure)",
+                            "html": "Defines pipelines by either specifying names and start jobs or by regular expressions. Both variants can be\n called multiple times to add different pipelines to the view.",
+                            "firstSentenceCommentText": "Defines pipelines by either specifying names and start jobs or by regular expressions. ",
                             "contextClass": "javaposse.jobdsl.dsl.views.DeliveryPipelinesContext"
                         }
-                    ]
+                    ],
+                    "examples": "deliveryPipelineView('example') {\n    pipelines {\n        component('Sub System A', 'compile-a')\n        component('Sub System B', 'compile-b')\n        regex(/compile-(.*)/)\n    }\n}\n"
                 },
                 {
                     "name": "showAggregatedPipeline",
@@ -17138,9 +17259,12 @@
                                     "defaultValue": "true"
                                 }
                             ],
-                            "text": "showAggregatedPipeline(boolean value = true)"
+                            "text": "showAggregatedPipeline(boolean value = true)",
+                            "html": "Show a aggregated view where each stage shows the latest version being executed. Defaults to <TT>false</TT>.",
+                            "firstSentenceCommentText": "Show a aggregated view where each stage shows the latest version being executed. "
                         }
-                    ]
+                    ],
+                    "examples": "deliveryPipelineView('example') {\n    showAggregatedPipeline()\n}\n"
                 },
                 {
                     "name": "showAvatars",
@@ -17153,9 +17277,12 @@
                                     "defaultValue": "true"
                                 }
                             ],
-                            "text": "showAvatars(boolean value = true)"
+                            "text": "showAvatars(boolean value = true)",
+                            "html": "Show avatar pictures instead of user names. Defaults to <TT>false</TT>.",
+                            "firstSentenceCommentText": "Show avatar pictures instead of user names. "
                         }
-                    ]
+                    ],
+                    "examples": "deliveryPipelineView('example') {\n    showAvatars()\n}\n"
                 },
                 {
                     "name": "showChangeLog",
@@ -17168,9 +17295,12 @@
                                     "defaultValue": "true"
                                 }
                             ],
-                            "text": "showChangeLog(boolean value = true)"
+                            "text": "showChangeLog(boolean value = true)",
+                            "html": "Show SCM change log for the first job in the pipeline. Defaults to <TT>false</TT>.",
+                            "firstSentenceCommentText": "Show SCM change log for the first job in the pipeline. "
                         }
-                    ]
+                    ],
+                    "examples": "deliveryPipelineView('example') {\n    showChangeLog()\n}\n"
                 },
                 {
                     "name": "sorting",
@@ -17182,9 +17312,12 @@
                                     "type": "javaposse.jobdsl.dsl.views.DeliveryPipelineView.Sorting"
                                 }
                             ],
-                            "text": "sorting(javaposse.jobdsl.dsl.views.DeliveryPipelineView.Sorting sorting)"
+                            "text": "sorting(javaposse.jobdsl.dsl.views.DeliveryPipelineView.Sorting sorting)",
+                            "html": "Specifies how to sort the pipeline in the view, only applicable for several pipelines. Possible values are\n <TT>Sorting.NONE</TT> (default), <TT>Sorting.TITLE</TT> and <TT>Sorting.LAST_ACTIVITY</TT>.",
+                            "firstSentenceCommentText": "Specifies how to sort the pipeline in the view, only applicable for several pipelines. "
                         }
-                    ]
+                    ],
+                    "examples": "deliveryPipelineView('example') {\n    sorting(Sorting.TITLE)\n}\n"
                 },
                 {
                     "name": "updateInterval",
@@ -17196,9 +17329,12 @@
                                     "type": "int"
                                 }
                             ],
-                            "text": "updateInterval(int seconds)"
+                            "text": "updateInterval(int seconds)",
+                            "html": "Specifies how often the view will be updated. Defaults to 2.",
+                            "firstSentenceCommentText": "Specifies how often the view will be updated. "
                         }
-                    ]
+                    ],
+                    "examples": "deliveryPipelineView('example') {\n    updateInterval(60)\n}\n"
                 }
             ]
         },
@@ -18689,9 +18825,12 @@
                                 }
                             ],
                             "text": "columns(Closure columnsClosure)",
+                            "html": "Adds columns to the views. The view will have no columns by default.",
+                            "firstSentenceCommentText": "Adds columns to the views. ",
                             "contextClass": "javaposse.jobdsl.dsl.views.ColumnsContext"
                         }
-                    ]
+                    ],
+                    "examples": "listView('project-A') {\n    columns {\n        status()\n        weather()\n        name()\n        lastSuccess()\n        lastFailure()\n        lastDuration()\n        buildButton()\n    }\n}\n"
                 },
                 {
                     "name": "configure",
@@ -18703,9 +18842,12 @@
                                     "type": "Closure"
                                 }
                             ],
-                            "text": "configure(Closure withXmlClosure)"
+                            "text": "configure(Closure withXmlClosure)",
+                            "html": "Allows direct manipulation of the generated XML.\n     ",
+                            "firstSentenceCommentText": "Allows direct manipulation of the generated XML."
                         }
-                    ]
+                    ],
+                    "examples": "listView('example') {\n    configure { view ->\n        view / icon(class: 'org.example.MyViewIcon')\n    }\n}\n"
                 },
                 {
                     "name": "description",
@@ -18713,13 +18855,16 @@
                         {
                             "parameters": [
                                 {
-                                    "name": "descriptionArg",
+                                    "name": "description",
                                     "type": "String"
                                 }
                             ],
-                            "text": "description(String descriptionArg)"
+                            "text": "description(String description)",
+                            "html": "Sets a description for the view.",
+                            "firstSentenceCommentText": "Sets a description for the view."
                         }
-                    ]
+                    ],
+                    "examples": "listView('project-a') {\n    description('View for project A')\n}\n"
                 },
                 {
                     "name": "filterBuildQueue",
@@ -18727,14 +18872,17 @@
                         {
                             "parameters": [
                                 {
-                                    "name": "filterBuildQueueArg",
+                                    "name": "filterBuildQueue",
                                     "type": "boolean",
                                     "defaultValue": "true"
                                 }
                             ],
-                            "text": "filterBuildQueue(boolean filterBuildQueueArg = true)"
+                            "text": "filterBuildQueue(boolean filterBuildQueue = true)",
+                            "html": "If set to <TT>true</TT>. only jobs in this view will be shown in the build queue. Defaults to <TT>false</TT>.",
+                            "firstSentenceCommentText": "If set to true. only jobs in this view will be shown in the build queue. "
                         }
-                    ]
+                    ],
+                    "examples": "listView('example') {\n    filterBuildQueue()\n}\n"
                 },
                 {
                     "name": "filterExecutors",
@@ -18742,14 +18890,17 @@
                         {
                             "parameters": [
                                 {
-                                    "name": "filterExecutorsArg",
+                                    "name": "filterExecutors",
                                     "type": "boolean",
                                     "defaultValue": "true"
                                 }
                             ],
-                            "text": "filterExecutors(boolean filterExecutorsArg = true)"
+                            "text": "filterExecutors(boolean filterExecutors = true)",
+                            "html": "If set to <TT>true</TT>, only those build executors will be shown that could execute the jobs in this view.\n Defaults to <TT>false</TT>.",
+                            "firstSentenceCommentText": "If set to true, only those build executors will be shown that could execute the jobs in this view.\n "
                         }
-                    ]
+                    ],
+                    "examples": "listView('example') {\n    filterExecutors()\n}\n"
                 },
                 {
                     "name": "jobFilters",
@@ -18763,9 +18914,12 @@
                             ],
                             "text": "jobFilters(Closure jobFiltersClosure)",
                             "availableSince": "1.29",
+                            "html": "Adds or removes jobs from the view by specifying filters.\n     ",
+                            "firstSentenceCommentText": "Adds or removes jobs from the view by specifying filters.",
                             "contextClass": "javaposse.jobdsl.dsl.views.JobFiltersContext"
                         }
-                    ]
+                    ],
+                    "examples": "listView('example') {\n    jobFilters {\n        regex {\n            matchType(MatchType.EXCLUDE_MATCHED)\n            matchValue(RegexMatchValue.DESCRIPTION)\n            regex('.*project-a.*')\n        }\n        status {\n            matchType(MatchType.INCLUDE_MATCHED)\n            status(Status.FAILED)\n        }\n    }\n}\n"
                 },
                 {
                     "name": "jobs",
@@ -18778,9 +18932,12 @@
                                 }
                             ],
                             "text": "jobs(Closure jobsClosure)",
+                            "html": "Adds jobs to the view.",
+                            "firstSentenceCommentText": "Adds jobs to the view.",
                             "contextClass": "javaposse.jobdsl.dsl.views.JobsContext"
                         }
-                    ]
+                    ],
+                    "examples": "listView('example') {\n    jobs {\n        name('build')\n        name('test')\n        names('compile', 'deploy')\n        regex('project-A-.+')\n    }\n}\n"
                 },
                 {
                     "name": "name",
@@ -18809,9 +18966,12 @@
                                 }
                             ],
                             "text": "recurse(boolean shouldRecurse = true)",
-                            "availableSince": "1.31"
+                            "availableSince": "1.31",
+                            "html": "If set to <TT>true</TT>, jobs from sub-folders will be shown.\n Defaults to <TT>false</TT>.\n     ",
+                            "firstSentenceCommentText": "If set to true, jobs from sub-folders will be shown.\n "
                         }
-                    ]
+                    ],
+                    "examples": "listView('project-A') {\n    recurse()\n}\n"
                 },
                 {
                     "name": "statusFilter",
@@ -18823,9 +18983,12 @@
                                     "type": "javaposse.jobdsl.dsl.views.ListView.StatusFilter"
                                 }
                             ],
-                            "text": "statusFilter(javaposse.jobdsl.dsl.views.ListView.StatusFilter filter)"
+                            "text": "statusFilter(javaposse.jobdsl.dsl.views.ListView.StatusFilter filter)",
+                            "html": "Filter the job list by enabled/disabled status. Valid values are <TT>StatusFilter.ALL</TT> (default),\n <TT>StatusFilter.ENABLED</TT> and <TT>StatusFilter.DISABLED</TT>.",
+                            "firstSentenceCommentText": "Filter the job list by enabled/disabled status. "
                         }
-                    ]
+                    ],
+                    "examples": "listView('project-A') {\n    statusFilter(StatusFilter.ENABLED)\n}\n"
                 }
             ]
         },
@@ -22847,21 +23010,6 @@
                     ]
                 },
                 {
-                    "name": "steps",
-                    "signatures": [
-                        {
-                            "parameters": [
-                                {
-                                    "name": "closure",
-                                    "type": "Closure"
-                                }
-                            ],
-                            "text": "steps(Closure closure)",
-                            "contextClass": "javaposse.jobdsl.dsl.helpers.step.StepContext"
-                        }
-                    ]
-                },
-                {
                     "name": "throttleConcurrentBuilds",
                     "signatures": [
                         {
@@ -24954,7 +25102,9 @@
                             "parameters": [
                                 
                             ],
-                            "text": "status()"
+                            "text": "status()",
+                            "html": "Adds a column showing the status of the last build.",
+                            "firstSentenceCommentText": "Adds a column showing the status of the last build."
                         }
                     ]
                 },
@@ -24965,7 +25115,9 @@
                             "parameters": [
                                 
                             ],
-                            "text": "weather()"
+                            "text": "weather()",
+                            "html": "Adds a weather report showing the aggregated status of recent builds.",
+                            "firstSentenceCommentText": "Adds a weather report showing the aggregated status of recent builds."
                         }
                     ]
                 }
@@ -24984,7 +25136,9 @@
                                     "type": "String"
                                 }
                             ],
-                            "text": "alignment(String alignment)"
+                            "text": "alignment(String alignment)",
+                            "html": "Sets the alignment of the section. Either <TT>'CENTER'</TT>, <TT>'LEFT'</TT> or <TT>'RIGHT'</TT>.",
+                            "firstSentenceCommentText": "Sets the alignment of the section. "
                         }
                     ]
                 },
@@ -24999,6 +25153,8 @@
                                 }
                             ],
                             "text": "columns(Closure columnsClosure)",
+                            "html": "Adds columns to the views. The view will have no columns by default.",
+                            "firstSentenceCommentText": "Adds columns to the views. ",
                             "contextClass": "javaposse.jobdsl.dsl.views.ColumnsContext"
                         }
                     ]
@@ -25015,6 +25171,8 @@
                             ],
                             "text": "jobFilters(Closure jobFiltersClosure)",
                             "availableSince": "1.29",
+                            "html": "Adds or removes jobs from the view by specifying filters.\n     ",
+                            "firstSentenceCommentText": "Adds or removes jobs from the view by specifying filters.",
                             "contextClass": "javaposse.jobdsl.dsl.views.JobFiltersContext"
                         }
                     ]
@@ -25030,6 +25188,8 @@
                                 }
                             ],
                             "text": "jobs(Closure jobsClosure)",
+                            "html": "Adds jobs to the section.",
+                            "firstSentenceCommentText": "Adds jobs to the section.",
                             "contextClass": "javaposse.jobdsl.dsl.views.JobsContext"
                         }
                     ]
@@ -25044,7 +25204,9 @@
                                     "type": "String"
                                 }
                             ],
-                            "text": "name(String name)"
+                            "text": "name(String name)",
+                            "html": "Sets the name of the section.",
+                            "firstSentenceCommentText": "Sets the name of the section."
                         }
                     ]
                 },
@@ -25058,7 +25220,9 @@
                                     "type": "String"
                                 }
                             ],
-                            "text": "width(String width)"
+                            "text": "width(String width)",
+                            "html": "Sets the with of the section. Either <TT>'FULL'</TT>, <TT>'HALF'</TT>, <TT>'THIRD'</TT> or <TT>'TWO_THIRDS'</TT>.",
+                            "firstSentenceCommentText": "Sets the with of the section. "
                         }
                     ]
                 }
@@ -25078,9 +25242,12 @@
                                 }
                             ],
                             "text": "listView(Closure listViewSectionClosure)",
+                            "html": "Adds a list view section.",
+                            "firstSentenceCommentText": "Adds a list view section.",
                             "contextClass": "javaposse.jobdsl.dsl.views.ListViewSectionContext"
                         }
-                    ]
+                    ],
+                    "examples": "sectionedView('example') {\n    sections {\n        listView {\n            name('project-A')\n            width('HALF')\n            alignment('LEFT')\n            jobs {\n                regex('project-A-.*')\n            }\n            columns {\n                status()\n                weather()\n                name()\n                lastSuccess()\n                lastFailure()\n            }\n        }\n    }\n}\n"
                 }
             ]
         },
@@ -25097,9 +25264,12 @@
                                     "type": "Closure"
                                 }
                             ],
-                            "text": "configure(Closure withXmlClosure)"
+                            "text": "configure(Closure withXmlClosure)",
+                            "html": "Allows direct manipulation of the generated XML.\n     ",
+                            "firstSentenceCommentText": "Allows direct manipulation of the generated XML."
                         }
-                    ]
+                    ],
+                    "examples": "sectionedView('example') {\n    configure { view ->\n        view / icon(class: 'org.example.MyViewIcon')\n    }\n}\n"
                 },
                 {
                     "name": "description",
@@ -25107,13 +25277,16 @@
                         {
                             "parameters": [
                                 {
-                                    "name": "descriptionArg",
+                                    "name": "description",
                                     "type": "String"
                                 }
                             ],
-                            "text": "description(String descriptionArg)"
+                            "text": "description(String description)",
+                            "html": "Sets a description for the view.",
+                            "firstSentenceCommentText": "Sets a description for the view."
                         }
-                    ]
+                    ],
+                    "examples": "sectionedView('project-a') {\n    description('View for project A')\n}\n"
                 },
                 {
                     "name": "filterBuildQueue",
@@ -25121,14 +25294,17 @@
                         {
                             "parameters": [
                                 {
-                                    "name": "filterBuildQueueArg",
+                                    "name": "filterBuildQueue",
                                     "type": "boolean",
                                     "defaultValue": "true"
                                 }
                             ],
-                            "text": "filterBuildQueue(boolean filterBuildQueueArg = true)"
+                            "text": "filterBuildQueue(boolean filterBuildQueue = true)",
+                            "html": "If set to <TT>true</TT>. only jobs in this view will be shown in the build queue. Defaults to <TT>false</TT>.",
+                            "firstSentenceCommentText": "If set to true. only jobs in this view will be shown in the build queue. "
                         }
-                    ]
+                    ],
+                    "examples": "sectionedView('example') {\n    filterBuildQueue()\n}\n"
                 },
                 {
                     "name": "filterExecutors",
@@ -25136,14 +25312,17 @@
                         {
                             "parameters": [
                                 {
-                                    "name": "filterExecutorsArg",
+                                    "name": "filterExecutors",
                                     "type": "boolean",
                                     "defaultValue": "true"
                                 }
                             ],
-                            "text": "filterExecutors(boolean filterExecutorsArg = true)"
+                            "text": "filterExecutors(boolean filterExecutors = true)",
+                            "html": "If set to <TT>true</TT>, only those build executors will be shown that could execute the jobs in this view.\n Defaults to <TT>false</TT>.",
+                            "firstSentenceCommentText": "If set to true, only those build executors will be shown that could execute the jobs in this view.\n "
                         }
-                    ]
+                    ],
+                    "examples": "sectionedView('example') {\n    filterExecutors()\n}\n"
                 },
                 {
                     "name": "name",
@@ -25171,9 +25350,12 @@
                                 }
                             ],
                             "text": "sections(Closure sectionsClosure)",
+                            "html": "Creates a section containing a list of jobs.",
+                            "firstSentenceCommentText": "Creates a section containing a list of jobs.",
                             "contextClass": "javaposse.jobdsl.dsl.views.SectionsContext"
                         }
-                    ]
+                    ],
+                    "examples": "sectionedView('example') {\n    sections {\n        listView {\n            name('project-A')\n            width('HALF')\n            alignment('LEFT')\n            jobs {\n                regex('project-A-.*')\n            }\n            columns {\n                status()\n                weather()\n                name()\n                lastSuccess()\n                lastFailure()\n            }\n        }\n    }\n}\n"
                 }
             ]
         },
@@ -25190,7 +25372,9 @@
                                     "type": "Closure"
                                 }
                             ],
-                            "text": "configure(Closure withXmlClosure)"
+                            "text": "configure(Closure withXmlClosure)",
+                            "html": "Allows direct manipulation of the generated XML.\n     ",
+                            "firstSentenceCommentText": "Allows direct manipulation of the generated XML."
                         }
                     ]
                 },
@@ -25200,11 +25384,13 @@
                         {
                             "parameters": [
                                 {
-                                    "name": "descriptionArg",
+                                    "name": "description",
                                     "type": "String"
                                 }
                             ],
-                            "text": "description(String descriptionArg)"
+                            "text": "description(String description)",
+                            "html": "Sets a description for the view.",
+                            "firstSentenceCommentText": "Sets a description for the view."
                         }
                     ]
                 },
@@ -25214,12 +25400,14 @@
                         {
                             "parameters": [
                                 {
-                                    "name": "filterBuildQueueArg",
+                                    "name": "filterBuildQueue",
                                     "type": "boolean",
                                     "defaultValue": "true"
                                 }
                             ],
-                            "text": "filterBuildQueue(boolean filterBuildQueueArg = true)"
+                            "text": "filterBuildQueue(boolean filterBuildQueue = true)",
+                            "html": "If set to <TT>true</TT>. only jobs in this view will be shown in the build queue. Defaults to <TT>false</TT>.",
+                            "firstSentenceCommentText": "If set to true. only jobs in this view will be shown in the build queue. "
                         }
                     ]
                 },
@@ -25229,12 +25417,14 @@
                         {
                             "parameters": [
                                 {
-                                    "name": "filterExecutorsArg",
+                                    "name": "filterExecutors",
                                     "type": "boolean",
                                     "defaultValue": "true"
                                 }
                             ],
-                            "text": "filterExecutors(boolean filterExecutorsArg = true)"
+                            "text": "filterExecutors(boolean filterExecutors = true)",
+                            "html": "If set to <TT>true</TT>, only those build executors will be shown that could execute the jobs in this view.\n Defaults to <TT>false</TT>.",
+                            "firstSentenceCommentText": "If set to true, only those build executors will be shown that could execute the jobs in this view.\n "
                         }
                     ]
                 },
@@ -25467,9 +25657,12 @@
                                 }
                             ],
                             "text": "columns(Closure columnsClosure)",
+                            "html": "Adds columns to the views. The view will have no columns by default.",
+                            "firstSentenceCommentText": "Adds columns to the views. ",
                             "contextClass": "javaposse.jobdsl.dsl.views.NestedViewColumnsContext"
                         }
-                    ]
+                    ],
+                    "examples": "nestedView('project-A') {\n    columns {\n        status()\n        weather()\n    }\n}\n"
                 },
                 {
                     "name": "configure",
@@ -25481,9 +25674,12 @@
                                     "type": "Closure"
                                 }
                             ],
-                            "text": "configure(Closure withXmlClosure)"
+                            "text": "configure(Closure withXmlClosure)",
+                            "html": "Allows direct manipulation of the generated XML.\n     ",
+                            "firstSentenceCommentText": "Allows direct manipulation of the generated XML."
                         }
-                    ]
+                    ],
+                    "examples": "nestedView('example') {\n    configure { view ->\n        view / icon(class: 'org.example.MyViewIcon')\n    }\n}\n"
                 },
                 {
                     "name": "description",
@@ -25491,13 +25687,16 @@
                         {
                             "parameters": [
                                 {
-                                    "name": "descriptionArg",
+                                    "name": "description",
                                     "type": "String"
                                 }
                             ],
-                            "text": "description(String descriptionArg)"
+                            "text": "description(String description)",
+                            "html": "Sets a description for the view.",
+                            "firstSentenceCommentText": "Sets a description for the view."
                         }
-                    ]
+                    ],
+                    "examples": "nestedView('project-a') {\n    description('View for project A')\n}\n"
                 },
                 {
                     "name": "filterBuildQueue",
@@ -25505,14 +25704,17 @@
                         {
                             "parameters": [
                                 {
-                                    "name": "filterBuildQueueArg",
+                                    "name": "filterBuildQueue",
                                     "type": "boolean",
                                     "defaultValue": "true"
                                 }
                             ],
-                            "text": "filterBuildQueue(boolean filterBuildQueueArg = true)"
+                            "text": "filterBuildQueue(boolean filterBuildQueue = true)",
+                            "html": "If set to <TT>true</TT>. only jobs in this view will be shown in the build queue. Defaults to <TT>false</TT>.",
+                            "firstSentenceCommentText": "If set to true. only jobs in this view will be shown in the build queue. "
                         }
-                    ]
+                    ],
+                    "examples": "nestedView('example') {\n    filterBuildQueue()\n}\n"
                 },
                 {
                     "name": "filterExecutors",
@@ -25520,14 +25722,17 @@
                         {
                             "parameters": [
                                 {
-                                    "name": "filterExecutorsArg",
+                                    "name": "filterExecutors",
                                     "type": "boolean",
                                     "defaultValue": "true"
                                 }
                             ],
-                            "text": "filterExecutors(boolean filterExecutorsArg = true)"
+                            "text": "filterExecutors(boolean filterExecutors = true)",
+                            "html": "If set to <TT>true</TT>, only those build executors will be shown that could execute the jobs in this view.\n Defaults to <TT>false</TT>.",
+                            "firstSentenceCommentText": "If set to true, only those build executors will be shown that could execute the jobs in this view.\n "
                         }
-                    ]
+                    ],
+                    "examples": "nestedView('example') {\n    filterExecutors()\n}\n"
                 },
                 {
                     "name": "name",
@@ -25555,9 +25760,12 @@
                                 }
                             ],
                             "text": "views(Closure viewsClosure)",
+                            "html": "Adds nested views.",
+                            "firstSentenceCommentText": "Adds nested views.",
                             "contextClass": "javaposse.jobdsl.dsl.views.NestedViewsContext"
                         }
-                    ]
+                    ],
+                    "examples": "nestedView('project-a') {\n    views {\n        listView('overview') {\n            jobs {\n                regex(/project-A-.*/)\n            }\n            columns {\n                status()\n                weather()\n                name()\n                lastSuccess()\n                lastFailure()\n            }\n        }\n        buildPipelineView('pipeline') {\n            selectedJob('project-a-compile')\n        }\n    }\n}\n"
                 }
             ]
         },
@@ -26352,9 +26560,12 @@
                                 }
                             ],
                             "text": "buildMonitorView(String name, Closure closure)",
+                            "html": "Creates or updates a view that provides a highly visible view of the status of selected Jenkins jobs.",
+                            "firstSentenceCommentText": "Creates or updates a view that provides a highly visible view of the status of selected Jenkins jobs.",
                             "contextClass": "javaposse.jobdsl.dsl.views.BuildMonitorView"
                         }
-                    ]
+                    ],
+                    "examples": "buildMonitorView('project-A') {\n    description('All jobs for project A')\n    jobs {\n        name('release-projectA')\n        regex(/project-A-.+/)\n    }\n}\n"
                 },
                 {
                     "name": "buildPipelineView",
@@ -26380,9 +26591,12 @@
                                 }
                             ],
                             "text": "buildPipelineView(String name, Closure closure)",
+                            "html": "Create or updates a view of upstream and downstream connected jobs.",
+                            "firstSentenceCommentText": "Create or updates a view of upstream and downstream connected jobs.",
                             "contextClass": "javaposse.jobdsl.dsl.views.BuildPipelineView"
                         }
-                    ]
+                    ],
+                    "examples": "buildPipelineView('project-A') {\n    filterBuildQueue()\n    filterExecutors()\n    title('Project A CI Pipeline')\n    displayedBuilds(5)\n    selectedJob('project-A-compile')\n    alwaysAllowManualTrigger()\n    showPipelineParameters()\n    refreshFrequency(60)\n}\n"
                 },
                 {
                     "name": "categorizedJobsView",
@@ -26408,9 +26622,12 @@
                                 }
                             ],
                             "text": "categorizedJobsView(String name, Closure closure)",
+                            "html": "Creates or updates a new view that is very similar to the standard Jenkins List Views, but where you can group\n jobs and categorize them according to regular expressions.",
+                            "firstSentenceCommentText": "Creates or updates a new view that is very similar to the standard Jenkins List Views, but where you can group\n jobs and categorize them according to regular expressions.",
                             "contextClass": "javaposse.jobdsl.dsl.views.CategorizedJobsView"
                         }
-                    ]
+                    ],
+                    "examples": "categorizedJobsView('example') {\n    jobs {\n        regex(/configuration_.*/)\n    }\n    categorizationCriteria {\n        regexGroupingRule(/^configuration_([^_]+).*$/)\n    }\n    columns {\n        status()\n        categorizedJob()\n        buildButton()\n    }\n}\n"
                 },
                 {
                     "name": "configFile",
@@ -26500,9 +26717,12 @@
                                 }
                             ],
                             "text": "deliveryPipelineView(String name, Closure closure)",
+                            "html": "Creates or updates a view that renders pipelines based on upstream/downstream jobs.",
+                            "firstSentenceCommentText": "Creates or updates a view that renders pipelines based on upstream/downstream jobs.",
                             "contextClass": "javaposse.jobdsl.dsl.views.DeliveryPipelineView"
                         }
-                    ]
+                    ],
+                    "examples": "deliveryPipelineView('project-a') {\n    pipelineInstances(5)\n    showAggregatedPipeline()\n    columns(2)\n    sorting(Sorting.TITLE)\n    updateInterval(60)\n    enableManualTriggers()\n    showAvatars()\n    showChangeLog()\n    pipelines {\n        component('Sub System A', 'compile-a')\n        component('Sub System B', 'compile-b')\n        regex(/compile-subsystem-(.*)/)\n    }\n}\n"
                 },
                 {
                     "name": "folder",
@@ -26658,9 +26878,12 @@
                                 }
                             ],
                             "text": "listView(String name, Closure closure)",
+                            "html": "Creates or updates a view that shows items in a simple list format.",
+                            "firstSentenceCommentText": "Creates or updates a view that shows items in a simple list format.",
                             "contextClass": "javaposse.jobdsl.dsl.views.ListView"
                         }
-                    ]
+                    ],
+                    "examples": "listView('project-A') {\n    description('All unstable jobs for project A')\n    filterBuildQueue()\n    filterExecutors()\n    jobs {\n        name('release-projectA')\n        regex(/project-A-.+/)\n    }\n    jobFilters {\n        status {\n            status(Status.UNSTABLE)\n        }\n    }\n    columns {\n        status()\n        weather()\n        name()\n        lastSuccess()\n        lastFailure()\n        lastDuration()\n        buildButton()\n    }\n}\n"
                 },
                 {
                     "name": "matrixJob",
@@ -26809,9 +27032,12 @@
                                 }
                             ],
                             "text": "nestedView(String name, Closure closure)",
+                            "html": "Creates or updates a view that allows grouping views into multiple levels.",
+                            "firstSentenceCommentText": "Creates or updates a view that allows grouping views into multiple levels.",
                             "contextClass": "javaposse.jobdsl.dsl.views.NestedView"
                         }
-                    ]
+                    ],
+                    "examples": "nestedView('project-a') {\n    views {\n        listView('overview') {\n            jobs {\n                regex(/project-A-.*/)\n            }\n            columns {\n                status()\n                weather()\n                name()\n                lastSuccess()\n                lastFailure()\n            }\n        }\n        buildPipelineView('pipeline') {\n            selectedJob('project-a-compile')\n        }\n    }\n}\n"
                 },
                 {
                     "name": "queue",
@@ -26897,9 +27123,12 @@
                                 }
                             ],
                             "text": "sectionedView(String name, Closure closure)",
+                            "html": "Creates or updates a view that can be divided into sections.",
+                            "firstSentenceCommentText": "Creates or updates a view that can be divided into sections.",
                             "contextClass": "javaposse.jobdsl.dsl.views.SectionedView"
                         }
-                    ]
+                    ],
+                    "examples": "sectionedView('project-summary') {\n    filterBuildQueue()\n    filterExecutors()\n    sections {\n        listView {\n            name('Project A')\n            jobs {\n                regex(/project-A-.*/)\n            }\n            columns {\n                status()\n                weather()\n                name()\n                lastSuccess()\n                lastFailure()\n            }\n        }\n        listView {\n            name('Project B')\n            jobs {\n                regex(/project-B-.*/)\n            }\n            jobFilters {\n                regex {\n                    matchValue(RegexMatchValue.DESCRIPTION)\n                    regex(/.*-project-B-.*/)\n                }\n            }\n            columns {\n                status()\n                weather()\n                name()\n                lastSuccess()\n                lastFailure()\n            }\n        }\n    }\n}\n"
                 },
                 {
                     "name": "streamFileFromWorkspace",
