@@ -18462,7 +18462,8 @@
                             "html": "Allows direct manipulation of the generated XML.\n     ",
                             "firstSentenceCommentText": "Allows direct manipulation of the generated XML."
                         }
-                    ]
+                    ],
+                    "examples": "job('example-1') {\n    configure { project ->\n        project / 'properties' / 'com.example.Test' {\n            'switch'('on')\n        }\n    }\n}\n"
                 },
                 {
                     "name": "customWorkspace",
@@ -20392,6 +20393,8 @@
                             ],
                             "text": "authorization(Closure closure)",
                             "availableSince": "1.31",
+                            "html": "Creates permission records.\n     ",
+                            "firstSentenceCommentText": "Creates permission records.",
                             "contextClass": "javaposse.jobdsl.dsl.helpers.AuthorizationContext"
                         }
                     ],
@@ -20475,8 +20478,8 @@
                             ],
                             "text": "primaryView(String primaryViewArg)",
                             "availableSince": "1.36",
-                            "html": "Creates permission records.\n     ",
-                            "firstSentenceCommentText": "Creates permission records."
+                            "html": "Changes the initial view to show when the folder contains multiple views. Defaults to the <TT>'All'</TT> view.\n     ",
+                            "firstSentenceCommentText": "Changes the initial view to show when the folder contains multiple views. "
                         }
                     ]
                 }
@@ -20674,7 +20677,8 @@
                             "html": "Allows direct manipulation of the generated XML.\n     ",
                             "firstSentenceCommentText": "Allows direct manipulation of the generated XML."
                         }
-                    ]
+                    ],
+                    "examples": "job('example-1') {\n    configure { project ->\n        project / 'properties' / 'com.example.Test' {\n            'switch'('on')\n        }\n    }\n}\n"
                 },
                 {
                     "name": "customWorkspace",
@@ -21400,7 +21404,8 @@
                             "html": "Allows direct manipulation of the generated XML.\n     ",
                             "firstSentenceCommentText": "Allows direct manipulation of the generated XML."
                         }
-                    ]
+                    ],
+                    "examples": "job('example-1') {\n    configure { project ->\n        project / 'properties' / 'com.example.Test' {\n            'switch'('on')\n        }\n    }\n}\n"
                 },
                 {
                     "name": "customWorkspace",
@@ -23298,7 +23303,8 @@
                             "html": "Allows direct manipulation of the generated XML.\n     ",
                             "firstSentenceCommentText": "Allows direct manipulation of the generated XML."
                         }
-                    ]
+                    ],
+                    "examples": "job('example-1') {\n    configure { project ->\n        project / 'properties' / 'com.example.Test' {\n            'switch'('on')\n        }\n    }\n}\n"
                 },
                 {
                     "name": "customWorkspace",
@@ -26499,7 +26505,8 @@
                             "html": "Allows direct manipulation of the generated XML.\n     ",
                             "firstSentenceCommentText": "Allows direct manipulation of the generated XML."
                         }
-                    ]
+                    ],
+                    "examples": "job('example-1') {\n    configure { project ->\n        project / 'properties' / 'com.example.Test' {\n            'switch'('on')\n        }\n    }\n}\n"
                 },
                 {
                     "name": "customWorkspace",
@@ -28781,7 +28788,8 @@
                             "html": "Allows direct manipulation of the generated XML.\n     ",
                             "firstSentenceCommentText": "Allows direct manipulation of the generated XML."
                         }
-                    ]
+                    ],
+                    "examples": "job('example-1') {\n    configure { project ->\n        project / 'properties' / 'com.example.Test' {\n            'switch'('on')\n        }\n    }\n}\n"
                 },
                 {
                     "name": "customWorkspace",
@@ -30198,7 +30206,8 @@
                             "html": "Allows direct manipulation of the generated XML.\n     ",
                             "firstSentenceCommentText": "Allows direct manipulation of the generated XML."
                         }
-                    ]
+                    ],
+                    "examples": "job('example-1') {\n    configure { project ->\n        project / 'properties' / 'com.example.Test' {\n            'switch'('on')\n        }\n    }\n}\n"
                 },
                 {
                     "name": "customWorkspace",
@@ -30750,7 +30759,9 @@
                                     "type": "String"
                                 }
                             ],
-                            "text": "buildMonitorView(String name)"
+                            "text": "buildMonitorView(String name)",
+                            "html": "Creates or updates a view that provides a highly visible view of the status of selected Jenkins jobs.\n     ",
+                            "firstSentenceCommentText": "Creates or updates a view that provides a highly visible view of the status of selected Jenkins jobs."
                         },
                         {
                             "parameters": [
@@ -30781,7 +30792,9 @@
                                     "type": "String"
                                 }
                             ],
-                            "text": "buildPipelineView(String name)"
+                            "text": "buildPipelineView(String name)",
+                            "html": "Create or updates a view of upstream and downstream connected jobs.\n     ",
+                            "firstSentenceCommentText": "Create or updates a view of upstream and downstream connected jobs."
                         },
                         {
                             "parameters": [
@@ -30812,7 +30825,9 @@
                                     "type": "String"
                                 }
                             ],
-                            "text": "categorizedJobsView(String name)"
+                            "text": "categorizedJobsView(String name)",
+                            "html": "Creates or updates a new view that is very similar to the standard Jenkins List Views, but where you can group\n jobs and categorize them according to regular expressions.\n     ",
+                            "firstSentenceCommentText": "Creates or updates a new view that is very similar to the standard Jenkins List Views, but where you can group\n jobs and categorize them according to regular expressions."
                         },
                         {
                             "parameters": [
@@ -30875,7 +30890,9 @@
                                 }
                             ],
                             "text": "customConfigFile(String name)",
-                            "availableSince": "1.30\n"
+                            "availableSince": "1.30\n",
+                            "html": "Creates a managed custom file.\n     ",
+                            "firstSentenceCommentText": "Creates a managed custom file."
                         },
                         {
                             "parameters": [
@@ -30907,7 +30924,9 @@
                                     "type": "String"
                                 }
                             ],
-                            "text": "deliveryPipelineView(String name)"
+                            "text": "deliveryPipelineView(String name)",
+                            "html": "Creates or updates a view that renders pipelines based on upstream/downstream jobs.\n     ",
+                            "firstSentenceCommentText": "Creates or updates a view that renders pipelines based on upstream/downstream jobs."
                         },
                         {
                             "parameters": [
@@ -30950,7 +30969,9 @@
                                 }
                             ],
                             "text": "folder(String name)",
-                            "availableSince": "1.30\n"
+                            "availableSince": "1.30\n",
+                            "html": "Creates or updates a folder.\n     ",
+                            "firstSentenceCommentText": "Creates or updates a folder."
                         },
                         {
                             "parameters": [
@@ -31098,7 +31119,9 @@
                                     "type": "String"
                                 }
                             ],
-                            "text": "listView(String name)"
+                            "text": "listView(String name)",
+                            "html": "Creates or updates a view that shows items in a simple list format.\n     ",
+                            "firstSentenceCommentText": "Creates or updates a view that shows items in a simple list format."
                         },
                         {
                             "parameters": [
@@ -31190,7 +31213,9 @@
                                 }
                             ],
                             "text": "mavenSettingsConfigFile(String name)",
-                            "availableSince": "1.30\n"
+                            "availableSince": "1.30\n",
+                            "html": "Creates a managed Maven settings file.\n     ",
+                            "firstSentenceCommentText": "Creates a managed Maven settings file."
                         },
                         {
                             "parameters": [
@@ -31252,7 +31277,9 @@
                                     "type": "String"
                                 }
                             ],
-                            "text": "nestedView(String name)"
+                            "text": "nestedView(String name)",
+                            "html": "Creates or updates a view that allows grouping views into multiple levels.\n     ",
+                            "firstSentenceCommentText": "Creates or updates a view that allows grouping views into multiple levels."
                         },
                         {
                             "parameters": [
@@ -31343,7 +31370,9 @@
                                     "type": "String"
                                 }
                             ],
-                            "text": "sectionedView(String name)"
+                            "text": "sectionedView(String name)",
+                            "html": "Creates or updates a view that can be divided into sections.\n     ",
+                            "firstSentenceCommentText": "Creates or updates a view that can be divided into sections."
                         },
                         {
                             "parameters": [
