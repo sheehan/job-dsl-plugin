@@ -1,6 +1,10 @@
 .text-ellipsis{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .search-section{padding:10px;border-bottom:1px solid #aaa}
 .search-section .form-group{position:relative;margin-bottom:0}
+.search-section .form-group .search-input{padding-left:29px;padding-right:29px}
+.search-section .form-group .glyphicon-search{left:0;color:#555}
+.search-section .form-group .glyphicon-remove-sign{position:absolute;right:0;top:0;bottom:0;height:14px;margin:auto;font-size:14px;cursor:pointer;color:#bbb;width:32px;text-align:center}
+.search-section .form-group .glyphicon-remove-sign:hover{color:#555}
 .tree-body i.jstree-icon{color:#666}
 .tree-body.jstree-proton .jstree-wholerow{height:30px}
 .tree-body.jstree-proton .jstree-node{min-height:30px;line-height:30px;margin-left:31px;min-width:43px;border-left:1px solid #ddd}
@@ -8,10 +12,11 @@
 .tree-body.jstree-proton .jstree-anchor{line-height:30px;height:30px;margin:0}
 .layout-container,body{height:100%}
 .tree-body.jstree-proton>.jstree-no-dots .jstree-closed>.jstree-ocl,.tree-body.jstree-proton>.jstree-no-dots .jstree-open>.jstree-ocl{background:0 0}
+.title,.tree-body .jstree-wholerow-clicked{background-color:#13262f}
 .tree-body.jstree-proton>.jstree-container-ul>.jstree-node{margin-left:3px;border-left:none}
+.tree-body .jstree-wholerow-clicked~.jstree-anchor{color:#fff}
 .detail-wrapper{overflow:auto}
 .firstSentenceCommentText,ul.context-methods .method-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.title{background-color:#13262f}
 .title .navbar{border:none}
 .title .navbar-header .navbar-brand{color:#ddd;font-size:17px;padding:15px 10px}
 .title .navbar-brand,.title .navbar-nav>li>a{text-shadow:none}

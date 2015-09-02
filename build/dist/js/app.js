@@ -39,13 +39,18 @@
                     method.deprecated = true;
                 }
 
-                var signatureWithContext = _.find(method.signatures, function(signature) { return signature.contextClass; });
+                var signatureWithContext = _.find(method.signatures, function(signature) { return signature.contextClass && !signature.deprecated; });
+                if (!signatureWithContext) {
+                    signatureWithContext = _.find(method.signatures, function(signature) { return signature.contextClass; });
+                }
+
                 if (signatureWithContext) {
                     method.contextClass = signatureWithContext.contextClass;
                 }
 
-                if (method.plugin) {
-                    method.plugin = window.updateCenter.data.plugins[method.plugin];
+                var signatureWithPlugin = _.find(method.signatures, function(signature) { return signature.plugin; });
+                if (signatureWithPlugin) {
+                    method.plugin = window.updateCenter.data.plugins[signatureWithPlugin.plugin.id];
                 }
             });
         },
@@ -103,12 +108,29 @@
 
         findMethodNode: function(contextClass, tokens) {
             var methodNode = null;
-            var node = this.data.contexts[contextClass];
+            var contextNode = this.data.contexts[contextClass];
 
-            tokens.forEach(function(token) {
-                methodNode = _.find(node.methods, function(method) { return method.name === token; });
-                node = this.data.contexts[methodNode.contextClass];
-            }, this);
+            for (var i = 0; i < tokens.length; i++) {
+                var token = tokens[i];
+                methodNode = _.findWhere(contextNode.methods, {name: token});
+
+                if (i < tokens.length - 1) {
+                    contextNode = this.getContext(methodNode.contextClass);
+                    // TODO this is a hack to make sure we get the right context (for copyArtifacts). it only checks one level though.
+                    // should be a depth-first search or something
+                    var nextToken = tokens[i + 1];
+                    var matchingSig = _.find(methodNode.signatures, function(signature) {
+                        var match = false;
+                        var sigContextClass = signature.contextClass;
+                        if (sigContextClass) {
+                            var sigContext = this.getContext(sigContextClass);
+                            match = !!_.findWhere(sigContext.methods, {name: nextToken});
+                        }
+                        return match;
+                    }, this);
+                    contextNode = this.getContext(matchingSig.contextClass);
+                }
+            }
 
             return methodNode;
         },
@@ -142,11 +164,11 @@
 
         getSignatures: function(method, path) {
             var href = '#path/' + (path ? path + '-' : '') + method.name;
-            return method.signatures.map(function(signature) {
+            return method.signatures.map(function(signature, index) {
 
                 if (signature.contextClass) {
                     signature.context = this.data.contexts[signature.contextClass];
-                } // TODO
+                }
 
                 var params = signature.parameters;
                 if (signature.context) {
@@ -168,6 +190,7 @@
                     name: method.name,
                     href: href,
                     path: path,
+                    index: index,
                     availableSince: signature.availableSince,
                     deprecated: signature.deprecated,
                     text: text,
@@ -202,7 +225,7 @@
                 methodNode = this.findMethodNode(contextClass, pathTokens);
                 ancestors = this.findAncestors(contextClass, pathTokens);
 
-                if (ancestors.length) {
+                if (ancestors.length && methodIndex !== -1) {
                     ancestors[0].id = contextClass + '.' + ancestors[0].id;
                 }
             } else {
@@ -230,6 +253,13 @@
         $('.version-select').change(this.loadSelectedDsl.bind(this));
 
         window.addEventListener('hashchange', this.onHashChange.bind(this), false);
+
+        $('.search-input').keyup(this.onSearch.bind(this));
+        $('.clear-search').click(function(event) {
+            event.preventDefault();
+            $('.search-input').val('');
+            this.onSearch();
+        }.bind(this));
     };
 
     _.extend(App.prototype, {
@@ -294,13 +324,12 @@
             allItems = _.sortBy(allItems, function(item) { return item.name.toLowerCase(); });
             this.allItems = allItems;
 
-            $('.search-input').keyup(this.onSearch.bind(this));
-
             this.updateDetailFromHash();
         },
 
         onSearch: function() {
             var val = $('.search-input').val();
+            $('.clear-search').toggleClass('hide', !val);
             var $treeBody = $('.tree-body');
             var $searchResults = $('.search-results');
             if (val) {
@@ -349,11 +378,13 @@
                     .removeClass('glyphicon-triangle-bottom').addClass('glyphicon glyphicon-triangle-right');
             };
             $treeBody.on('open_node.jstree', function(e, data){
-                updateNodes($('#'+data.node.id));
+                var el = document.getElementById(data.node.id);
+                updateNodes($(el));
             });
 
             $treeBody.on('close_node.jstree', function(e, data){
-                updateNodes($('#'+data.node.id));
+                var el = document.getElementById(data.node.id);
+                updateNodes($(el));
             });
 
             $treeBody
@@ -361,15 +392,12 @@
                 .on('changed.jstree', this.onTreeChanged.bind(this))
                 .on('ready.jstree', function() {
                     this.updateTreeFromHash();
-                    var selectedNodes = this.jstree.get_selected(true);
-                    if (selectedNodes.length) {
-                        $('#' + selectedNodes[0].id)[0].scrollIntoView();
-                    }
                     updateNodes($('.tree-body'));
                 }.bind(this))
                 .jstree({
                     'plugins': ['wholerow'],
                     'core': {
+                        'animation': false,
                         'data': function(node, cb) {
                             var contextClass = node.id === '#' ? this.dsl.getRootContextClass() : node.original.methodNode.contextClass;
                             var methods = this.dsl.getContext(contextClass).methods;
@@ -392,7 +420,12 @@
 
         onTreeChanged: function(e, data) {
             e.preventDefault();
-            window.location.hash = 'path/' + data.node.id;
+            var path = data.node.id;
+            if (path.match('\\)$')) {
+                var lastSignatureIndex = path.lastIndexOf('(');
+                path = path.substring(0, lastSignatureIndex);
+            }
+            window.location.hash = 'path/' + path;
         },
 
         updateTreeFromHash: function() {
@@ -412,6 +445,14 @@
                         this.jstree.open_node(node);
                     } else {
                         this.jstree.select_node(node.id);
+                        var $el = $('#' + node.id);
+                        if ($el.length) {
+                            var $wrapper = $('.tree-wrapper');
+                            if ($el.offset().top < $wrapper.offset().top ||
+                                $el.offset().top + $el.height() > $wrapper.offset().top + $wrapper.height()) {
+                                $el[0].scrollIntoView();
+                            }
+                        }
                     }
                 }, this);
             }
@@ -467,12 +508,13 @@
             e.preventDefault();
             var $el = $(e.currentTarget);
             var path = $el.data('path');
+            var index = $el.data('index');
 
             $el.hide();
 
             var pathInfo = this.dsl.getPathInfo(path);
-            var signatures = this.dsl.getContextSignatures(pathInfo.methodNode.contextClass, path);
-
+            var parentSignature = pathInfo.methodNode.signatures[index];
+            var signatures = this.dsl.getContextSignatures(parentSignature.contextClass, path);
             var contextHtml = Handlebars.templates['context']({
                 signatures: signatures
             });
@@ -524,19 +566,25 @@ this["Handlebars"]["templates"]["context"] = Handlebars.template({"1":function(d
     + escapeExpression(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"name","hash":{},"data":data}) : helper)))
     + "</a><span class=\"highlight groovy inline\">"
     + escapeExpression(((helper = (helper = helpers.text || (depth0 != null ? depth0.text : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"text","hash":{},"data":data}) : helper)))
-    + "</span>";
-  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.context : depth0), {"name":"if","hash":{},"fn":this.program(4, data),"inverse":this.noop,"data":data});
+    + "</span>\n            ";
+  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.context : depth0), {"name":"if","hash":{},"fn":this.program(5, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
   return buffer + "\n        </li>\n";
 },"2":function(depth0,helpers,partials,data) {
-  var helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
-  return "                <div class=\"firstSentenceCommentText\">\n                    // "
+  var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, buffer = "                <div class=\"firstSentenceCommentText\">\n                    // "
     + escapeExpression(((helper = (helper = helpers.comment || (depth0 != null ? depth0.comment : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"comment","hash":{},"data":data}) : helper)))
-    + "\n                </div>\n";
-},"4":function(depth0,helpers,partials,data) {
+    + " ";
+  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.deprecated : depth0), {"name":"if","hash":{},"fn":this.program(3, data),"inverse":this.noop,"data":data});
+  if (stack1 != null) { buffer += stack1; }
+  return buffer + "\n                </div>\n";
+},"3":function(depth0,helpers,partials,data) {
+  return "Deprecated.";
+  },"5":function(depth0,helpers,partials,data) {
   var helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
-  return " {<span class=\"expand-closure glyphicon glyphicon-option-horizontal\" data-path=\""
+  return "{<span class=\"expand-closure glyphicon glyphicon-option-horizontal\" data-path=\""
     + escapeExpression(((helper = (helper = helpers.path || (depth0 != null ? depth0.path : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"path","hash":{},"data":data}) : helper)))
+    + "\" data-index=\""
+    + escapeExpression(((helper = (helper = helpers.index || (depth0 != null ? depth0.index : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"index","hash":{},"data":data}) : helper)))
     + "\"></span>}";
 },"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
   var stack1, buffer = "<ul class=\"inline-context-methods\">\n";
@@ -577,7 +625,7 @@ this["Handlebars"]["templates"]["detail"] = Handlebars.template({"1":function(de
     + escapeExpression(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"name","hash":{},"data":data}) : helper)))
     + "<span class=\"highlight groovy inline\">"
     + escapeExpression(((helper = (helper = helpers.text || (depth0 != null ? depth0.text : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"text","hash":{},"data":data}) : helper)))
-    + "</span>";
+    + "</span>\n                    ";
   stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.context : depth0), {"name":"if","hash":{},"fn":this.program(11, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
   buffer += "\n                </div>\n";
@@ -593,8 +641,10 @@ this["Handlebars"]["templates"]["detail"] = Handlebars.template({"1":function(de
   return "                    <span class=\"label label-warning\">Deprecated</span>\n";
   },"11":function(depth0,helpers,partials,data) {
   var helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
-  return " {<span class=\"expand-closure glyphicon glyphicon-option-horizontal\" data-path=\""
+  return "{<span class=\"expand-closure glyphicon glyphicon-option-horizontal\" data-path=\""
     + escapeExpression(((helper = (helper = helpers.path || (depth0 != null ? depth0.path : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"path","hash":{},"data":data}) : helper)))
+    + "\" data-index=\""
+    + escapeExpression(((helper = (helper = helpers.index || (depth0 != null ? depth0.index : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"index","hash":{},"data":data}) : helper)))
     + "\"></span>}";
 },"13":function(depth0,helpers,partials,data) {
   var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, buffer = "                    <div class=\"method-doc\">";
