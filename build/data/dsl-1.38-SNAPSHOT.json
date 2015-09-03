@@ -1373,8 +1373,8 @@
                                     ]
                                 }
                             ],
-                            "html": "Specifies the depth for sparse checkouts.\n\n Valid values are <TT>SvnDepth.INFINITY</TT> (default), <TT>SvnDepth.EMPTY</TT>, <TT>SvnDepth.IMMEDIATES</TT>,\n <TT>SvnDepth.FILES</TT> and <TT>SvnDepth.AS_IT_IS</TT>.",
-                            "firstSentenceCommentText": "Specifies the depth for sparse checkouts."
+                            "html": "Specifies the depth for sparse checkouts. Defaults to <TT>SvnDepth.INFINITY</TT>.",
+                            "firstSentenceCommentText": "Specifies the depth for sparse checkouts. "
                         }
                     ]
                 },
@@ -1414,7 +1414,7 @@
                                     ]
                                 }
                             ],
-                            "html": "The checkout strategy that should be used.  This is a global setting for all locations.\n\n Valid values are <TT>SvnCheckoutStrategy.UPDATE</TT> (default), <TT>SvnCheckoutStrategy.CHECKOUT</TT>,\n <TT>SvnCheckoutStrategy.UPDATE_WITH_CLEAN</TT> and <TT>SvnCheckoutStrategy.UPDATE_WITH_REVERT</TT>.\n     ",
+                            "html": "The checkout strategy that should be used.  This is a global setting for all locations. Defaults to\n <TT>SvnCheckoutStrategy.UPDATE</TT>.\n     ",
                             "firstSentenceCommentText": "The checkout strategy that should be used.  "
                         }
                     ]
@@ -4378,7 +4378,7 @@
                                     ]
                                 }
                             ],
-                            "html": "Specifies whether thresholds are given as total number or percentages. Must be either\n <TT>ThresholdMode.NUMBER</TT> (default) or <TT>ThresholdMode.PERCENT</TT>.",
+                            "html": "Specifies whether thresholds are given as total number or percentages. Defaults to\n <TT>ThresholdMode.NUMBER</TT>.",
                             "firstSentenceCommentText": "Specifies whether thresholds are given as total number or percentages. "
                         }
                     ]
@@ -5750,7 +5750,7 @@
                                 }
                             ],
                             "availableSince": "1.23",
-                            "html": "Runs the build steps if the file exists.\n\n The <TT>baseDir</TT> must be one of <TT>BaseDir.JENKINS_HOME</TT>, <TT>BaseDir.ARTIFACTS_DIR</TT> or\n <TT>BaseDir.WORKSPACE</TT>.\n     ",
+                            "html": "Runs the build steps if the file exists.\n     ",
                             "firstSentenceCommentText": "Runs the build steps if the file exists."
                         }
                     ]
@@ -5781,7 +5781,7 @@
                                 }
                             ],
                             "availableSince": "1.36",
-                            "html": "Runs the build steps if one or more files match the selectors.\n\n The <TT>baseDir</TT> must be one of <TT>BaseDir.JENKINS_HOME</TT>, <TT>BaseDir.ARTIFACTS_DIR</TT> or\n <TT>BaseDir.WORKSPACE</TT>.\n     ",
+                            "html": "Runs the build steps if one or more files match the selectors.\n     ",
                             "firstSentenceCommentText": "Runs the build steps if one or more files match the selectors."
                         }
                     ]
@@ -6242,8 +6242,8 @@
                                     ]
                                 }
                             ],
-                            "html": "Specifies the behavior when the script fails.\n\n Must be one of <TT>Behaviour.DoNothing</TT> (default), <TT>Behavior.MarkUnstable</TT> or\n <TT>Behavior.MarkFailed</TT>.",
-                            "firstSentenceCommentText": "Specifies the behavior when the script fails."
+                            "html": "Specifies the behavior when the script fails. Defaults to <TT>Behavior.DoNothing</TT>.",
+                            "firstSentenceCommentText": "Specifies the behavior when the script fails. "
                         }
                     ]
                 },
@@ -9228,8 +9228,8 @@
                                 }
                             ],
                             "deprecated": true,
-                            "html": "Set to use isolated local Maven repositories.\n\n Possible values are <TT>LocalToWorkspace</TT> and <TT>LocalToExecutor</TT>.\n     ",
-                            "firstSentenceCommentText": "Set to use isolated local Maven repositories."
+                            "html": "Set to use isolated local Maven repositories. Defaults to <TT>LocalRepositoryLocation.LocalToExecutor</TT>.\n     ",
+                            "firstSentenceCommentText": "Set to use isolated local Maven repositories. "
                         },
                         {
                             "parameters": [
@@ -9243,8 +9243,8 @@
                                 }
                             ],
                             "availableSince": "1.31",
-                            "html": "Set to use isolated local Maven repositories.\n\n Possible values for are <TT>LocalRepositoryLocation.LOCAL_TO_WORKSPACE</TT> and\n <TT>LocalRepositoryLocation.LOCAL_TO_EXECUTOR</TT>.\n     ",
-                            "firstSentenceCommentText": "Set to use isolated local Maven repositories."
+                            "html": "Set to use isolated local Maven repositories. Defaults to <TT>LocalRepositoryLocation.LOCAL_TO_EXECUTOR</TT>.\n     ",
+                            "firstSentenceCommentText": "Set to use isolated local Maven repositories. "
                         }
                     ]
                 },
@@ -14600,7 +14600,7 @@
                                 }
                             ],
                             "availableSince": "1.19",
-                            "html": "Executes Groovy scripts after a build.\n\n <TT>behavior</TT> must be one of <TT>Behaviour.DoNothing</TT> (default), <TT>Behavior.MarkUnstable</TT> or\n <TT>Behavior.MarkFailed</TT>.\n     ",
+                            "html": "Executes Groovy scripts after a build.\n     ",
                             "firstSentenceCommentText": "Executes Groovy scripts after a build."
                         },
                         {
@@ -16363,7 +16363,7 @@
                                 }
                             ],
                             "availableSince": "1.19",
-                            "html": "Executes Groovy scripts after a build.\n\n <TT>behavior</TT> must be one of <TT>Behaviour.DoNothing</TT> (default), <TT>Behavior.MarkUnstable</TT> or\n <TT>Behavior.MarkFailed</TT>.\n     ",
+                            "html": "Executes Groovy scripts after a build.\n     ",
                             "firstSentenceCommentText": "Executes Groovy scripts after a build."
                         },
                         {
@@ -20946,8 +20946,8 @@
                                     ]
                                 }
                             ],
-                            "html": "Specifies whether the filter includes or excludes jobs from the view.\n Possible values are <TT>MatchType.INCLUDE_MATCHED</TT>, <TT>MatchType.INCLUDE_UNMATCHED</TT>,\n <TT>MatchType.EXCLUDE_MATCHED</TT> or <TT>MatchType.EXCLUDE_UNMATCHED</TT>.",
-                            "firstSentenceCommentText": "Specifies whether the filter includes or excludes jobs from the view.\n "
+                            "html": "Specifies whether the filter includes or excludes jobs from the view. Defaults to\n <TT>MatchType.INCLUDE_MATCHED</TT>.",
+                            "firstSentenceCommentText": "Specifies whether the filter includes or excludes jobs from the view. "
                         }
                     ]
                 },
@@ -20970,7 +20970,7 @@
                                     ]
                                 }
                             ],
-                            "html": "Selects the value to be matched. Possible values are <TT>RegexMatchValue.NAME</TT>,\n <TT>RegexMatchValue.DESCRIPTION</TT>, <TT>RegexMatchValue.SCM</TT>, <TT>RegexMatchValue.EMAIL</TT>,\n <TT>RegexMatchValue.MAVEN</TT>, <TT>RegexMatchValue.SCHEDULE</TT> or <TT>RegexMatchValue.NODE</TT>.",
+                            "html": "Selects the value to be matched. Defaults to <TT>RegexMatchValue.NAME</TT>.",
                             "firstSentenceCommentText": "Selects the value to be matched. "
                         }
                     ]
@@ -21011,8 +21011,8 @@
                                     ]
                                 }
                             ],
-                            "html": "Specifies whether the filter includes or excludes jobs from the view.\n Possible values are <TT>MatchType.INCLUDE_MATCHED</TT>, <TT>MatchType.INCLUDE_UNMATCHED</TT>,\n <TT>MatchType.EXCLUDE_MATCHED</TT> or <TT>MatchType.EXCLUDE_UNMATCHED</TT>.",
-                            "firstSentenceCommentText": "Specifies whether the filter includes or excludes jobs from the view.\n "
+                            "html": "Specifies whether the filter includes or excludes jobs from the view. Defaults to\n <TT>MatchType.INCLUDE_MATCHED</TT>.",
+                            "firstSentenceCommentText": "Specifies whether the filter includes or excludes jobs from the view. "
                         }
                     ]
                 },
@@ -21026,8 +21026,8 @@
                                     "type": "javaposse.jobdsl.dsl.views.jobfilter.Status..."
                                 }
                             ],
-                            "html": "Selects the status of the jobs to be included or excluded. Possible values are <TT>Status.UNSTABLE</TT>,\n <TT>Status.FAILED</TT>, <TT>Status.ABORTED</TT>, <TT>Status.DISABLED</TT> or {",
-                            "firstSentenceCommentText": "Selects the status of the jobs to be included or excluded. "
+                            "html": "Selects the status of the jobs to be included or excluded.",
+                            "firstSentenceCommentText": "Selects the status of the jobs to be included or excluded."
                         }
                     ]
                 }
@@ -21276,7 +21276,7 @@
                                     ]
                                 }
                             ],
-                            "html": "Filter the job list by enabled/disabled status. Valid values are <TT>StatusFilter.ALL</TT> (default),\n <TT>StatusFilter.ENABLED</TT> and <TT>StatusFilter.DISABLED</TT>.",
+                            "html": "Filter the job list by enabled/disabled status. Defaults to <TT>StatusFilter.ALL</TT>.",
                             "firstSentenceCommentText": "Filter the job list by enabled/disabled status. "
                         }
                     ],
@@ -21335,7 +21335,7 @@
                                     ]
                                 }
                             ],
-                            "html": "Defines the console output style. Options are <TT>OutputStyle.Lightbox</TT>, <TT>OutputStyle.NewWindow</TT> and\n <TT>OutputStyle.ThisWindow</TT>.",
+                            "html": "Defines the console output style. Defaults to <TT>OutputStyle.Lightbox</TT>.",
                             "firstSentenceCommentText": "Defines the console output style. "
                         }
                     ],
@@ -21993,7 +21993,7 @@
                                     ]
                                 }
                             ],
-                            "html": "Filter the job list by enabled/disabled status. Valid values are <TT>StatusFilter.ALL</TT> (default),\n <TT>StatusFilter.ENABLED</TT> and <TT>StatusFilter.DISABLED</TT>.",
+                            "html": "Filter the job list by enabled/disabled status. Defaults to <TT>StatusFilter.ALL</TT>.",
                             "firstSentenceCommentText": "Filter the job list by enabled/disabled status. "
                         }
                     ],
@@ -22256,7 +22256,7 @@
                                     ]
                                 }
                             ],
-                            "html": "Specifies how to sort the pipeline in the view, only applicable for several pipelines. Possible values are\n <TT>Sorting.NONE</TT> (default), <TT>Sorting.TITLE</TT> and <TT>Sorting.LAST_ACTIVITY</TT>.",
+                            "html": "Specifies how to sort the pipeline in the view, only applicable for several pipelines. Defaults to\n <TT>Sorting.NONE</TT>.",
                             "firstSentenceCommentText": "Specifies how to sort the pipeline in the view, only applicable for several pipelines. "
                         }
                     ],
@@ -24989,7 +24989,7 @@
                                     ]
                                 }
                             ],
-                            "html": "Filter the job list by enabled/disabled status. Valid values are <TT>StatusFilter.ALL</TT> (default),\n <TT>StatusFilter.ENABLED</TT> and <TT>StatusFilter.DISABLED</TT>.",
+                            "html": "Filter the job list by enabled/disabled status. Defaults to <TT>StatusFilter.ALL</TT>.",
                             "firstSentenceCommentText": "Filter the job list by enabled/disabled status. "
                         }
                     ],
@@ -26810,7 +26810,7 @@
                                 }
                             ],
                             "availableSince": "1.19",
-                            "html": "Executes Groovy scripts after a build.\n\n <TT>behavior</TT> must be one of <TT>Behaviour.DoNothing</TT> (default), <TT>Behavior.MarkUnstable</TT> or\n <TT>Behavior.MarkFailed</TT>.\n     ",
+                            "html": "Executes Groovy scripts after a build.\n     ",
                             "firstSentenceCommentText": "Executes Groovy scripts after a build."
                         },
                         {
@@ -29142,8 +29142,8 @@
                             ],
                             "deprecated": true,
                             "availableSince": "1.17",
-                            "html": "Set to use isolated local Maven repositories.\n\n Possible values are <TT>LocalToWorkspace</TT> and <TT>LocalToExecutor</TT>.\n     ",
-                            "firstSentenceCommentText": "Set to use isolated local Maven repositories."
+                            "html": "Set to use isolated local Maven repositories. Defaults to <TT>LocalRepositoryLocation.LocalToExecutor</TT>.\n     ",
+                            "firstSentenceCommentText": "Set to use isolated local Maven repositories. "
                         },
                         {
                             "parameters": [
@@ -29157,8 +29157,8 @@
                                 }
                             ],
                             "availableSince": "1.31",
-                            "html": "Set to use isolated local Maven repositories.\n\n Possible values for are <TT>LocalRepositoryLocation.LOCAL_TO_WORKSPACE</TT> and\n <TT>LocalRepositoryLocation.LOCAL_TO_EXECUTOR</TT>.\n     ",
-                            "firstSentenceCommentText": "Set to use isolated local Maven repositories."
+                            "html": "Set to use isolated local Maven repositories. Defaults to <TT>LocalRepositoryLocation.LOCAL_TO_EXECUTOR</TT>.\n     ",
+                            "firstSentenceCommentText": "Set to use isolated local Maven repositories. "
                         }
                     ],
                     "examples": "mavenJob('example') {\n    localRepository(LocalRepositoryLocation.LOCAL_TO_WORKSPACE)\n}\n"
