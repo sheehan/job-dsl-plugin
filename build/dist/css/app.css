@@ -32,13 +32,20 @@ body .breadcrumb>li+li:before{padding:0 5px;color:#ccc;content:"\2192\00a0"}
 .method-detail h2{margin:5px 0 15px}
 .method-detail h2 a{font-size:15px;float:right;line-height:33px;font-weight:400}
 .method-detail h3{font-size:16px;border-bottom:1px solid #666;padding-bottom:5px}
-.code-block,.context-methods-section,.signatures .signature,pre.highlight{font-family:Menlo,Monaco,Consolas,"Courier New",monospace;font-size:13px}
 .method-detail .section-header{margin:20px 0 7px;padding:0;color:#13262f;border-bottom:none}
-.method-doc{margin:25px 0;text-align:left}
+.method-doc{margin:15px 0 15px 5px;text-align:left}
 .method-doc pre{padding:0}
 .signatures{margin:25px 0;text-align:right}
-.signatures .label{margin-bottom:3px;display:inline-block}
-.signatures .signature{border-radius:3px;background-color:#fafafa;border:1px solid #d8d8d8;padding:5px;margin-bottom:10px;text-align:left;display:block}
+.signatures .label{margin-bottom:3px;display:inline-block;font-size:12px;padding:4px 5px 5px}
+.signatures .label.label-min-version{background-color:#27a668}
+.signatures .label.label-since{background-color:#fe9d0b}
+.signatures .label.label-deprecated{background-color:#e4344a}
+.signatures .signature{border-radius:3px;background-color:#fafafa;border:1px solid #d8d8d8;font-family:Menlo,Monaco,Consolas,"Courier New",monospace;font-size:13px;padding:5px;margin-bottom:10px;text-align:left;display:block}
+.signatures .enums{text-align:left;margin-left:5px;margin-bottom:10px}
+.signatures .enums ul{padding:0 0 0 20px;margin:0}
+.signatures .enums ul li{font-family:monospace}
+.code-block,.context-methods-section,pre.highlight{font-family:Menlo,Monaco,Consolas,"Courier New",monospace;font-size:13px}
+.signatures .enums .enum-title{margin-bottom:3px}
 .code-block,pre.highlight{border-radius:3px;background-color:#fafafa;border:1px solid #d8d8d8}
 .highlight.inline{display:inline;background-color:transparent;padding:0}
 .context-methods-section{padding:5px 10px;border-radius:3px;background-color:#fafafa;border:1px solid #d8d8d8}

@@ -186,7 +186,7 @@
                     text = '(' + text + ')';
                 }
 
-                return {
+                var data = {
                     name: method.name,
                     href: href,
                     path: path,
@@ -198,6 +198,34 @@
                     context: signature.context,
                     comment: signature.firstSentenceCommentText
                 };
+
+                var enums = _.chain(signature.parameters)
+                    .filter(function(parameter) { return parameter.enumConstants; })
+                    .map(function(parameter) {
+                        var typeTokens = parameter.type.split('.');
+                        var simpleName = typeTokens[typeTokens.length - 1];
+                        return {
+                            paramName: parameter.name,
+                            values: parameter.enumConstants.map(function(v) { return simpleName + '.' + v; })
+                        };
+                    })
+                    .value();
+
+                if (enums.length) {
+                    data.enums = enums;
+                }
+
+                if (signature.plugin) {
+                    data.plugin = signature.plugin;
+                    var pluginData = window.updateCenter.data.plugins[signature.plugin.id];
+                    if (pluginData) {
+                        data.plugin.title = pluginData.title;
+                    } else {
+                        console.log('plugin not found', signature.plugin.id);
+                    }
+                }
+
+                return data;
             }, this)
         },
 
@@ -616,54 +644,83 @@ this["Handlebars"]["templates"]["detail"] = Handlebars.template({"1":function(de
     + escapeExpression(lambda(((stack1 = ((stack1 = (depth0 != null ? depth0.methodNode : depth0)) != null ? stack1.plugin : stack1)) != null ? stack1.title : stack1), depth0))
     + "</a>";
 },"6":function(depth0,helpers,partials,data) {
-  var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, buffer = "";
-  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.availableSince : depth0), {"name":"if","hash":{},"fn":this.program(7, data),"inverse":this.noop,"data":data});
+  var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, buffer = "                ";
+  stack1 = helpers['if'].call(depth0, ((stack1 = (depth0 != null ? depth0.plugin : depth0)) != null ? stack1.minimumVersion : stack1), {"name":"if","hash":{},"fn":this.program(7, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
-  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.deprecated : depth0), {"name":"if","hash":{},"fn":this.program(9, data),"inverse":this.noop,"data":data});
+  buffer += "\n";
+  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.availableSince : depth0), {"name":"if","hash":{},"fn":this.program(9, data),"inverse":this.noop,"data":data});
+  if (stack1 != null) { buffer += stack1; }
+  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.deprecated : depth0), {"name":"if","hash":{},"fn":this.program(11, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
   buffer += "                <div class=\"signature\">\n                    "
     + escapeExpression(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"name","hash":{},"data":data}) : helper)))
     + "<span class=\"highlight groovy inline\">"
     + escapeExpression(((helper = (helper = helpers.text || (depth0 != null ? depth0.text : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"text","hash":{},"data":data}) : helper)))
     + "</span>\n                    ";
-  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.context : depth0), {"name":"if","hash":{},"fn":this.program(11, data),"inverse":this.noop,"data":data});
+  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.context : depth0), {"name":"if","hash":{},"fn":this.program(13, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
   buffer += "\n                </div>\n";
-  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.html : depth0), {"name":"if","hash":{},"fn":this.program(13, data),"inverse":this.noop,"data":data});
+  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.html : depth0), {"name":"if","hash":{},"fn":this.program(15, data),"inverse":this.noop,"data":data});
+  if (stack1 != null) { buffer += stack1; }
+  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.enums : depth0), {"name":"if","hash":{},"fn":this.program(17, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
   return buffer;
 },"7":function(depth0,helpers,partials,data) {
+  var stack1, lambda=this.lambda, escapeExpression=this.escapeExpression;
+  return "<span class=\"label label-min-version\">Requires "
+    + escapeExpression(lambda(((stack1 = (depth0 != null ? depth0.plugin : depth0)) != null ? stack1.title : stack1), depth0))
+    + " v"
+    + escapeExpression(lambda(((stack1 = (depth0 != null ? depth0.plugin : depth0)) != null ? stack1.minimumVersion : stack1), depth0))
+    + "+</span>";
+},"9":function(depth0,helpers,partials,data) {
   var helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
-  return "                    <span class=\"label label-info\">Since "
+  return "                    <span class=\"label label-since\">Since "
     + escapeExpression(((helper = (helper = helpers.availableSince || (depth0 != null ? depth0.availableSince : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"availableSince","hash":{},"data":data}) : helper)))
     + "</span>\n";
-},"9":function(depth0,helpers,partials,data) {
-  return "                    <span class=\"label label-warning\">Deprecated</span>\n";
-  },"11":function(depth0,helpers,partials,data) {
+},"11":function(depth0,helpers,partials,data) {
+  return "                    <span class=\"label label-deprecated\">Deprecated</span>\n";
+  },"13":function(depth0,helpers,partials,data) {
   var helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
   return "{<span class=\"expand-closure glyphicon glyphicon-option-horizontal\" data-path=\""
     + escapeExpression(((helper = (helper = helpers.path || (depth0 != null ? depth0.path : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"path","hash":{},"data":data}) : helper)))
     + "\" data-index=\""
     + escapeExpression(((helper = (helper = helpers.index || (depth0 != null ? depth0.index : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"index","hash":{},"data":data}) : helper)))
     + "\"></span>}";
-},"13":function(depth0,helpers,partials,data) {
+},"15":function(depth0,helpers,partials,data) {
   var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, buffer = "                    <div class=\"method-doc\">";
   stack1 = ((helper = (helper = helpers.html || (depth0 != null ? depth0.html : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"html","hash":{},"data":data}) : helper));
   if (stack1 != null) { buffer += stack1; }
   return buffer + "</div>\n";
-},"15":function(depth0,helpers,partials,data) {
+},"17":function(depth0,helpers,partials,data) {
+  var stack1, buffer = "                    <div class=\"enums\">\n";
+  stack1 = helpers.each.call(depth0, (depth0 != null ? depth0.enums : depth0), {"name":"each","hash":{},"fn":this.program(18, data),"inverse":this.noop,"data":data});
+  if (stack1 != null) { buffer += stack1; }
+  return buffer + "                    </div>\n";
+},"18":function(depth0,helpers,partials,data) {
+  var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, buffer = "                        <div class=\"enum\">\n                            <div class=\"enum-title\">Possible values for <code>"
+    + escapeExpression(((helper = (helper = helpers.paramName || (depth0 != null ? depth0.paramName : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"paramName","hash":{},"data":data}) : helper)))
+    + "</code>:</div>\n                            <ul>\n";
+  stack1 = helpers.each.call(depth0, (depth0 != null ? depth0.values : depth0), {"name":"each","hash":{},"fn":this.program(19, data),"inverse":this.noop,"data":data});
+  if (stack1 != null) { buffer += stack1; }
+  return buffer + "                            </ul>\n                        </div>\n";
+},"19":function(depth0,helpers,partials,data) {
+  var lambda=this.lambda, escapeExpression=this.escapeExpression;
+  return "                                    <li>"
+    + escapeExpression(lambda(depth0, depth0))
+    + "</li>\n";
+},"21":function(depth0,helpers,partials,data) {
   var stack1, lambda=this.lambda, escapeExpression=this.escapeExpression;
   return "            <h3 class=\"section-header\">Examples</h3>\n\n            <pre class=\"highlight groovy\">"
     + escapeExpression(lambda(((stack1 = (depth0 != null ? depth0.methodNode : depth0)) != null ? stack1.examples : stack1), depth0))
     + "</pre>\n";
-},"17":function(depth0,helpers,partials,data) {
+},"23":function(depth0,helpers,partials,data) {
   var stack1, buffer = "            <h3 class=\"section-header\">Usages</h3>\n            <ul class=\"usages\">\n";
-  stack1 = helpers.each.call(depth0, (depth0 != null ? depth0.usages : depth0), {"name":"each","hash":{},"fn":this.program(18, data),"inverse":this.noop,"data":data});
+  stack1 = helpers.each.call(depth0, (depth0 != null ? depth0.usages : depth0), {"name":"each","hash":{},"fn":this.program(24, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
   return buffer + "            </ul>\n";
-},"18":function(depth0,helpers,partials,data) {
+},"24":function(depth0,helpers,partials,data) {
   var stack1, lambda=this.lambda, escapeExpression=this.escapeExpression, buffer = "                    <li>\n                        <div class=\"method-name ";
-  stack1 = helpers['if'].call(depth0, ((stack1 = (depth0 != null ? depth0.method : depth0)) != null ? stack1.deprecated : stack1), {"name":"if","hash":{},"fn":this.program(19, data),"inverse":this.noop,"data":data});
+  stack1 = helpers['if'].call(depth0, ((stack1 = (depth0 != null ? depth0.method : depth0)) != null ? stack1.deprecated : stack1), {"name":"if","hash":{},"fn":this.program(25, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
   return buffer + "\">\n                            <a href=\"#method/"
     + escapeExpression(lambda(((stack1 = (depth0 != null ? depth0.context : depth0)) != null ? stack1.type : stack1), depth0))
@@ -676,7 +733,7 @@ this["Handlebars"]["templates"]["detail"] = Handlebars.template({"1":function(de
     + "</a>\n                            : <span class=\"simple-class-name\">"
     + escapeExpression(lambda(((stack1 = (depth0 != null ? depth0.context : depth0)) != null ? stack1.simpleClassName : stack1), depth0))
     + "</span>\n                        </div>\n                    </li>\n";
-},"19":function(depth0,helpers,partials,data) {
+},"25":function(depth0,helpers,partials,data) {
   return "deprecated";
   },"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
   var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, buffer = "<div class=\"detail\">\n";
@@ -691,10 +748,10 @@ this["Handlebars"]["templates"]["detail"] = Handlebars.template({"1":function(de
   stack1 = helpers.each.call(depth0, (depth0 != null ? depth0.signatures : depth0), {"name":"each","hash":{},"fn":this.program(6, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
   buffer += "        </div>\n\n";
-  stack1 = helpers['if'].call(depth0, ((stack1 = (depth0 != null ? depth0.methodNode : depth0)) != null ? stack1.examples : stack1), {"name":"if","hash":{},"fn":this.program(15, data),"inverse":this.noop,"data":data});
+  stack1 = helpers['if'].call(depth0, ((stack1 = (depth0 != null ? depth0.methodNode : depth0)) != null ? stack1.examples : stack1), {"name":"if","hash":{},"fn":this.program(21, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
   buffer += "\n";
-  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.usages : depth0), {"name":"if","hash":{},"fn":this.program(17, data),"inverse":this.noop,"data":data});
+  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.usages : depth0), {"name":"if","hash":{},"fn":this.program(23, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
   return buffer + "    </div>\n</div>";
 },"useData":true});

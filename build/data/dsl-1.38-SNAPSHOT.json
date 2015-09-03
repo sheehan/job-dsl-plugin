@@ -37,7 +37,21 @@
                             "parameters": [
                                 {
                                     "name": "permission",
-                                    "type": "javaposse.jobdsl.dsl.helpers.Permissions"
+                                    "type": "javaposse.jobdsl.dsl.helpers.Permissions",
+                                    "enumConstants": [
+                                        "ItemDelete",
+                                        "ItemConfigure",
+                                        "ItemRead",
+                                        "ItemDiscover",
+                                        "ItemBuild",
+                                        "ItemWorkspace",
+                                        "ItemCancel",
+                                        "ItemRelease",
+                                        "ItemExtendedRead",
+                                        "RunDelete",
+                                        "RunUpdate",
+                                        "ScmTag"
+                                    ]
                                 },
                                 {
                                     "name": "user",
@@ -1349,7 +1363,14 @@
                             "parameters": [
                                 {
                                     "name": "depth",
-                                    "type": "javaposse.jobdsl.dsl.helpers.scm.SvnDepth"
+                                    "type": "javaposse.jobdsl.dsl.helpers.scm.SvnDepth",
+                                    "enumConstants": [
+                                        "INFINITY",
+                                        "IMMEDIATES",
+                                        "EMPTY",
+                                        "FILES",
+                                        "AS_IT_IS"
+                                    ]
                                 }
                             ],
                             "html": "Specifies the depth for sparse checkouts.\n\n Valid values are <TT>SvnDepth.INFINITY</TT> (default), <TT>SvnDepth.EMPTY</TT>, <TT>SvnDepth.IMMEDIATES</TT>,\n <TT>SvnDepth.FILES</TT> and <TT>SvnDepth.AS_IT_IS</TT>.",
@@ -1384,7 +1405,13 @@
                             "parameters": [
                                 {
                                     "name": "strategy",
-                                    "type": "javaposse.jobdsl.dsl.helpers.scm.SvnCheckoutStrategy"
+                                    "type": "javaposse.jobdsl.dsl.helpers.scm.SvnCheckoutStrategy",
+                                    "enumConstants": [
+                                        "UPDATE",
+                                        "CHECKOUT",
+                                        "UPDATE_WITH_CLEAN",
+                                        "UPDATE_WITH_REVERT"
+                                    ]
                                 }
                             ],
                             "html": "The checkout strategy that should be used.  This is a global setting for all locations.\n\n Valid values are <TT>SvnCheckoutStrategy.UPDATE</TT> (default), <TT>SvnCheckoutStrategy.CHECKOUT</TT>,\n <TT>SvnCheckoutStrategy.UPDATE_WITH_CLEAN</TT> and <TT>SvnCheckoutStrategy.UPDATE_WITH_REVERT</TT>.\n     ",
@@ -4344,7 +4371,11 @@
                             "parameters": [
                                 {
                                     "name": "thresholdMode",
-                                    "type": "javaposse.jobdsl.dsl.helpers.publisher.ArchiveXUnitContext.ThresholdMode"
+                                    "type": "javaposse.jobdsl.dsl.helpers.publisher.ArchiveXUnitContext.ThresholdMode",
+                                    "enumConstants": [
+                                        "NUMBER",
+                                        "PERCENT"
+                                    ]
                                 }
                             ],
                             "html": "Specifies whether thresholds are given as total number or percentages. Must be either\n <TT>ThresholdMode.NUMBER</TT> (default) or <TT>ThresholdMode.PERCENT</TT>.",
@@ -5710,7 +5741,12 @@
                                 },
                                 {
                                     "name": "baseDir",
-                                    "type": "javaposse.jobdsl.dsl.helpers.step.condition.FileExistsCondition.BaseDir"
+                                    "type": "javaposse.jobdsl.dsl.helpers.step.condition.FileExistsCondition.BaseDir",
+                                    "enumConstants": [
+                                        "JENKINS_HOME",
+                                        "ARTIFACTS_DIR",
+                                        "WORKSPACE"
+                                    ]
                                 }
                             ],
                             "availableSince": "1.23",
@@ -5736,6 +5772,11 @@
                                 {
                                     "name": "baseDir",
                                     "type": "javaposse.jobdsl.dsl.helpers.step.condition.FileExistsCondition.BaseDir",
+                                    "enumConstants": [
+                                        "JENKINS_HOME",
+                                        "ARTIFACTS_DIR",
+                                        "WORKSPACE"
+                                    ],
                                     "defaultValue": "BaseDir.WORKSPACE"
                                 }
                             ],
@@ -6193,7 +6234,12 @@
                             "parameters": [
                                 {
                                     "name": "behavior",
-                                    "type": "javaposse.jobdsl.dsl.helpers.publisher.PublisherContext.Behavior"
+                                    "type": "javaposse.jobdsl.dsl.helpers.publisher.PublisherContext.Behavior",
+                                    "enumConstants": [
+                                        "DoNothing",
+                                        "MarkUnstable",
+                                        "MarkFailed"
+                                    ]
                                 }
                             ],
                             "html": "Specifies the behavior when the script fails.\n\n Must be one of <TT>Behaviour.DoNothing</TT> (default), <TT>Behavior.MarkUnstable</TT> or\n <TT>Behavior.MarkFailed</TT>.",
@@ -7641,7 +7687,14 @@
                             "parameters": [
                                 {
                                     "name": "runner",
-                                    "type": "javaposse.jobdsl.dsl.helpers.step.ConditionalStepsContext.EvaluationRunners"
+                                    "type": "javaposse.jobdsl.dsl.helpers.step.ConditionalStepsContext.EvaluationRunners",
+                                    "enumConstants": [
+                                        "Fail",
+                                        "Unstable",
+                                        "RunUnstable",
+                                        "Run",
+                                        "DontRun"
+                                    ]
                                 }
                             ],
                             "deprecated": true
@@ -7797,7 +7850,8 @@
                                 }
                             ],
                             "html": "Selects the build to copy artifacts from.",
-                            "firstSentenceCommentText": "Selects the build to copy artifacts from."
+                            "firstSentenceCommentText": "Selects the build to copy artifacts from.",
+                            "contextClass": "javaposse.jobdsl.dsl.helpers.step.CopyArtifactSelectorContext"
                         }
                     ]
                 },
@@ -9166,7 +9220,11 @@
                             "parameters": [
                                 {
                                     "name": "location",
-                                    "type": "javaposse.jobdsl.dsl.helpers.common.MavenContext.LocalRepositoryLocation"
+                                    "type": "javaposse.jobdsl.dsl.helpers.common.MavenContext.LocalRepositoryLocation",
+                                    "enumConstants": [
+                                        "LocalToExecutor",
+                                        "LocalToWorkspace"
+                                    ]
                                 }
                             ],
                             "deprecated": true,
@@ -9177,7 +9235,11 @@
                             "parameters": [
                                 {
                                     "name": "location",
-                                    "type": "javaposse.jobdsl.dsl.helpers.LocalRepositoryLocation"
+                                    "type": "javaposse.jobdsl.dsl.helpers.LocalRepositoryLocation",
+                                    "enumConstants": [
+                                        "LOCAL_TO_EXECUTOR",
+                                        "LOCAL_TO_WORKSPACE"
+                                    ]
                                 }
                             ],
                             "availableSince": "1.31",
@@ -12798,6 +12860,161 @@
             "type": "javaposse.jobdsl.dsl.helpers.publisher.ViolationsContext",
             "methods": [
                 {
+                    "name": "checkstyle",
+                    "signatures": [
+                        {
+                            "parameters": [
+                                {
+                                    "name": "min",
+                                    "type": "Integer",
+                                    "defaultValue": "null"
+                                },
+                                {
+                                    "name": "max",
+                                    "type": "Integer",
+                                    "defaultValue": "null"
+                                },
+                                {
+                                    "name": "unstable",
+                                    "type": "Integer",
+                                    "defaultValue": "null"
+                                },
+                                {
+                                    "name": "pattern",
+                                    "type": "String",
+                                    "defaultValue": "null"
+                                }
+                            ],
+                            "html": "Configures the violations report for Checkstyle.",
+                            "firstSentenceCommentText": "Configures the violations report for Checkstyle."
+                        }
+                    ]
+                },
+                {
+                    "name": "codenarc",
+                    "signatures": [
+                        {
+                            "parameters": [
+                                {
+                                    "name": "min",
+                                    "type": "Integer",
+                                    "defaultValue": "null"
+                                },
+                                {
+                                    "name": "max",
+                                    "type": "Integer",
+                                    "defaultValue": "null"
+                                },
+                                {
+                                    "name": "unstable",
+                                    "type": "Integer",
+                                    "defaultValue": "null"
+                                },
+                                {
+                                    "name": "pattern",
+                                    "type": "String",
+                                    "defaultValue": "null"
+                                }
+                            ],
+                            "html": "Configures the violations report for CodeNarc.",
+                            "firstSentenceCommentText": "Configures the violations report for CodeNarc."
+                        }
+                    ]
+                },
+                {
+                    "name": "cpd",
+                    "signatures": [
+                        {
+                            "parameters": [
+                                {
+                                    "name": "min",
+                                    "type": "Integer",
+                                    "defaultValue": "null"
+                                },
+                                {
+                                    "name": "max",
+                                    "type": "Integer",
+                                    "defaultValue": "null"
+                                },
+                                {
+                                    "name": "unstable",
+                                    "type": "Integer",
+                                    "defaultValue": "null"
+                                },
+                                {
+                                    "name": "pattern",
+                                    "type": "String",
+                                    "defaultValue": "null"
+                                }
+                            ],
+                            "html": "Configures the violations report for CPD.",
+                            "firstSentenceCommentText": "Configures the violations report for CPD."
+                        }
+                    ]
+                },
+                {
+                    "name": "cpplint",
+                    "signatures": [
+                        {
+                            "parameters": [
+                                {
+                                    "name": "min",
+                                    "type": "Integer",
+                                    "defaultValue": "null"
+                                },
+                                {
+                                    "name": "max",
+                                    "type": "Integer",
+                                    "defaultValue": "null"
+                                },
+                                {
+                                    "name": "unstable",
+                                    "type": "Integer",
+                                    "defaultValue": "null"
+                                },
+                                {
+                                    "name": "pattern",
+                                    "type": "String",
+                                    "defaultValue": "null"
+                                }
+                            ],
+                            "html": "Configures the violations report for cpplint.",
+                            "firstSentenceCommentText": "Configures the violations report for cpplint."
+                        }
+                    ]
+                },
+                {
+                    "name": "csslint",
+                    "signatures": [
+                        {
+                            "parameters": [
+                                {
+                                    "name": "min",
+                                    "type": "Integer",
+                                    "defaultValue": "null"
+                                },
+                                {
+                                    "name": "max",
+                                    "type": "Integer",
+                                    "defaultValue": "null"
+                                },
+                                {
+                                    "name": "unstable",
+                                    "type": "Integer",
+                                    "defaultValue": "null"
+                                },
+                                {
+                                    "name": "pattern",
+                                    "type": "String",
+                                    "defaultValue": "null"
+                                }
+                            ],
+                            "html": "Configures the violations report for CSS Lint.",
+                            "firstSentenceCommentText": "Configures the violations report for CSS Lint."
+                        }
+                    ]
+                },
+                {
                     "name": "fauxProjectPath",
                     "signatures": [
                         {
@@ -12813,6 +13030,223 @@
                     ]
                 },
                 {
+                    "name": "findbugs",
+                    "signatures": [
+                        {
+                            "parameters": [
+                                {
+                                    "name": "min",
+                                    "type": "Integer",
+                                    "defaultValue": "null"
+                                },
+                                {
+                                    "name": "max",
+                                    "type": "Integer",
+                                    "defaultValue": "null"
+                                },
+                                {
+                                    "name": "unstable",
+                                    "type": "Integer",
+                                    "defaultValue": "null"
+                                },
+                                {
+                                    "name": "pattern",
+                                    "type": "String",
+                                    "defaultValue": "null"
+                                }
+                            ],
+                            "html": "Configures the violations report for FindBugs.",
+                            "firstSentenceCommentText": "Configures the violations report for FindBugs."
+                        }
+                    ]
+                },
+                {
+                    "name": "fxcop",
+                    "signatures": [
+                        {
+                            "parameters": [
+                                {
+                                    "name": "min",
+                                    "type": "Integer",
+                                    "defaultValue": "null"
+                                },
+                                {
+                                    "name": "max",
+                                    "type": "Integer",
+                                    "defaultValue": "null"
+                                },
+                                {
+                                    "name": "unstable",
+                                    "type": "Integer",
+                                    "defaultValue": "null"
+                                },
+                                {
+                                    "name": "pattern",
+                                    "type": "String",
+                                    "defaultValue": "null"
+                                }
+                            ],
+                            "html": "Configures the violations report for FxCop.",
+                            "firstSentenceCommentText": "Configures the violations report for FxCop."
+                        }
+                    ]
+                },
+                {
+                    "name": "gendarme",
+                    "signatures": [
+                        {
+                            "parameters": [
+                                {
+                                    "name": "min",
+                                    "type": "Integer",
+                                    "defaultValue": "null"
+                                },
+                                {
+                                    "name": "max",
+                                    "type": "Integer",
+                                    "defaultValue": "null"
+                                },
+                                {
+                                    "name": "unstable",
+                                    "type": "Integer",
+                                    "defaultValue": "null"
+                                },
+                                {
+                                    "name": "pattern",
+                                    "type": "String",
+                                    "defaultValue": "null"
+                                }
+                            ],
+                            "html": "Configures the violations report for Gendarme.",
+                            "firstSentenceCommentText": "Configures the violations report for Gendarme."
+                        }
+                    ]
+                },
+                {
+                    "name": "jcreport",
+                    "signatures": [
+                        {
+                            "parameters": [
+                                {
+                                    "name": "min",
+                                    "type": "Integer",
+                                    "defaultValue": "null"
+                                },
+                                {
+                                    "name": "max",
+                                    "type": "Integer",
+                                    "defaultValue": "null"
+                                },
+                                {
+                                    "name": "unstable",
+                                    "type": "Integer",
+                                    "defaultValue": "null"
+                                },
+                                {
+                                    "name": "pattern",
+                                    "type": "String",
+                                    "defaultValue": "null"
+                                }
+                            ],
+                            "html": "Configures the violations report for JcReport.",
+                            "firstSentenceCommentText": "Configures the violations report for JcReport."
+                        }
+                    ]
+                },
+                {
+                    "name": "jshint",
+                    "signatures": [
+                        {
+                            "parameters": [
+                                {
+                                    "name": "min",
+                                    "type": "Integer",
+                                    "defaultValue": "null"
+                                },
+                                {
+                                    "name": "max",
+                                    "type": "Integer",
+                                    "defaultValue": "null"
+                                },
+                                {
+                                    "name": "unstable",
+                                    "type": "Integer",
+                                    "defaultValue": "null"
+                                },
+                                {
+                                    "name": "pattern",
+                                    "type": "String",
+                                    "defaultValue": "null"
+                                }
+                            ],
+                            "html": "Configures the violations report for JSHint.",
+                            "firstSentenceCommentText": "Configures the violations report for JSHint."
+                        }
+                    ]
+                },
+                {
+                    "name": "jslint",
+                    "signatures": [
+                        {
+                            "parameters": [
+                                {
+                                    "name": "min",
+                                    "type": "Integer",
+                                    "defaultValue": "null"
+                                },
+                                {
+                                    "name": "max",
+                                    "type": "Integer",
+                                    "defaultValue": "null"
+                                },
+                                {
+                                    "name": "unstable",
+                                    "type": "Integer",
+                                    "defaultValue": "null"
+                                },
+                                {
+                                    "name": "pattern",
+                                    "type": "String",
+                                    "defaultValue": "null"
+                                }
+                            ],
+                            "html": "Configures the violations report for JSLint.",
+                            "firstSentenceCommentText": "Configures the violations report for JSLint."
+                        }
+                    ]
+                },
+                {
+                    "name": "pep8",
+                    "signatures": [
+                        {
+                            "parameters": [
+                                {
+                                    "name": "min",
+                                    "type": "Integer",
+                                    "defaultValue": "null"
+                                },
+                                {
+                                    "name": "max",
+                                    "type": "Integer",
+                                    "defaultValue": "null"
+                                },
+                                {
+                                    "name": "unstable",
+                                    "type": "Integer",
+                                    "defaultValue": "null"
+                                },
+                                {
+                                    "name": "pattern",
+                                    "type": "String",
+                                    "defaultValue": "null"
+                                }
+                            ],
+                            "html": "Configures the violations report for PEP8.",
+                            "firstSentenceCommentText": "Configures the violations report for PEP8."
+                        }
+                    ]
+                },
+                {
                     "name": "perFileDisplayLimit",
                     "signatures": [
                         {
@@ -12824,6 +13258,130 @@
                             ],
                             "html": "Limits the number of violations displayed per file and violation type.",
                             "firstSentenceCommentText": "Limits the number of violations displayed per file and violation type."
+                        }
+                    ]
+                },
+                {
+                    "name": "perlcritic",
+                    "signatures": [
+                        {
+                            "parameters": [
+                                {
+                                    "name": "min",
+                                    "type": "Integer",
+                                    "defaultValue": "null"
+                                },
+                                {
+                                    "name": "max",
+                                    "type": "Integer",
+                                    "defaultValue": "null"
+                                },
+                                {
+                                    "name": "unstable",
+                                    "type": "Integer",
+                                    "defaultValue": "null"
+                                },
+                                {
+                                    "name": "pattern",
+                                    "type": "String",
+                                    "defaultValue": "null"
+                                }
+                            ],
+                            "html": "Configures the violations report for Perl::Critic.",
+                            "firstSentenceCommentText": "Configures the violations report for Perl::Critic."
+                        }
+                    ]
+                },
+                {
+                    "name": "pmd",
+                    "signatures": [
+                        {
+                            "parameters": [
+                                {
+                                    "name": "min",
+                                    "type": "Integer",
+                                    "defaultValue": "null"
+                                },
+                                {
+                                    "name": "max",
+                                    "type": "Integer",
+                                    "defaultValue": "null"
+                                },
+                                {
+                                    "name": "unstable",
+                                    "type": "Integer",
+                                    "defaultValue": "null"
+                                },
+                                {
+                                    "name": "pattern",
+                                    "type": "String",
+                                    "defaultValue": "null"
+                                }
+                            ],
+                            "html": "Configures the violations report for PMD.",
+                            "firstSentenceCommentText": "Configures the violations report for PMD."
+                        }
+                    ]
+                },
+                {
+                    "name": "pylint",
+                    "signatures": [
+                        {
+                            "parameters": [
+                                {
+                                    "name": "min",
+                                    "type": "Integer",
+                                    "defaultValue": "null"
+                                },
+                                {
+                                    "name": "max",
+                                    "type": "Integer",
+                                    "defaultValue": "null"
+                                },
+                                {
+                                    "name": "unstable",
+                                    "type": "Integer",
+                                    "defaultValue": "null"
+                                },
+                                {
+                                    "name": "pattern",
+                                    "type": "String",
+                                    "defaultValue": "null"
+                                }
+                            ],
+                            "html": "Configures the violations report for Pylint.",
+                            "firstSentenceCommentText": "Configures the violations report for Pylint."
+                        }
+                    ]
+                },
+                {
+                    "name": "simian",
+                    "signatures": [
+                        {
+                            "parameters": [
+                                {
+                                    "name": "min",
+                                    "type": "Integer",
+                                    "defaultValue": "null"
+                                },
+                                {
+                                    "name": "max",
+                                    "type": "Integer",
+                                    "defaultValue": "null"
+                                },
+                                {
+                                    "name": "unstable",
+                                    "type": "Integer",
+                                    "defaultValue": "null"
+                                },
+                                {
+                                    "name": "pattern",
+                                    "type": "String",
+                                    "defaultValue": "null"
+                                }
+                            ],
+                            "html": "Configures the violations report for Simian.",
+                            "firstSentenceCommentText": "Configures the violations report for Simian."
                         }
                     ]
                 },
@@ -12854,6 +13412,37 @@
                             ],
                             "html": "Resolves class names to source file names.",
                             "firstSentenceCommentText": "Resolves class names to source file names."
+                        }
+                    ]
+                },
+                {
+                    "name": "stylecop",
+                    "signatures": [
+                        {
+                            "parameters": [
+                                {
+                                    "name": "min",
+                                    "type": "Integer",
+                                    "defaultValue": "null"
+                                },
+                                {
+                                    "name": "max",
+                                    "type": "Integer",
+                                    "defaultValue": "null"
+                                },
+                                {
+                                    "name": "unstable",
+                                    "type": "Integer",
+                                    "defaultValue": "null"
+                                },
+                                {
+                                    "name": "pattern",
+                                    "type": "String",
+                                    "defaultValue": "null"
+                                }
+                            ],
+                            "html": "Configures the violations report for StyleCop.",
+                            "firstSentenceCommentText": "Configures the violations report for StyleCop."
                         }
                     ]
                 }
@@ -14002,6 +14591,11 @@
                                 {
                                     "name": "behavior",
                                     "type": "javaposse.jobdsl.dsl.helpers.publisher.PublisherContext.Behavior",
+                                    "enumConstants": [
+                                        "DoNothing",
+                                        "MarkUnstable",
+                                        "MarkFailed"
+                                    ],
                                     "defaultValue": "Behavior.DoNothing"
                                 }
                             ],
@@ -14834,7 +15428,7 @@
                                     "defaultValue": "null"
                                 }
                             ],
-                            "html": "Generates reports from static code violations detectors.\n     ",
+                            "html": "Generates reports from static code violations detectors.",
                             "firstSentenceCommentText": "Generates reports from static code violations detectors.",
                             "contextClass": "javaposse.jobdsl.dsl.helpers.publisher.ViolationsContext"
                         },
@@ -14853,7 +15447,7 @@
                             "plugin": {
                                 "id": "violations"
                             },
-                            "html": "Generates reports from static code violations detectors.\n\n For each supported detector type, the closure method with up to four arguments is available. The first argument\n specifies the lowest number of violations to generate the sunny weather report, defaults to 10. The second\n argument specifies the lowest number of violations to generate the stormy weather report, defaults to 999. If the\n number of violations exceeds the third argument, the build is set to unstable, defaults to 999. The last argument\n specifies an Ant pattern to find the violation files in the workspace. Supported detector types are\n <TT>checkstyle</TT>, <TT>codenarc</TT>, <TT>cpd</TT>, <TT>cpplint</TT>, <TT>csslint</TT>, <TT>findbugs</TT>,\n <TT>fxcop</TT>, <TT>gendarme</TT>, <TT>jcreport</TT>, <TT>jslint</TT>, <TT>pep8</TT>, <TT>perlcritic</TT>, <TT>pmd</TT>,\n <TT>pylint</TT>, <TT>simian</TT>, <TT>stylecop</TT> and <TT>jshint</TT>.",
+                            "html": "Generates reports from static code violations detectors.",
                             "firstSentenceCommentText": "Generates reports from static code violations detectors.",
                             "contextClass": "javaposse.jobdsl.dsl.helpers.publisher.ViolationsContext"
                         }
@@ -15760,6 +16354,11 @@
                                 {
                                     "name": "behavior",
                                     "type": "javaposse.jobdsl.dsl.helpers.publisher.PublisherContext.Behavior",
+                                    "enumConstants": [
+                                        "DoNothing",
+                                        "MarkUnstable",
+                                        "MarkFailed"
+                                    ],
                                     "defaultValue": "Behavior.DoNothing"
                                 }
                             ],
@@ -16592,7 +17191,7 @@
                                     "defaultValue": "null"
                                 }
                             ],
-                            "html": "Generates reports from static code violations detectors.\n     ",
+                            "html": "Generates reports from static code violations detectors.",
                             "firstSentenceCommentText": "Generates reports from static code violations detectors.",
                             "contextClass": "javaposse.jobdsl.dsl.helpers.publisher.ViolationsContext"
                         },
@@ -16611,7 +17210,7 @@
                             "plugin": {
                                 "id": "violations"
                             },
-                            "html": "Generates reports from static code violations detectors.\n\n For each supported detector type, the closure method with up to four arguments is available. The first argument\n specifies the lowest number of violations to generate the sunny weather report, defaults to 10. The second\n argument specifies the lowest number of violations to generate the stormy weather report, defaults to 999. If the\n number of violations exceeds the third argument, the build is set to unstable, defaults to 999. The last argument\n specifies an Ant pattern to find the violation files in the workspace. Supported detector types are\n <TT>checkstyle</TT>, <TT>codenarc</TT>, <TT>cpd</TT>, <TT>cpplint</TT>, <TT>csslint</TT>, <TT>findbugs</TT>,\n <TT>fxcop</TT>, <TT>gendarme</TT>, <TT>jcreport</TT>, <TT>jslint</TT>, <TT>pep8</TT>, <TT>perlcritic</TT>, <TT>pmd</TT>,\n <TT>pylint</TT>, <TT>simian</TT>, <TT>stylecop</TT> and <TT>jshint</TT>.",
+                            "html": "Generates reports from static code violations detectors.",
                             "firstSentenceCommentText": "Generates reports from static code violations detectors.",
                             "contextClass": "javaposse.jobdsl.dsl.helpers.publisher.ViolationsContext"
                         }
@@ -20338,7 +20937,13 @@
                             "parameters": [
                                 {
                                     "name": "matchType",
-                                    "type": "javaposse.jobdsl.dsl.views.jobfilter.MatchType"
+                                    "type": "javaposse.jobdsl.dsl.views.jobfilter.MatchType",
+                                    "enumConstants": [
+                                        "INCLUDE_MATCHED",
+                                        "INCLUDE_UNMATCHED",
+                                        "EXCLUDE_MATCHED",
+                                        "EXCLUDE_UNMATCHED"
+                                    ]
                                 }
                             ],
                             "html": "Specifies whether the filter includes or excludes jobs from the view.\n Possible values are <TT>MatchType.INCLUDE_MATCHED</TT>, <TT>MatchType.INCLUDE_UNMATCHED</TT>,\n <TT>MatchType.EXCLUDE_MATCHED</TT> or <TT>MatchType.EXCLUDE_UNMATCHED</TT>.",
@@ -20353,7 +20958,16 @@
                             "parameters": [
                                 {
                                     "name": "value",
-                                    "type": "javaposse.jobdsl.dsl.views.jobfilter.RegexMatchValue"
+                                    "type": "javaposse.jobdsl.dsl.views.jobfilter.RegexMatchValue",
+                                    "enumConstants": [
+                                        "NAME",
+                                        "DESCRIPTION",
+                                        "SCM",
+                                        "EMAIL",
+                                        "MAVEN",
+                                        "SCHEDULE",
+                                        "NODE"
+                                    ]
                                 }
                             ],
                             "html": "Selects the value to be matched. Possible values are <TT>RegexMatchValue.NAME</TT>,\n <TT>RegexMatchValue.DESCRIPTION</TT>, <TT>RegexMatchValue.SCM</TT>, <TT>RegexMatchValue.EMAIL</TT>,\n <TT>RegexMatchValue.MAVEN</TT>, <TT>RegexMatchValue.SCHEDULE</TT> or <TT>RegexMatchValue.NODE</TT>.",
@@ -20388,7 +21002,13 @@
                             "parameters": [
                                 {
                                     "name": "matchType",
-                                    "type": "javaposse.jobdsl.dsl.views.jobfilter.MatchType"
+                                    "type": "javaposse.jobdsl.dsl.views.jobfilter.MatchType",
+                                    "enumConstants": [
+                                        "INCLUDE_MATCHED",
+                                        "INCLUDE_UNMATCHED",
+                                        "EXCLUDE_MATCHED",
+                                        "EXCLUDE_UNMATCHED"
+                                    ]
                                 }
                             ],
                             "html": "Specifies whether the filter includes or excludes jobs from the view.\n Possible values are <TT>MatchType.INCLUDE_MATCHED</TT>, <TT>MatchType.INCLUDE_UNMATCHED</TT>,\n <TT>MatchType.EXCLUDE_MATCHED</TT> or <TT>MatchType.EXCLUDE_UNMATCHED</TT>.",
@@ -20648,7 +21268,12 @@
                             "parameters": [
                                 {
                                     "name": "filter",
-                                    "type": "javaposse.jobdsl.dsl.views.ListView.StatusFilter"
+                                    "type": "javaposse.jobdsl.dsl.views.ListView.StatusFilter",
+                                    "enumConstants": [
+                                        "ALL",
+                                        "ENABLED",
+                                        "DISABLED"
+                                    ]
                                 }
                             ],
                             "html": "Filter the job list by enabled/disabled status. Valid values are <TT>StatusFilter.ALL</TT> (default),\n <TT>StatusFilter.ENABLED</TT> and <TT>StatusFilter.DISABLED</TT>.",
@@ -20702,7 +21327,12 @@
                             "parameters": [
                                 {
                                     "name": "outputStyle",
-                                    "type": "javaposse.jobdsl.dsl.views.BuildPipelineView.OutputStyle"
+                                    "type": "javaposse.jobdsl.dsl.views.BuildPipelineView.OutputStyle",
+                                    "enumConstants": [
+                                        "Lightbox",
+                                        "NewWindow",
+                                        "ThisWindow"
+                                    ]
                                 }
                             ],
                             "html": "Defines the console output style. Options are <TT>OutputStyle.Lightbox</TT>, <TT>OutputStyle.NewWindow</TT> and\n <TT>OutputStyle.ThisWindow</TT>.",
@@ -21355,7 +21985,12 @@
                             "parameters": [
                                 {
                                     "name": "filter",
-                                    "type": "javaposse.jobdsl.dsl.views.ListView.StatusFilter"
+                                    "type": "javaposse.jobdsl.dsl.views.ListView.StatusFilter",
+                                    "enumConstants": [
+                                        "ALL",
+                                        "ENABLED",
+                                        "DISABLED"
+                                    ]
                                 }
                             ],
                             "html": "Filter the job list by enabled/disabled status. Valid values are <TT>StatusFilter.ALL</TT> (default),\n <TT>StatusFilter.ENABLED</TT> and <TT>StatusFilter.DISABLED</TT>.",
@@ -21613,7 +22248,12 @@
                             "parameters": [
                                 {
                                     "name": "sorting",
-                                    "type": "javaposse.jobdsl.dsl.views.DeliveryPipelineView.Sorting"
+                                    "type": "javaposse.jobdsl.dsl.views.DeliveryPipelineView.Sorting",
+                                    "enumConstants": [
+                                        "NONE",
+                                        "TITLE",
+                                        "LAST_ACTIVITY"
+                                    ]
                                 }
                             ],
                             "html": "Specifies how to sort the pipeline in the view, only applicable for several pipelines. Possible values are\n <TT>Sorting.NONE</TT> (default), <TT>Sorting.TITLE</TT> and <TT>Sorting.LAST_ACTIVITY</TT>.",
@@ -24341,7 +24981,12 @@
                             "parameters": [
                                 {
                                     "name": "filter",
-                                    "type": "javaposse.jobdsl.dsl.views.ListView.StatusFilter"
+                                    "type": "javaposse.jobdsl.dsl.views.ListView.StatusFilter",
+                                    "enumConstants": [
+                                        "ALL",
+                                        "ENABLED",
+                                        "DISABLED"
+                                    ]
                                 }
                             ],
                             "html": "Filter the job list by enabled/disabled status. Valid values are <TT>StatusFilter.ALL</TT> (default),\n <TT>StatusFilter.ENABLED</TT> and <TT>StatusFilter.DISABLED</TT>.",
@@ -26156,6 +26801,11 @@
                                 {
                                     "name": "behavior",
                                     "type": "javaposse.jobdsl.dsl.helpers.publisher.PublisherContext.Behavior",
+                                    "enumConstants": [
+                                        "DoNothing",
+                                        "MarkUnstable",
+                                        "MarkFailed"
+                                    ],
                                     "defaultValue": "Behavior.DoNothing"
                                 }
                             ],
@@ -26988,7 +27638,7 @@
                                     "defaultValue": "null"
                                 }
                             ],
-                            "html": "Generates reports from static code violations detectors.\n     ",
+                            "html": "Generates reports from static code violations detectors.",
                             "firstSentenceCommentText": "Generates reports from static code violations detectors.",
                             "contextClass": "javaposse.jobdsl.dsl.helpers.publisher.ViolationsContext"
                         },
@@ -27007,7 +27657,7 @@
                             "plugin": {
                                 "id": "violations"
                             },
-                            "html": "Generates reports from static code violations detectors.\n\n For each supported detector type, the closure method with up to four arguments is available. The first argument\n specifies the lowest number of violations to generate the sunny weather report, defaults to 10. The second\n argument specifies the lowest number of violations to generate the stormy weather report, defaults to 999. If the\n number of violations exceeds the third argument, the build is set to unstable, defaults to 999. The last argument\n specifies an Ant pattern to find the violation files in the workspace. Supported detector types are\n <TT>checkstyle</TT>, <TT>codenarc</TT>, <TT>cpd</TT>, <TT>cpplint</TT>, <TT>csslint</TT>, <TT>findbugs</TT>,\n <TT>fxcop</TT>, <TT>gendarme</TT>, <TT>jcreport</TT>, <TT>jslint</TT>, <TT>pep8</TT>, <TT>perlcritic</TT>, <TT>pmd</TT>,\n <TT>pylint</TT>, <TT>simian</TT>, <TT>stylecop</TT> and <TT>jshint</TT>.",
+                            "html": "Generates reports from static code violations detectors.",
                             "firstSentenceCommentText": "Generates reports from static code violations detectors.",
                             "contextClass": "javaposse.jobdsl.dsl.helpers.publisher.ViolationsContext"
                         }
@@ -28483,7 +29133,11 @@
                             "parameters": [
                                 {
                                     "name": "location",
-                                    "type": "javaposse.jobdsl.dsl.helpers.common.MavenContext.LocalRepositoryLocation"
+                                    "type": "javaposse.jobdsl.dsl.helpers.common.MavenContext.LocalRepositoryLocation",
+                                    "enumConstants": [
+                                        "LocalToExecutor",
+                                        "LocalToWorkspace"
+                                    ]
                                 }
                             ],
                             "deprecated": true,
@@ -28495,7 +29149,11 @@
                             "parameters": [
                                 {
                                     "name": "location",
-                                    "type": "javaposse.jobdsl.dsl.helpers.LocalRepositoryLocation"
+                                    "type": "javaposse.jobdsl.dsl.helpers.LocalRepositoryLocation",
+                                    "enumConstants": [
+                                        "LOCAL_TO_EXECUTOR",
+                                        "LOCAL_TO_WORKSPACE"
+                                    ]
                                 }
                             ],
                             "availableSince": "1.31",
@@ -29222,7 +29880,8 @@
                                 "id": "parameterized-trigger"
                             },
                             "html": "Adds parameter values for the job.",
-                            "firstSentenceCommentText": "Adds parameter values for the job."
+                            "firstSentenceCommentText": "Adds parameter values for the job.",
+                            "contextClass": "javaposse.jobdsl.dsl.helpers.common.DownstreamTriggerParameterContext"
                         }
                     ]
                 },
