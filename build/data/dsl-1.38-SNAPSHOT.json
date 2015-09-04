@@ -15053,7 +15053,7 @@
                         {
                             "parameters": [
                                 {
-                                    "name": "target",
+                                    "name": "targets",
                                     "type": "String"
                                 },
                                 {
@@ -15062,52 +15062,6 @@
                                     "defaultValue": "null"
                                 }
                             ],
-                            "html": "Sends notifications to Jabber.",
-                            "firstSentenceCommentText": "Sends notifications to Jabber.",
-                            "contextClass": "javaposse.jobdsl.dsl.helpers.publisher.JabberContext"
-                        },
-                        {
-                            "parameters": [
-                                {
-                                    "name": "target",
-                                    "type": "String"
-                                },
-                                {
-                                    "name": "strategyName",
-                                    "type": "String"
-                                },
-                                {
-                                    "name": "jabberClosure",
-                                    "type": "Closure",
-                                    "defaultValue": "null"
-                                }
-                            ],
-                            "deprecated": true,
-                            "html": "Sends notifications to Jabber.",
-                            "firstSentenceCommentText": "Sends notifications to Jabber.",
-                            "contextClass": "javaposse.jobdsl.dsl.helpers.publisher.JabberContext"
-                        },
-                        {
-                            "parameters": [
-                                {
-                                    "name": "targetsArg",
-                                    "type": "String"
-                                },
-                                {
-                                    "name": "strategyName",
-                                    "type": "String"
-                                },
-                                {
-                                    "name": "channelNotificationName",
-                                    "type": "String"
-                                },
-                                {
-                                    "name": "jabberClosure",
-                                    "type": "Closure",
-                                    "defaultValue": "null"
-                                }
-                            ],
-                            "deprecated": true,
                             "plugin": {
                                 "id": "jabber"
                             },
@@ -16816,7 +16770,7 @@
                         {
                             "parameters": [
                                 {
-                                    "name": "target",
+                                    "name": "targets",
                                     "type": "String"
                                 },
                                 {
@@ -16825,52 +16779,6 @@
                                     "defaultValue": "null"
                                 }
                             ],
-                            "html": "Sends notifications to Jabber.",
-                            "firstSentenceCommentText": "Sends notifications to Jabber.",
-                            "contextClass": "javaposse.jobdsl.dsl.helpers.publisher.JabberContext"
-                        },
-                        {
-                            "parameters": [
-                                {
-                                    "name": "target",
-                                    "type": "String"
-                                },
-                                {
-                                    "name": "strategyName",
-                                    "type": "String"
-                                },
-                                {
-                                    "name": "jabberClosure",
-                                    "type": "Closure",
-                                    "defaultValue": "null"
-                                }
-                            ],
-                            "deprecated": true,
-                            "html": "Sends notifications to Jabber.",
-                            "firstSentenceCommentText": "Sends notifications to Jabber.",
-                            "contextClass": "javaposse.jobdsl.dsl.helpers.publisher.JabberContext"
-                        },
-                        {
-                            "parameters": [
-                                {
-                                    "name": "targetsArg",
-                                    "type": "String"
-                                },
-                                {
-                                    "name": "strategyName",
-                                    "type": "String"
-                                },
-                                {
-                                    "name": "channelNotificationName",
-                                    "type": "String"
-                                },
-                                {
-                                    "name": "jabberClosure",
-                                    "type": "Closure",
-                                    "defaultValue": "null"
-                                }
-                            ],
-                            "deprecated": true,
                             "plugin": {
                                 "id": "jabber"
                             },
@@ -19311,15 +19219,6 @@
                             "availableSince": "1.24",
                             "html": "Marked the build as failed.\n     ",
                             "firstSentenceCommentText": "Marked the build as failed."
-                        },
-                        {
-                            "parameters": [
-                                {
-                                    "name": "fail",
-                                    "type": "boolean"
-                                }
-                            ],
-                            "deprecated": true
                         }
                     ]
                 },
@@ -20655,20 +20554,6 @@
                         }
                     ],
                     "examples": "job('example') {\n    multiscm {\n        git {\n            remote {\n                github('jenkinsci/jenkins')\n            }\n            relativeTargetDir('jenkins')\n        }\n        git {\n            remote {\n                github('jenkinsci/job-dsl-plugin')\n            }\n            relativeTargetDir('job-dsl-plugin')\n        }\n    }\n}\n"
-                },
-                {
-                    "name": "name",
-                    "signatures": [
-                        {
-                            "parameters": [
-                                {
-                                    "name": "name",
-                                    "type": "String"
-                                }
-                            ],
-                            "deprecated": true
-                        }
-                    ]
                 },
                 {
                     "name": "notifications",
@@ -22033,20 +21918,6 @@
                             "firstSentenceCommentText": "Sets the content for the config file. "
                         }
                     ]
-                },
-                {
-                    "name": "name",
-                    "signatures": [
-                        {
-                            "parameters": [
-                                {
-                                    "name": "name",
-                                    "type": "String"
-                                }
-                            ],
-                            "deprecated": true
-                        }
-                    ]
                 }
             ]
         },
@@ -22397,20 +22268,6 @@
                         }
                     ],
                     "examples": "folder('project-a') {\n    displayName('Project A')\n}\n"
-                },
-                {
-                    "name": "name",
-                    "signatures": [
-                        {
-                            "parameters": [
-                                {
-                                    "name": "name",
-                                    "type": "String"
-                                }
-                            ],
-                            "deprecated": true
-                        }
-                    ]
                 },
                 {
                     "name": "primaryView",
@@ -22904,20 +22761,6 @@
                         }
                     ],
                     "examples": "job('example') {\n    multiscm {\n        git {\n            remote {\n                github('jenkinsci/jenkins')\n            }\n            relativeTargetDir('jenkins')\n        }\n        git {\n            remote {\n                github('jenkinsci/job-dsl-plugin')\n            }\n            relativeTargetDir('job-dsl-plugin')\n        }\n    }\n}\n"
-                },
-                {
-                    "name": "name",
-                    "signatures": [
-                        {
-                            "parameters": [
-                                {
-                                    "name": "name",
-                                    "type": "String"
-                                }
-                            ],
-                            "deprecated": true
-                        }
-                    ]
                 },
                 {
                     "name": "notifications",
@@ -23791,20 +23634,6 @@
                     "examples": "job('example') {\n    multiscm {\n        git {\n            remote {\n                github('jenkinsci/jenkins')\n            }\n            relativeTargetDir('jenkins')\n        }\n        git {\n            remote {\n                github('jenkinsci/job-dsl-plugin')\n            }\n            relativeTargetDir('job-dsl-plugin')\n        }\n    }\n}\n"
                 },
                 {
-                    "name": "name",
-                    "signatures": [
-                        {
-                            "parameters": [
-                                {
-                                    "name": "name",
-                                    "type": "String"
-                                }
-                            ],
-                            "deprecated": true
-                        }
-                    ]
-                },
-                {
                     "name": "notifications",
                     "signatures": [
                         {
@@ -23979,752 +23808,6 @@
                         }
                     ],
                     "examples": "job('example') {\n    scm {\n        github('jenkinsci/job-dsl-plugin')\n    }\n}\n"
-                },
-                {
-                    "name": "throttleConcurrentBuilds",
-                    "signatures": [
-                        {
-                            "parameters": [
-                                {
-                                    "name": "throttleClosure",
-                                    "type": "Closure"
-                                }
-                            ],
-                            "availableSince": "1.20",
-                            "plugin": {
-                                "id": "throttle-concurrents"
-                            },
-                            "html": "Throttles the number of concurrent builds of a project running per node or globally.\n     ",
-                            "firstSentenceCommentText": "Throttles the number of concurrent builds of a project running per node or globally.",
-                            "contextClass": "javaposse.jobdsl.dsl.helpers.toplevel.ThrottleConcurrentBuildsContext"
-                        }
-                    ],
-                    "examples": "// throttle one job on its own\njob('example-1') {\n    throttleConcurrentBuilds {\n        maxPerNode(1)\n        maxTotal(2)\n    }\n}\n\n// throttle as part of a category\njob('example-2') {\n    throttleConcurrentBuilds {\n        categories(['cat-1'])\n    }\n}\n"
-                },
-                {
-                    "name": "triggers",
-                    "signatures": [
-                        {
-                            "parameters": [
-                                {
-                                    "name": "closure",
-                                    "type": "Closure"
-                                }
-                            ],
-                            "html": "Adds build triggers to the job.",
-                            "firstSentenceCommentText": "Adds build triggers to the job.",
-                            "contextClass": "javaposse.jobdsl.dsl.helpers.triggers.TriggerContext"
-                        }
-                    ],
-                    "examples": "job('example') {\n    triggers {\n        scm('@daily')\n    }\n}\n"
-                },
-                {
-                    "name": "using",
-                    "signatures": [
-                        {
-                            "parameters": [
-                                {
-                                    "name": "templateName",
-                                    "type": "String"
-                                }
-                            ],
-                            "html": "Creates a new job configuration, based on the job template referenced by the parameter and stores this.\n\n When the template is changed, the seed job will attempt to re-run, which has the side-effect of cascading changes\n of the template the jobs generated from it.",
-                            "firstSentenceCommentText": "Creates a new job configuration, based on the job template referenced by the parameter and stores this."
-                        }
-                    ],
-                    "examples": "job('example') {\n    using('project-template')\n}\n"
-                },
-                {
-                    "name": "weight",
-                    "signatures": [
-                        {
-                            "parameters": [
-                                {
-                                    "name": "weight",
-                                    "type": "int"
-                                }
-                            ],
-                            "availableSince": "1.36",
-                            "plugin": {
-                                "id": "heavy-job",
-                                "minimumVersion": "1.1"
-                            },
-                            "html": "Specifies the number of executors to block for this job.\n     ",
-                            "firstSentenceCommentText": "Specifies the number of executors to block for this job."
-                        }
-                    ],
-                    "examples": "job('example') {\n    weight(2)\n}\n"
-                },
-                {
-                    "name": "wrappers",
-                    "signatures": [
-                        {
-                            "parameters": [
-                                {
-                                    "name": "closure",
-                                    "type": "Closure"
-                                }
-                            ],
-                            "availableSince": "1.19",
-                            "html": "Adds pre/post actions to the job.\n     ",
-                            "firstSentenceCommentText": "Adds pre/post actions to the job.",
-                            "contextClass": "javaposse.jobdsl.dsl.helpers.wrapper.WrapperContext"
-                        }
-                    ],
-                    "examples": "job('example') {\n    wrappers {\n        colorizeOutput()\n        timestamps()\n    }\n}\n"
-                }
-            ]
-        },
-        "javaposse.jobdsl.dsl.Job": {
-            "type": "javaposse.jobdsl.dsl.Job",
-            "methods": [
-                {
-                    "name": "authorization",
-                    "signatures": [
-                        {
-                            "parameters": [
-                                {
-                                    "name": "closure",
-                                    "type": "Closure"
-                                }
-                            ],
-                            "plugin": {
-                                "id": "matrix-auth"
-                            },
-                            "html": "Creates permission records.",
-                            "firstSentenceCommentText": "Creates permission records.",
-                            "contextClass": "javaposse.jobdsl.dsl.helpers.JobAuthorizationContext"
-                        }
-                    ],
-                    "examples": "// add a permission for the special authenticated group to see the workspace of the job\njob('example-1') {\n    authorization {\n        permission('hudson.model.Item.Workspace:authenticated')\n    }\n}\n\n// adds the build permission for the special anonymous user\njob('example-2') {\n    authorization {\n        permission('hudson.model.Item.Build', 'anonymous')\n    }\n}\n\n// add all permissions for user joe, blocking inheritance of the global\n// authorization matrix\njob('example-3') {\n    authorization {\n        permissionAll('joe')\n        blocksInheritance()\n    }\n}\n"
-                },
-                {
-                    "name": "batchTask",
-                    "signatures": [
-                        {
-                            "parameters": [
-                                {
-                                    "name": "name",
-                                    "type": "String"
-                                },
-                                {
-                                    "name": "script",
-                                    "type": "String"
-                                }
-                            ],
-                            "availableSince": "1.24",
-                            "plugin": {
-                                "id": "batch-task"
-                            },
-                            "html": "Adds batch tasks that are not regularly executed to projects, such as releases, integration, archiving.\n Can be called multiple times to add more batch tasks.\n     ",
-                            "firstSentenceCommentText": "Adds batch tasks that are not regularly executed to projects, such as releases, integration, archiving.\n "
-                        }
-                    ],
-                    "examples": "job('example') {\n    batchTask('upload', 'curl --upload-file build/dist.zip http://www.example.com/upload')\n    batchTask('release', readFileFromWorkspace('scripts/release.sh'))\n}\n"
-                },
-                {
-                    "name": "blockOn",
-                    "signatures": [
-                        {
-                            "parameters": [
-                                {
-                                    "name": "projectNames",
-                                    "type": "Iterable<String>"
-                                }
-                            ],
-                            "html": "Block build if certain jobs are running.\n     ",
-                            "firstSentenceCommentText": "Block build if certain jobs are running."
-                        },
-                        {
-                            "parameters": [
-                                {
-                                    "name": "projectNames",
-                                    "type": "Iterable<String>"
-                                },
-                                {
-                                    "name": "closure",
-                                    "type": "Closure"
-                                }
-                            ],
-                            "availableSince": "1.36\n",
-                            "html": "Block build if certain jobs are running.\n     ",
-                            "firstSentenceCommentText": "Block build if certain jobs are running.",
-                            "contextClass": "javaposse.jobdsl.dsl.BuildBlockerContext"
-                        },
-                        {
-                            "parameters": [
-                                {
-                                    "name": "projectName",
-                                    "type": "String"
-                                }
-                            ],
-                            "html": "Block build if certain jobs are running.\n     ",
-                            "firstSentenceCommentText": "Block build if certain jobs are running."
-                        },
-                        {
-                            "parameters": [
-                                {
-                                    "name": "projectName",
-                                    "type": "String"
-                                },
-                                {
-                                    "name": "closure",
-                                    "type": "Closure"
-                                }
-                            ],
-                            "availableSince": "1.36",
-                            "plugin": {
-                                "id": "build-blocker-plugin"
-                            },
-                            "html": "Block build if certain jobs are running.\n\n Regular expressions can be used for the project names, e.g. <TT>/.*-maintenance/</TT> will match all maintenance\n jobs.\n     ",
-                            "firstSentenceCommentText": "Block build if certain jobs are running.",
-                            "contextClass": "javaposse.jobdsl.dsl.BuildBlockerContext"
-                        }
-                    ],
-                    "examples": "job('example-1') {\n    blockOn('project-a')\n}\n\njob('example-2') {\n    blockOn(['project-a', 'project-b']) {\n        blockLevel('GLOBAL')\n        scanQueueFor('ALL')\n    }\n}\n"
-                },
-                {
-                    "name": "blockOnDownstreamProjects",
-                    "signatures": [
-                        {
-                            "parameters": [
-                                
-                            ],
-                            "availableSince": "1.16",
-                            "html": "Configures the job to block when downstream projects are building.\n     ",
-                            "firstSentenceCommentText": "Configures the job to block when downstream projects are building."
-                        }
-                    ],
-                    "examples": "job('example') {\n    blockOnDownstreamProjects()\n}\n"
-                },
-                {
-                    "name": "blockOnUpstreamProjects",
-                    "signatures": [
-                        {
-                            "parameters": [
-                                
-                            ],
-                            "availableSince": "1.16",
-                            "html": "Configures the job to block when upstream projects are building.\n     ",
-                            "firstSentenceCommentText": "Configures the job to block when upstream projects are building."
-                        }
-                    ],
-                    "examples": "job('example') {\n    blockOnUpstreamProjects()\n}\n"
-                },
-                {
-                    "name": "checkoutRetryCount",
-                    "signatures": [
-                        {
-                            "parameters": [
-                                {
-                                    "name": "times",
-                                    "type": "int",
-                                    "defaultValue": "3"
-                                }
-                            ],
-                            "availableSince": "1.16",
-                            "html": "Sets the number of times the SCM checkout is retried on errors.\n     ",
-                            "firstSentenceCommentText": "Sets the number of times the SCM checkout is retried on errors."
-                        }
-                    ],
-                    "examples": "job('example') {\n    checkoutRetryCount(10)\n}\n"
-                },
-                {
-                    "name": "compressBuildLog",
-                    "signatures": [
-                        {
-                            "parameters": [
-                                
-                            ],
-                            "availableSince": "1.36",
-                            "plugin": {
-                                "id": "compress-buildlog",
-                                "minimumVersion": "1.0"
-                            },
-                            "html": "Compresses the log file after build completion.\n     ",
-                            "firstSentenceCommentText": "Compresses the log file after build completion."
-                        }
-                    ],
-                    "examples": "job('example') {\n    compressBuildLog()\n}\n"
-                },
-                {
-                    "name": "concurrentBuild",
-                    "signatures": [
-                        {
-                            "parameters": [
-                                {
-                                    "name": "allowConcurrentBuild",
-                                    "type": "boolean",
-                                    "defaultValue": "true"
-                                }
-                            ],
-                            "availableSince": "1.21",
-                            "html": "Allows Jenkins to schedule and execute multiple builds concurrently.\n     ",
-                            "firstSentenceCommentText": "Allows Jenkins to schedule and execute multiple builds concurrently."
-                        }
-                    ],
-                    "examples": "job('example') {\n    concurrentBuild()\n}\n"
-                },
-                {
-                    "name": "configure",
-                    "signatures": [
-                        {
-                            "parameters": [
-                                {
-                                    "name": "withXmlClosure",
-                                    "type": "Closure"
-                                }
-                            ],
-                            "html": "Allows direct manipulation of the generated XML.\n     ",
-                            "firstSentenceCommentText": "Allows direct manipulation of the generated XML."
-                        }
-                    ],
-                    "examples": "job('example-1') {\n    configure { project ->\n        project / 'properties' / 'com.example.Test' {\n            'switch'('on')\n        }\n    }\n}\n"
-                },
-                {
-                    "name": "customWorkspace",
-                    "signatures": [
-                        {
-                            "parameters": [
-                                {
-                                    "name": "workspacePath",
-                                    "type": "String"
-                                }
-                            ],
-                            "availableSince": "1.16",
-                            "html": "Defines that a project should use the given directory as a workspace instead of the default workspace location.\n     ",
-                            "firstSentenceCommentText": "Defines that a project should use the given directory as a workspace instead of the default workspace location."
-                        }
-                    ],
-                    "examples": "job('example') {\n    customWorkspace('/tmp/my-workspace')\n}\n"
-                },
-                {
-                    "name": "deliveryPipelineConfiguration",
-                    "signatures": [
-                        {
-                            "parameters": [
-                                {
-                                    "name": "stageName",
-                                    "type": "String"
-                                },
-                                {
-                                    "name": "taskName",
-                                    "type": "String",
-                                    "defaultValue": "null"
-                                }
-                            ],
-                            "availableSince": "1.26",
-                            "plugin": {
-                                "id": "delivery-pipeline-plugin"
-                            },
-                            "html": "Sets the stage name and task name for the delivery pipeline view. Each of the parameters can be set to\n <TT>null</TT> to use the job name as stage or task name.\n     ",
-                            "firstSentenceCommentText": "Sets the stage name and task name for the delivery pipeline view. "
-                        }
-                    ],
-                    "examples": "// use job name as task name\njob('example-1') {\n    deliveryPipelineConfiguration('qa')\n}\n\n// use custom task name\njob('example-2') {\n    deliveryPipelineConfiguration('qa', 'integration-tests')\n}\n"
-                },
-                {
-                    "name": "description",
-                    "signatures": [
-                        {
-                            "parameters": [
-                                {
-                                    "name": "descriptionString",
-                                    "type": "String"
-                                }
-                            ],
-                            "html": "Sets a description for the job.",
-                            "firstSentenceCommentText": "Sets a description for the job."
-                        }
-                    ],
-                    "examples": "job('example') {\n    description('My first job')\n}\n"
-                },
-                {
-                    "name": "disabled",
-                    "signatures": [
-                        {
-                            "parameters": [
-                                {
-                                    "name": "shouldDisable",
-                                    "type": "boolean",
-                                    "defaultValue": "true"
-                                }
-                            ],
-                            "html": "Disables the job, so that no new builds will be executed until the project is re-enabled.",
-                            "firstSentenceCommentText": "Disables the job, so that no new builds will be executed until the project is re-enabled."
-                        }
-                    ],
-                    "examples": "job('example') {\n    disabled()\n}\n"
-                },
-                {
-                    "name": "displayName",
-                    "signatures": [
-                        {
-                            "parameters": [
-                                {
-                                    "name": "displayName",
-                                    "type": "String"
-                                }
-                            ],
-                            "availableSince": "1.16",
-                            "html": "Sets a display name for the project.\n     ",
-                            "firstSentenceCommentText": "Sets a display name for the project."
-                        }
-                    ],
-                    "examples": "job('example') {\n    displayName('Job DSL Example Project')\n}\n"
-                },
-                {
-                    "name": "environmentVariables",
-                    "signatures": [
-                        {
-                            "parameters": [
-                                {
-                                    "name": "envClosure",
-                                    "type": "Closure"
-                                }
-                            ],
-                            "html": "Adds environment variables to the build.",
-                            "firstSentenceCommentText": "Adds environment variables to the build.",
-                            "contextClass": "javaposse.jobdsl.dsl.helpers.toplevel.EnvironmentVariableContext"
-                        },
-                        {
-                            "parameters": [
-                                {
-                                    "name": "vars",
-                                    "type": "Map<Object, Object>"
-                                },
-                                {
-                                    "name": "envClosure",
-                                    "type": "Closure",
-                                    "defaultValue": "null"
-                                }
-                            ],
-                            "plugin": {
-                                "id": "envinject"
-                            },
-                            "html": "Adds environment variables to the build.",
-                            "firstSentenceCommentText": "Adds environment variables to the build.",
-                            "contextClass": "javaposse.jobdsl.dsl.helpers.toplevel.EnvironmentVariableContext"
-                        }
-                    ],
-                    "examples": "job('example-1') {\n    environmentVariables(FOO: 'bar', TEST: '123')\n}\n\njob('example-2') {\n    environmentVariables {\n        env('ONE', '1')\n        propertiesFile('env.properties')\n        keepBuildVariables(true)\n    }\n}\n"
-                },
-                {
-                    "name": "jdk",
-                    "signatures": [
-                        {
-                            "parameters": [
-                                {
-                                    "name": "jdk",
-                                    "type": "String"
-                                }
-                            ],
-                            "html": "Name of the JDK installation to use for this job. The name must match the name of a JDK installation defined in\n the Jenkins system configuration. The default JDK will be used when the jdk method is omitted.",
-                            "firstSentenceCommentText": "Name of the JDK installation to use for this job. "
-                        }
-                    ],
-                    "examples": "job('jdk') {\n    jdk('Java 8')\n}\n"
-                },
-                {
-                    "name": "keepDependencies",
-                    "signatures": [
-                        {
-                            "parameters": [
-                                {
-                                    "name": "keep",
-                                    "type": "boolean",
-                                    "defaultValue": "true"
-                                }
-                            ],
-                            "availableSince": "1.17",
-                            "html": "Protects all builds that are referenced from builds of this project (via fingerprint) from log rotation.\n     ",
-                            "firstSentenceCommentText": "Protects all builds that are referenced from builds of this project (via fingerprint) from log rotation."
-                        }
-                    ],
-                    "examples": "job('example') {\n    keepDependencies()\n}\n"
-                },
-                {
-                    "name": "label",
-                    "signatures": [
-                        {
-                            "parameters": [
-                                {
-                                    "name": "labelExpression",
-                                    "type": "String",
-                                    "defaultValue": "null"
-                                }
-                            ],
-                            "html": "Label which specifies which nodes this job can run on. If <TT>null</TT> is passed in, the label is cleared out and\n the job can roam.",
-                            "firstSentenceCommentText": "Label which specifies which nodes this job can run on. "
-                        }
-                    ],
-                    "examples": "job('example') {\n    label('x86 && ubuntu')\n}\n"
-                },
-                {
-                    "name": "lockableResources",
-                    "signatures": [
-                        {
-                            "parameters": [
-                                {
-                                    "name": "resources",
-                                    "type": "String"
-                                },
-                                {
-                                    "name": "lockClosure",
-                                    "type": "Closure",
-                                    "defaultValue": "null"
-                                }
-                            ],
-                            "availableSince": "1.25",
-                            "plugin": {
-                                "id": "lockable-resources"
-                            },
-                            "html": "Locks resources while a job is running.\n     ",
-                            "firstSentenceCommentText": "Locks resources while a job is running.",
-                            "contextClass": "javaposse.jobdsl.dsl.helpers.toplevel.LockableResourcesContext"
-                        }
-                    ],
-                    "examples": "// lock single resource\njob('example-1') {\n    lockableResources('lock-resource')\n}\n\n// notation that locks three resources at once\njob('example-2') {\n    lockableResources('resource1 resource2 resource3')\n}\n\n// lock two available resources from given three and capture locked resources in the variable name\njob('example-3') {\n    lockableResources('resource1 resource2 resource3') {\n        resourcesVariable('LOCKED_RESOURCES')\n        resourceNumber(2)\n    }\n    steps {\n        shell('echo Following resources are locked: $LOCKED_RESOURCES')\n    }\n}\n"
-                },
-                {
-                    "name": "logRotator",
-                    "signatures": [
-                        {
-                            "parameters": [
-                                {
-                                    "name": "daysToKeep",
-                                    "type": "int",
-                                    "defaultValue": "-1"
-                                },
-                                {
-                                    "name": "numToKeep",
-                                    "type": "int",
-                                    "defaultValue": "-1"
-                                },
-                                {
-                                    "name": "artifactDaysToKeep",
-                                    "type": "int",
-                                    "defaultValue": "-1"
-                                },
-                                {
-                                    "name": "artifactNumToKeep",
-                                    "type": "int",
-                                    "defaultValue": "-1"
-                                }
-                            ],
-                            "html": "Manages how long to keep records of the builds.",
-                            "firstSentenceCommentText": "Manages how long to keep records of the builds."
-                        },
-                        {
-                            "parameters": [
-                                {
-                                    "name": "closure",
-                                    "type": "Closure"
-                                }
-                            ],
-                            "availableSince": "1.35",
-                            "html": "Manages how long to keep records of the builds.\n     ",
-                            "firstSentenceCommentText": "Manages how long to keep records of the builds.",
-                            "contextClass": "javaposse.jobdsl.dsl.LogRotatorContext"
-                        }
-                    ],
-                    "examples": "job('example-1') {\n    logRotator(30, -1, 1, -1)\n}\n\njob('example-2') {\n    logRotator {\n        numToKeep(5)\n        artifactNumToKeep(1)\n    }\n}\n"
-                },
-                {
-                    "name": "multiscm",
-                    "signatures": [
-                        {
-                            "parameters": [
-                                {
-                                    "name": "closure",
-                                    "type": "Closure"
-                                }
-                            ],
-                            "plugin": {
-                                "id": "multiple-scms"
-                            },
-                            "html": "Allows a job to check out sources from multiple SCM providers.",
-                            "firstSentenceCommentText": "Allows a job to check out sources from multiple SCM providers.",
-                            "contextClass": "javaposse.jobdsl.dsl.helpers.ScmContext"
-                        }
-                    ],
-                    "examples": "job('example') {\n    multiscm {\n        git {\n            remote {\n                github('jenkinsci/jenkins')\n            }\n            relativeTargetDir('jenkins')\n        }\n        git {\n            remote {\n                github('jenkinsci/job-dsl-plugin')\n            }\n            relativeTargetDir('job-dsl-plugin')\n        }\n    }\n}\n"
-                },
-                {
-                    "name": "name",
-                    "signatures": [
-                        {
-                            "parameters": [
-                                {
-                                    "name": "name",
-                                    "type": "String"
-                                }
-                            ],
-                            "deprecated": true
-                        }
-                    ]
-                },
-                {
-                    "name": "notifications",
-                    "signatures": [
-                        {
-                            "parameters": [
-                                {
-                                    "name": "notificationClosure",
-                                    "type": "Closure"
-                                }
-                            ],
-                            "availableSince": "1.26",
-                            "plugin": {
-                                "id": "notification"
-                            },
-                            "html": "Configures notifications for the build.\n     ",
-                            "firstSentenceCommentText": "Configures notifications for the build.",
-                            "contextClass": "javaposse.jobdsl.dsl.helpers.toplevel.NotificationContext"
-                        }
-                    ],
-                    "examples": "job('example') {\n    notifications {\n        endpoint('http://example.com:8080/monitor')\n        endpoint('10.100.2.3:3434', 'TCP', 'XML') {\n            event('started')\n            timeout(60000)\n        }\n    }\n}\n"
-                },
-                {
-                    "name": "parameters",
-                    "signatures": [
-                        {
-                            "parameters": [
-                                {
-                                    "name": "closure",
-                                    "type": "Closure"
-                                }
-                            ],
-                            "availableSince": "1.15",
-                            "html": "Allows to parameterize the job.\n     ",
-                            "firstSentenceCommentText": "Allows to parameterize the job.",
-                            "contextClass": "javaposse.jobdsl.dsl.helpers.BuildParametersContext"
-                        }
-                    ],
-                    "examples": "job('example') {\n    parameters {\n        booleanParam('FLAG', true)\n        choiceParam('OPTION', ['option 1 (default)', 'option 2', 'option 3'])\n    }\n}\n"
-                },
-                {
-                    "name": "previousNames",
-                    "signatures": [
-                        {
-                            "parameters": [
-                                {
-                                    "name": "regex",
-                                    "type": "String"
-                                }
-                            ],
-                            "availableSince": "1.29",
-                            "html": "Renames jobs matching the regular expression to the name of this job before the configuration is updated.\n The regular expression needs to match the full name of the job, i.e. with folders included.\n This can be useful to keep the build history.\n     ",
-                            "firstSentenceCommentText": "Renames jobs matching the regular expression to the name of this job before the configuration is updated.\n "
-                        }
-                    ],
-                    "examples": "// keep the build history when re-numbering jobs\njob('04-project-a-deploy') {\n    previousNames(/\\d+-project-a-deploy/)\n}\n"
-                },
-                {
-                    "name": "priority",
-                    "signatures": [
-                        {
-                            "parameters": [
-                                {
-                                    "name": "value",
-                                    "type": "int"
-                                }
-                            ],
-                            "availableSince": "1.15",
-                            "plugin": {
-                                "id": "PrioritySorter"
-                            },
-                            "html": "Set the priority of the job. Default value is 100.\n     ",
-                            "firstSentenceCommentText": "Set the priority of the job. "
-                        }
-                    ],
-                    "examples": "job('example') {\n    priority(50)\n}\n"
-                },
-                {
-                    "name": "properties",
-                    "signatures": [
-                        {
-                            "parameters": [
-                                {
-                                    "name": "closure",
-                                    "type": "Closure"
-                                }
-                            ],
-                            "html": "Adds custom properties to the job.",
-                            "firstSentenceCommentText": "Adds custom properties to the job.",
-                            "contextClass": "javaposse.jobdsl.dsl.helpers.properties.PropertiesContext"
-                        }
-                    ],
-                    "examples": "job('example') {\n    properties {\n        customIcon('job.png')\n        sidebarLinks {\n            link('https://jira.acme.org/', 'JIRA', 'notepad.png')\n        }\n    }\n}\n"
-                },
-                {
-                    "name": "publishers",
-                    "signatures": [
-                        {
-                            "parameters": [
-                                {
-                                    "name": "closure",
-                                    "type": "Closure"
-                                }
-                            ],
-                            "html": "Adds post-build actions to the job.",
-                            "firstSentenceCommentText": "Adds post-build actions to the job.",
-                            "contextClass": "javaposse.jobdsl.dsl.helpers.publisher.PublisherContext"
-                        }
-                    ],
-                    "examples": "job('example') {\n    publishers {\n        archiveArtifacts('build/test-output/**/*.html')\n        archiveJunit('**/target/surefire-reports/*.xml')\n    }\n}\n"
-                },
-                {
-                    "name": "quietPeriod",
-                    "signatures": [
-                        {
-                            "parameters": [
-                                {
-                                    "name": "seconds",
-                                    "type": "int",
-                                    "defaultValue": "5"
-                                }
-                            ],
-                            "availableSince": "1.16",
-                            "html": "Defines a timespan (in seconds) to wait for additional events (pushes, check-ins) before triggering a build.\n     ",
-                            "firstSentenceCommentText": "Defines a timespan (in seconds) to wait for additional events (pushes, check-ins) before triggering a build."
-                        }
-                    ],
-                    "examples": "job('example') {\n    quietPeriod(120)\n}\n"
-                },
-                {
-                    "name": "scm",
-                    "signatures": [
-                        {
-                            "parameters": [
-                                {
-                                    "name": "closure",
-                                    "type": "Closure"
-                                }
-                            ],
-                            "html": "Allows a job to check out sources from an SCM provider.",
-                            "firstSentenceCommentText": "Allows a job to check out sources from an SCM provider.",
-                            "contextClass": "javaposse.jobdsl.dsl.helpers.ScmContext"
-                        }
-                    ],
-                    "examples": "job('example') {\n    scm {\n        github('jenkinsci/job-dsl-plugin')\n    }\n}\n"
-                },
-                {
-                    "name": "steps",
-                    "signatures": [
-                        {
-                            "parameters": [
-                                {
-                                    "name": "closure",
-                                    "type": "Closure"
-                                }
-                            ],
-                            "html": "Adds build steps to the jobs.",
-                            "firstSentenceCommentText": "Adds build steps to the jobs.",
-                            "contextClass": "javaposse.jobdsl.dsl.helpers.step.StepContext"
-                        }
-                    ],
-                    "examples": "job('example') {\n    steps {\n        shell('echo START')\n        gradle('check')\n    }\n}\n"
                 },
                 {
                     "name": "throttleConcurrentBuilds",
@@ -25665,20 +24748,6 @@
                         }
                     ],
                     "examples": "job('example') {\n    multiscm {\n        git {\n            remote {\n                github('jenkinsci/jenkins')\n            }\n            relativeTargetDir('jenkins')\n        }\n        git {\n            remote {\n                github('jenkinsci/job-dsl-plugin')\n            }\n            relativeTargetDir('job-dsl-plugin')\n        }\n    }\n}\n"
-                },
-                {
-                    "name": "name",
-                    "signatures": [
-                        {
-                            "parameters": [
-                                {
-                                    "name": "name",
-                                    "type": "String"
-                                }
-                            ],
-                            "deprecated": true
-                        }
-                    ]
                 },
                 {
                     "name": "notifications",
@@ -27263,7 +26332,7 @@
                         {
                             "parameters": [
                                 {
-                                    "name": "target",
+                                    "name": "targets",
                                     "type": "String"
                                 },
                                 {
@@ -27272,52 +26341,6 @@
                                     "defaultValue": "null"
                                 }
                             ],
-                            "html": "Sends notifications to Jabber.",
-                            "firstSentenceCommentText": "Sends notifications to Jabber.",
-                            "contextClass": "javaposse.jobdsl.dsl.helpers.publisher.JabberContext"
-                        },
-                        {
-                            "parameters": [
-                                {
-                                    "name": "target",
-                                    "type": "String"
-                                },
-                                {
-                                    "name": "strategyName",
-                                    "type": "String"
-                                },
-                                {
-                                    "name": "jabberClosure",
-                                    "type": "Closure",
-                                    "defaultValue": "null"
-                                }
-                            ],
-                            "deprecated": true,
-                            "html": "Sends notifications to Jabber.",
-                            "firstSentenceCommentText": "Sends notifications to Jabber.",
-                            "contextClass": "javaposse.jobdsl.dsl.helpers.publisher.JabberContext"
-                        },
-                        {
-                            "parameters": [
-                                {
-                                    "name": "targetsArg",
-                                    "type": "String"
-                                },
-                                {
-                                    "name": "strategyName",
-                                    "type": "String"
-                                },
-                                {
-                                    "name": "channelNotificationName",
-                                    "type": "String"
-                                },
-                                {
-                                    "name": "jabberClosure",
-                                    "type": "Closure",
-                                    "defaultValue": "null"
-                                }
-                            ],
-                            "deprecated": true,
                             "plugin": {
                                 "id": "jabber"
                             },
@@ -29285,20 +28308,6 @@
                         }
                     ],
                     "examples": "job('example') {\n    multiscm {\n        git {\n            remote {\n                github('jenkinsci/jenkins')\n            }\n            relativeTargetDir('jenkins')\n        }\n        git {\n            remote {\n                github('jenkinsci/job-dsl-plugin')\n            }\n            relativeTargetDir('job-dsl-plugin')\n        }\n    }\n}\n"
-                },
-                {
-                    "name": "name",
-                    "signatures": [
-                        {
-                            "parameters": [
-                                {
-                                    "name": "name",
-                                    "type": "String"
-                                }
-                            ],
-                            "deprecated": true
-                        }
-                    ]
                 },
                 {
                     "name": "notifications",
@@ -31713,20 +30722,6 @@
                     "examples": "job('example') {\n    multiscm {\n        git {\n            remote {\n                github('jenkinsci/jenkins')\n            }\n            relativeTargetDir('jenkins')\n        }\n        git {\n            remote {\n                github('jenkinsci/job-dsl-plugin')\n            }\n            relativeTargetDir('job-dsl-plugin')\n        }\n    }\n}\n"
                 },
                 {
-                    "name": "name",
-                    "signatures": [
-                        {
-                            "parameters": [
-                                {
-                                    "name": "name",
-                                    "type": "String"
-                                }
-                            ],
-                            "deprecated": true
-                        }
-                    ]
-                },
-                {
                     "name": "notifications",
                     "signatures": [
                         {
@@ -32470,21 +31465,6 @@
                                     "defaultValue": "[:]"
                                 },
                                 {
-                                    "name": "closure",
-                                    "type": "Closure"
-                                }
-                            ],
-                            "deprecated": true,
-                            "contextClass": "javaposse.jobdsl.dsl.View"
-                        },
-                        {
-                            "parameters": [
-                                {
-                                    "name": "arguments",
-                                    "type": "Map<String, Object>",
-                                    "defaultValue": "[:]"
-                                },
-                                {
                                     "name": "name",
                                     "type": "String"
                                 },
@@ -33171,20 +32151,6 @@
                     "examples": "job('example') {\n    multiscm {\n        git {\n            remote {\n                github('jenkinsci/jenkins')\n            }\n            relativeTargetDir('jenkins')\n        }\n        git {\n            remote {\n                github('jenkinsci/job-dsl-plugin')\n            }\n            relativeTargetDir('job-dsl-plugin')\n        }\n    }\n}\n"
                 },
                 {
-                    "name": "name",
-                    "signatures": [
-                        {
-                            "parameters": [
-                                {
-                                    "name": "name",
-                                    "type": "String"
-                                }
-                            ],
-                            "deprecated": true
-                        }
-                    ]
-                },
-                {
                     "name": "notifications",
                     "signatures": [
                         {
@@ -33597,41 +32563,6 @@
                     "examples": "categorizedJobsView('example') {\n    jobs {\n        regex(/configuration_.*/)\n    }\n    categorizationCriteria {\n        regexGroupingRule(/^configuration_([^_]+).*$/)\n    }\n    columns {\n        status()\n        categorizedJob()\n        buildButton()\n    }\n}\n"
                 },
                 {
-                    "name": "configFile",
-                    "signatures": [
-                        {
-                            "parameters": [
-                                {
-                                    "name": "closure",
-                                    "type": "Closure"
-                                }
-                            ],
-                            "deprecated": true,
-                            "plugin": {
-                                "id": "config-file-provider"
-                            },
-                            "contextClass": "javaposse.jobdsl.dsl.ConfigFile"
-                        },
-                        {
-                            "parameters": [
-                                {
-                                    "name": "arguments",
-                                    "type": "Map<String, Object>"
-                                },
-                                {
-                                    "name": "closure",
-                                    "type": "Closure"
-                                }
-                            ],
-                            "deprecated": true,
-                            "plugin": {
-                                "id": "config-file-provider"
-                            },
-                            "contextClass": "javaposse.jobdsl.dsl.ConfigFile"
-                        }
-                    ]
-                },
-                {
                     "name": "customConfigFile",
                     "signatures": [
                         {
@@ -33710,19 +32641,6 @@
                 {
                     "name": "folder",
                     "signatures": [
-                        {
-                            "parameters": [
-                                {
-                                    "name": "closure",
-                                    "type": "Closure"
-                                }
-                            ],
-                            "deprecated": true,
-                            "plugin": {
-                                "id": "cloudbees-folder"
-                            },
-                            "contextClass": "javaposse.jobdsl.dsl.Folder"
-                        },
                         {
                             "parameters": [
                                 {
@@ -33836,30 +32754,6 @@
                 {
                     "name": "job",
                     "signatures": [
-                        {
-                            "parameters": [
-                                {
-                                    "name": "closure",
-                                    "type": "Closure"
-                                }
-                            ],
-                            "deprecated": true,
-                            "contextClass": "javaposse.jobdsl.dsl.Job"
-                        },
-                        {
-                            "parameters": [
-                                {
-                                    "name": "arguments",
-                                    "type": "Map<String, Object>"
-                                },
-                                {
-                                    "name": "closure",
-                                    "type": "Closure"
-                                }
-                            ],
-                            "deprecated": true,
-                            "contextClass": "javaposse.jobdsl.dsl.Job"
-                        },
                         {
                             "parameters": [
                                 {
@@ -34243,35 +33137,6 @@
                         }
                     ],
                     "examples": "// save the file images/logo.png from the seed job's workspace as user content\nuserContent('company-logo.png', streamFileFromWorkspace('images/logo.png'))\n"
-                },
-                {
-                    "name": "view",
-                    "signatures": [
-                        {
-                            "parameters": [
-                                {
-                                    "name": "closure",
-                                    "type": "Closure"
-                                }
-                            ],
-                            "deprecated": true,
-                            "contextClass": "javaposse.jobdsl.dsl.View"
-                        },
-                        {
-                            "parameters": [
-                                {
-                                    "name": "arguments",
-                                    "type": "Map<String, Object>"
-                                },
-                                {
-                                    "name": "closure",
-                                    "type": "Closure"
-                                }
-                            ],
-                            "deprecated": true,
-                            "contextClass": "javaposse.jobdsl.dsl.View"
-                        }
-                    ]
                 },
                 {
                     "name": "workflowJob",
