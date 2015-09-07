@@ -16,7 +16,7 @@
 .tree-body.jstree-proton>.jstree-container-ul>.jstree-node{margin-left:3px;border-left:none}
 .tree-body .jstree-wholerow-clicked~.jstree-anchor{color:#fff}
 .detail-wrapper{overflow:auto}
-.firstSentenceCommentText,ul.context-methods .method-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.firstSentenceCommentText,ul.context-methods .method-name{overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
 .title .navbar{border:none}
 .title .navbar-header .navbar-brand{color:#ddd;font-size:17px;padding:15px 10px}
 .title .navbar-brand,.title .navbar-nav>li>a{text-shadow:none}
@@ -24,6 +24,8 @@
 .title .navbar-nav a{color:#ddd}
 .title .navbar-nav li.active a{background-color:#000;color:#fff}
 .title .form-control.version-select{width:auto;float:right;margin-top:8px;margin-right:10px}
+.title .toggle-plugins{margin-top:8px;background-color:#fff}
+.title .toggle-plugins span{line-height:20px}
 .plugins{padding:10px;border-top:1px solid #ddd;border-bottom:1px solid #ddd}
 body .breadcrumb{margin-bottom:0;border-radius:0}
 body .breadcrumb>li+li:before{padding:0 5px;color:#ccc;content:"\2192\00a0"}
@@ -71,10 +73,18 @@ ul.usages li:first-of-type{border-top:1px solid #ccc}
 .search-results ul li a:hover{background-color:#76b6ec;color:#fff}
 .search-results ul li a:hover .simpleClassName{color:#fff}
 .search-results ul li span{margin-right:5px;width:23px;display:inline-block;padding:0;line-height:18px}
-.search-results ul li span.method{background-color:#2E4057}
-.search-results ul li span.plugin{background-color:green}
 .simple-class-name{font-size:9pt;color:#888}
 .expand-closure{background-color:#ddd;padding:0 4px;margin:0 4px;cursor:pointer;color:#555}
 ul.inline-context-methods{margin:0 0 0 2pc;padding:0}
 ul.inline-context-methods li{margin-top:14px;list-style-type:none}
 .context-methods-section>ul.inline-context-methods{margin-left:0}
+.plugins-wrapper{border-left:1px solid #ddd;background-color:#fff}
+.plugins-wrapper .plugins-header{border-bottom:1px solid #ddd;background-color:#eee;font-size:1pc}
+.plugins-wrapper .plugins-header label{display:block;line-height:40px;font-weight:400;margin:0}
+.plugins-wrapper .plugins-header .checkbox-wrapper,.plugins-wrapper ul li .checkbox-wrapper{width:35px;display:inline-block;text-align:center}
+.plugins-wrapper .plugins-body{overflow:auto}
+.plugins-wrapper ul{margin:0;padding:0}
+.plugins-wrapper ul li{list-style-type:none;border-bottom:1px solid #eee}
+.plugins-wrapper ul li a{padding:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.plugins-wrapper ul li .checkbox-wrapper{height:30px}
+.plugins-wrapper ul li .checkbox-wrapper input{margin-top:9px}

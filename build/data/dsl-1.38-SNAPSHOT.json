@@ -4956,6 +4956,56 @@
                 }
             ]
         },
+        "javaposse.jobdsl.dsl.helpers.publisher.CrittercismDsymRecorderContext": {
+            "type": "javaposse.jobdsl.dsl.helpers.publisher.CrittercismDsymRecorderContext",
+            "methods": [
+                {
+                    "name": "apiKey",
+                    "signatures": [
+                        {
+                            "parameters": [
+                                {
+                                    "name": "apiKey",
+                                    "type": "String"
+                                }
+                            ],
+                            "html": "Sets the Crittercism API key.\n\n For security reasons, do not use a hard-coded API key. See\n <a href=\"https://github.com/jenkinsci/job-dsl-plugin/wiki/Handling-Credentials\">Handling Credentials</a> for\n details about handling credentials in DSL scripts.",
+                            "firstSentenceCommentText": "Sets the Crittercism API key."
+                        }
+                    ]
+                },
+                {
+                    "name": "appID",
+                    "signatures": [
+                        {
+                            "parameters": [
+                                {
+                                    "name": "appID",
+                                    "type": "String"
+                                }
+                            ],
+                            "html": "Set the Crittercism app ID.",
+                            "firstSentenceCommentText": "Set the Crittercism app ID."
+                        }
+                    ]
+                },
+                {
+                    "name": "filePath",
+                    "signatures": [
+                        {
+                            "parameters": [
+                                {
+                                    "name": "filePath",
+                                    "type": "String"
+                                }
+                            ],
+                            "html": "Specifies the path to the dSYM file.",
+                            "firstSentenceCommentText": "Specifies the path to the dSYM file."
+                        }
+                    ]
+                }
+            ]
+        },
         "javaposse.jobdsl.dsl.helpers.publisher.DebianPackagePublisherContext": {
             "type": "javaposse.jobdsl.dsl.helpers.publisher.DebianPackagePublisherContext",
             "methods": [
@@ -14198,6 +14248,28 @@
                     "examples": "job('example') {\n    publishers {\n        cobertura('**/target/site/cobertura/coverage.xml') {\n            failNoReports(true)\n            sourceEncoding('ASCII')\n\n            // the following targets are added by default to check the method, line and conditional level coverage\n            methodTarget(80, 0, 0)\n            lineTarget(80, 0, 0)\n            conditionalTarget(70, 0, 0)\n        }\n    }\n}\n"
                 },
                 {
+                    "name": "crittercismDsymUpload",
+                    "signatures": [
+                        {
+                            "parameters": [
+                                {
+                                    "name": "closure",
+                                    "type": "Closure"
+                                }
+                            ],
+                            "availableSince": "1.38",
+                            "plugin": {
+                                "id": "crittercism-dsym",
+                                "minimumVersion": "1.1"
+                            },
+                            "html": "Uploads a dSYM file to Crittercism.\n     ",
+                            "firstSentenceCommentText": "Uploads a dSYM file to Crittercism.",
+                            "contextClass": "javaposse.jobdsl.dsl.helpers.publisher.CrittercismDsymRecorderContext"
+                        }
+                    ],
+                    "examples": "job('example') {\n    publishers {\n        crittercismDsymUpload {\n            apiKey('secret')\n            appID('c001abb')\n            filePath('build/myapp.dSYM.zip')\n        }\n    }\n}\n"
+                },
+                {
                     "name": "debianPackage",
                     "signatures": [
                         {
@@ -15930,6 +16002,28 @@
                         }
                     ],
                     "examples": "job('example') {\n    publishers {\n        cobertura('**/target/site/cobertura/coverage.xml') {\n            failNoReports(true)\n            sourceEncoding('ASCII')\n\n            // the following targets are added by default to check the method, line and conditional level coverage\n            methodTarget(80, 0, 0)\n            lineTarget(80, 0, 0)\n            conditionalTarget(70, 0, 0)\n        }\n    }\n}\n"
+                },
+                {
+                    "name": "crittercismDsymUpload",
+                    "signatures": [
+                        {
+                            "parameters": [
+                                {
+                                    "name": "closure",
+                                    "type": "Closure"
+                                }
+                            ],
+                            "availableSince": "1.38",
+                            "plugin": {
+                                "id": "crittercism-dsym",
+                                "minimumVersion": "1.1"
+                            },
+                            "html": "Uploads a dSYM file to Crittercism.\n     ",
+                            "firstSentenceCommentText": "Uploads a dSYM file to Crittercism.",
+                            "contextClass": "javaposse.jobdsl.dsl.helpers.publisher.CrittercismDsymRecorderContext"
+                        }
+                    ],
+                    "examples": "job('example') {\n    publishers {\n        crittercismDsymUpload {\n            apiKey('secret')\n            appID('c001abb')\n            filePath('build/myapp.dSYM.zip')\n        }\n    }\n}\n"
                 },
                 {
                     "name": "debianPackage",
@@ -21966,6 +22060,50 @@
             "type": "javaposse.jobdsl.dsl.views.DeliveryPipelineView",
             "methods": [
                 {
+                    "name": "allowPipelineStart",
+                    "signatures": [
+                        {
+                            "parameters": [
+                                {
+                                    "name": "value",
+                                    "type": "boolean",
+                                    "defaultValue": "true"
+                                }
+                            ],
+                            "availableSince": "1.38",
+                            "plugin": {
+                                "id": "delivery-pipeline-plugin",
+                                "minimumVersion": "0.9.0"
+                            },
+                            "html": "Allows to start a new pipeline build. Defaults to <TT>false</TT>.\n     ",
+                            "firstSentenceCommentText": "Allows to start a new pipeline build. "
+                        }
+                    ],
+                    "examples": "deliveryPipelineView('example') {\n    allowPipelineStart()\n}\n"
+                },
+                {
+                    "name": "allowRebuild",
+                    "signatures": [
+                        {
+                            "parameters": [
+                                {
+                                    "name": "value",
+                                    "type": "boolean",
+                                    "defaultValue": "true"
+                                }
+                            ],
+                            "availableSince": "1.38",
+                            "plugin": {
+                                "id": "delivery-pipeline-plugin",
+                                "minimumVersion": "0.9.0"
+                            },
+                            "html": "Allows to rebuild a task. Defaults to <TT>false</TT>.\n     ",
+                            "firstSentenceCommentText": "Allows to rebuild a task. "
+                        }
+                    ],
+                    "examples": "deliveryPipelineView('example') {\n    allowRebuild()\n}\n"
+                },
+                {
                     "name": "columns",
                     "signatures": [
                         {
@@ -22111,6 +22249,72 @@
                         }
                     ],
                     "examples": "deliveryPipelineView('example') {\n    showChangeLog()\n}\n"
+                },
+                {
+                    "name": "showDescription",
+                    "signatures": [
+                        {
+                            "parameters": [
+                                {
+                                    "name": "value",
+                                    "type": "boolean",
+                                    "defaultValue": "true"
+                                }
+                            ],
+                            "availableSince": "1.38",
+                            "plugin": {
+                                "id": "delivery-pipeline-plugin",
+                                "minimumVersion": "0.9.5"
+                            },
+                            "html": "Shows the build description connected to a task. Defaults to <TT>false</TT>.\n     ",
+                            "firstSentenceCommentText": "Shows the build description connected to a task. "
+                        }
+                    ],
+                    "examples": "deliveryPipelineView('example') {\n    showDescription()\n}\n"
+                },
+                {
+                    "name": "showPromotions",
+                    "signatures": [
+                        {
+                            "parameters": [
+                                {
+                                    "name": "value",
+                                    "type": "boolean",
+                                    "defaultValue": "true"
+                                }
+                            ],
+                            "availableSince": "1.38",
+                            "plugin": {
+                                "id": "delivery-pipeline-plugin",
+                                "minimumVersion": "0.9.5"
+                            },
+                            "html": "Shows promotions from the\n <a href=\"https://wiki.jenkins-ci.org/display/JENKINS/Promoted+Builds+Plugin\">Promoted Builds Plugin</a>.\n Defaults to <TT>false</TT>.\n     ",
+                            "firstSentenceCommentText": "Shows promotions from the\n Promoted Builds Plugin.\n "
+                        }
+                    ],
+                    "examples": "deliveryPipelineView('example') {\n    showPromotions()\n}\n"
+                },
+                {
+                    "name": "showTotalBuildTime",
+                    "signatures": [
+                        {
+                            "parameters": [
+                                {
+                                    "name": "value",
+                                    "type": "boolean",
+                                    "defaultValue": "true"
+                                }
+                            ],
+                            "availableSince": "1.38",
+                            "plugin": {
+                                "id": "delivery-pipeline-plugin",
+                                "minimumVersion": "0.9.5"
+                            },
+                            "html": "Shows the total build time of a pipeline. Defaults to <TT>false</TT>.\n     ",
+                            "firstSentenceCommentText": "Shows the total build time of a pipeline. "
+                        }
+                    ],
+                    "examples": "deliveryPipelineView('example') {\n    showTotalBuildTime()\n}\n"
                 },
                 {
                     "name": "sorting",
@@ -24190,6 +24394,36 @@
                     ]
                 },
                 {
+                    "name": "python",
+                    "signatures": [
+                        {
+                            "parameters": [
+                                {
+                                    "name": "axisValues",
+                                    "type": "String..."
+                                }
+                            ],
+                            "html": "Adds an axis that allows to build the project with multiple versions of Python.",
+                            "firstSentenceCommentText": "Adds an axis that allows to build the project with multiple versions of Python."
+                        },
+                        {
+                            "parameters": [
+                                {
+                                    "name": "axisValues",
+                                    "type": "Iterable<String>"
+                                }
+                            ],
+                            "plugin": {
+                                "id": "shiningpanda",
+                                "minimumVersion": "0.21"
+                            },
+                            "html": "Adds an axis that allows to build the project with multiple versions of Python.",
+                            "firstSentenceCommentText": "Adds an axis that allows to build the project with multiple versions of Python."
+                        }
+                    ],
+                    "examples": "matrixJob('example') {\n    axes {\n        python('System-CPython-2.7', 'System-CPython-3.3')\n    }\n}\n"
+                },
+                {
                     "name": "text",
                     "signatures": [
                         {
@@ -25473,6 +25707,28 @@
                         }
                     ],
                     "examples": "job('example') {\n    publishers {\n        cobertura('**/target/site/cobertura/coverage.xml') {\n            failNoReports(true)\n            sourceEncoding('ASCII')\n\n            // the following targets are added by default to check the method, line and conditional level coverage\n            methodTarget(80, 0, 0)\n            lineTarget(80, 0, 0)\n            conditionalTarget(70, 0, 0)\n        }\n    }\n}\n"
+                },
+                {
+                    "name": "crittercismDsymUpload",
+                    "signatures": [
+                        {
+                            "parameters": [
+                                {
+                                    "name": "closure",
+                                    "type": "Closure"
+                                }
+                            ],
+                            "availableSince": "1.38",
+                            "plugin": {
+                                "id": "crittercism-dsym",
+                                "minimumVersion": "1.1"
+                            },
+                            "html": "Uploads a dSYM file to Crittercism.\n     ",
+                            "firstSentenceCommentText": "Uploads a dSYM file to Crittercism.",
+                            "contextClass": "javaposse.jobdsl.dsl.helpers.publisher.CrittercismDsymRecorderContext"
+                        }
+                    ],
+                    "examples": "job('example') {\n    publishers {\n        crittercismDsymUpload {\n            apiKey('secret')\n            appID('c001abb')\n            filePath('build/myapp.dSYM.zip')\n        }\n    }\n}\n"
                 },
                 {
                     "name": "debianPackage",
