@@ -1651,6 +1651,9 @@
                                     "defaultValue": "null"
                                 }
                             ],
+                            "plugin": {
+                                "id": "git"
+                            },
                             "html": "Adds a Git SCM source.\n\n The closure parameter expects a configure block for direct manipulation of the generated XML. The <TT>scm</TT>\n node is passed into the configure block.",
                             "firstSentenceCommentText": "Adds a Git SCM source."
                         },
@@ -1670,6 +1673,9 @@
                                     "defaultValue": "null"
                                 }
                             ],
+                            "plugin": {
+                                "id": "git"
+                            },
                             "html": "Adds a Git SCM source.\n\n The closure parameter expects a configure block for direct manipulation of the generated XML. The <TT>scm</TT>\n node is passed into the configure block.",
                             "firstSentenceCommentText": "Adds a Git SCM source."
                         }
@@ -1701,6 +1707,9 @@
                                 }
                             ],
                             "availableSince": "1.15\n",
+                            "plugin": {
+                                "id": "git"
+                            },
                             "html": "Adds a Git SCM source for a GitHub repository.\n     ",
                             "firstSentenceCommentText": "Adds a Git SCM source for a GitHub repository."
                         },
@@ -1732,6 +1741,9 @@
                                 }
                             ],
                             "availableSince": "1.15\n",
+                            "plugin": {
+                                "id": "git"
+                            },
                             "html": "Adds a Git SCM source for a GitHub repository.\n\n The Git URL will be derived from the <TT>ownerAndProject</TT>, <TT>protocol</TT> and <TT>host</TT> parameters.\n Supported protocols are <TT>'https'</TT>, <TT>'ssh'</TT> and <TT>'git'</TT>.\n\n This will also configure the source browser to point to GitHub and set the GitHub project URL.\n\n The closure parameter expects a configure block for direct manipulation of the generated XML. The <TT>scm</TT>\n node is passed into the configure block.\n     ",
                             "firstSentenceCommentText": "Adds a Git SCM source for a GitHub repository."
                         }
@@ -1802,6 +1814,9 @@
                                     "defaultValue": "null"
                                 }
                             ],
+                            "plugin": {
+                                "id": "perforce"
+                            },
                             "html": "Add Perforce SCM source.\n     ",
                             "firstSentenceCommentText": "Add Perforce SCM source."
                         },
@@ -1821,6 +1836,9 @@
                                     "defaultValue": "null"
                                 }
                             ],
+                            "plugin": {
+                                "id": "perforce"
+                            },
                             "html": "Add Perforce SCM source.\n     ",
                             "firstSentenceCommentText": "Add Perforce SCM source."
                         },
@@ -1889,6 +1907,9 @@
                                     "defaultValue": "null"
                                 }
                             ],
+                            "plugin": {
+                                "id": "subversion"
+                            },
                             "html": "Adds a Subversion SCM source.\n\n The closure parameter expects a configure block for direct manipulation of the generated XML. The <TT>scm</TT>\n node is passed into the configure block.",
                             "firstSentenceCommentText": "Adds a Subversion SCM source."
                         },
@@ -1908,6 +1929,9 @@
                                     "defaultValue": "null"
                                 }
                             ],
+                            "plugin": {
+                                "id": "subversion"
+                            },
                             "html": "Adds a Subversion SCM source.\n\n The closure parameter expects a configure block for direct manipulation of the generated XML. The <TT>scm</TT>\n node is passed into the configure block.",
                             "firstSentenceCommentText": "Adds a Subversion SCM source."
                         },
@@ -10479,6 +10503,9 @@
                                     "defaultValue": "null"
                                 }
                             ],
+                            "plugin": {
+                                "id": "ant"
+                            },
                             "html": "Invokes an Ant build script.",
                             "firstSentenceCommentText": "Invokes an Ant build script.",
                             "contextClass": "javaposse.jobdsl.dsl.helpers.step.AntContext"
@@ -10495,6 +10522,9 @@
                                     "defaultValue": "null"
                                 }
                             ],
+                            "plugin": {
+                                "id": "ant"
+                            },
                             "html": "Invokes an Ant build script.",
                             "firstSentenceCommentText": "Invokes an Ant build script.",
                             "contextClass": "javaposse.jobdsl.dsl.helpers.step.AntContext"
@@ -10515,6 +10545,9 @@
                                     "defaultValue": "null"
                                 }
                             ],
+                            "plugin": {
+                                "id": "ant"
+                            },
                             "html": "Invokes an Ant build script.",
                             "firstSentenceCommentText": "Invokes an Ant build script.",
                             "contextClass": "javaposse.jobdsl.dsl.helpers.step.AntContext"
@@ -10653,6 +10686,10 @@
                                 }
                             ],
                             "deprecated": true,
+                            "plugin": {
+                                "id": "copyartifact",
+                                "minimumVersion": "1.26"
+                            },
                             "html": "Copies artifacts from another project.",
                             "firstSentenceCommentText": "Copies artifacts from another project.",
                             "contextClass": "javaposse.jobdsl.dsl.helpers.step.CopyArtifactSelectorContext"
@@ -10677,6 +10714,10 @@
                                 }
                             ],
                             "deprecated": true,
+                            "plugin": {
+                                "id": "copyartifact",
+                                "minimumVersion": "1.26"
+                            },
                             "html": "Copies artifacts from another project.",
                             "firstSentenceCommentText": "Copies artifacts from another project.",
                             "contextClass": "javaposse.jobdsl.dsl.helpers.step.CopyArtifactSelectorContext"
@@ -10706,6 +10747,10 @@
                                 }
                             ],
                             "deprecated": true,
+                            "plugin": {
+                                "id": "copyartifact",
+                                "minimumVersion": "1.26"
+                            },
                             "html": "Copies artifacts from another project.",
                             "firstSentenceCommentText": "Copies artifacts from another project.",
                             "contextClass": "javaposse.jobdsl.dsl.helpers.step.CopyArtifactSelectorContext"
@@ -10739,6 +10784,10 @@
                                 }
                             ],
                             "deprecated": true,
+                            "plugin": {
+                                "id": "copyartifact",
+                                "minimumVersion": "1.26"
+                            },
                             "html": "Copies artifacts from another project.",
                             "firstSentenceCommentText": "Copies artifacts from another project.",
                             "contextClass": "javaposse.jobdsl.dsl.helpers.step.CopyArtifactSelectorContext"
@@ -10958,6 +11007,9 @@
                                     "defaultValue": "null"
                                 }
                             ],
+                            "plugin": {
+                                "id": "gradle"
+                            },
                             "html": "Invokes a Gradle build script.\n\n The closure parameter expects a configure block for direct manipulation of the generated XML. The\n <TT>hudson.plugins.gradle.Gradle</TT> node is passed into the configure block.",
                             "firstSentenceCommentText": "Invokes a Gradle build script."
                         }
@@ -10974,6 +11026,9 @@
                                     "type": "Closure"
                                 }
                             ],
+                            "plugin": {
+                                "id": "grails"
+                            },
                             "html": "Builds a Grails project.",
                             "firstSentenceCommentText": "Builds a Grails project.",
                             "contextClass": "javaposse.jobdsl.dsl.helpers.step.GrailsContext"
@@ -10989,6 +11044,9 @@
                                     "type": "Closure"
                                 }
                             ],
+                            "plugin": {
+                                "id": "grails"
+                            },
                             "html": "Builds a Grails project.",
                             "firstSentenceCommentText": "Builds a Grails project.",
                             "contextClass": "javaposse.jobdsl.dsl.helpers.step.GrailsContext"
@@ -11036,6 +11094,9 @@
                                     "defaultValue": "null"
                                 }
                             ],
+                            "plugin": {
+                                "id": "groovy"
+                            },
                             "html": "Executes a Groovy script.",
                             "firstSentenceCommentText": "Executes a Groovy script.",
                             "contextClass": "javaposse.jobdsl.dsl.helpers.step.GroovyContext"
@@ -11056,6 +11117,9 @@
                                     "defaultValue": "null"
                                 }
                             ],
+                            "plugin": {
+                                "id": "groovy"
+                            },
                             "html": "Executes a Groovy script.",
                             "firstSentenceCommentText": "Executes a Groovy script.",
                             "contextClass": "javaposse.jobdsl.dsl.helpers.step.GroovyContext"
@@ -11078,6 +11142,9 @@
                                     "defaultValue": "null"
                                 }
                             ],
+                            "plugin": {
+                                "id": "groovy"
+                            },
                             "html": "Executes a Groovy script.",
                             "firstSentenceCommentText": "Executes a Groovy script.",
                             "contextClass": "javaposse.jobdsl.dsl.helpers.step.GroovyContext"
@@ -11098,6 +11165,9 @@
                                     "defaultValue": "null"
                                 }
                             ],
+                            "plugin": {
+                                "id": "groovy"
+                            },
                             "html": "Executes a Groovy script.",
                             "firstSentenceCommentText": "Executes a Groovy script.",
                             "contextClass": "javaposse.jobdsl.dsl.helpers.step.GroovyContext"
@@ -11167,6 +11237,9 @@
                                     "defaultValue": "null"
                                 }
                             ],
+                            "plugin": {
+                                "id": "maven-plugin"
+                            },
                             "html": "Invokes a Maven build.\n\n The closure parameter expects a configure block for direct manipulation of the generated XML. The\n <TT>hudson.tasks.Maven</TT> node is passed into the configure block.",
                             "firstSentenceCommentText": "Invokes a Maven build."
                         }
@@ -11299,6 +11372,9 @@
                                 }
                             ],
                             "availableSince": "1.25",
+                            "plugin": {
+                                "id": "rake"
+                            },
                             "html": "Invokes Rake.\n     ",
                             "firstSentenceCommentText": "Invokes Rake.",
                             "contextClass": "javaposse.jobdsl.dsl.helpers.step.RakeContext"
@@ -11474,6 +11550,9 @@
                                     "defaultValue": "null"
                                 }
                             ],
+                            "plugin": {
+                                "id": "groovy"
+                            },
                             "html": "Executes a system Groovy script.",
                             "firstSentenceCommentText": "Executes a system Groovy script.",
                             "contextClass": "javaposse.jobdsl.dsl.helpers.step.SystemGroovyContext"
@@ -11496,6 +11575,9 @@
                                     "defaultValue": "null"
                                 }
                             ],
+                            "plugin": {
+                                "id": "groovy"
+                            },
                             "html": "Executes a system Groovy script.",
                             "firstSentenceCommentText": "Executes a system Groovy script.",
                             "contextClass": "javaposse.jobdsl.dsl.helpers.step.SystemGroovyContext"
@@ -11518,6 +11600,9 @@
                                 }
                             ],
                             "availableSince": "1.25",
+                            "plugin": {
+                                "id": "vsphere-cloud"
+                            },
                             "html": "This build step will power off the specified VM.\n     ",
                             "firstSentenceCommentText": "This build step will power off the specified VM."
                         }
@@ -11539,6 +11624,9 @@
                                 }
                             ],
                             "availableSince": "1.25",
+                            "plugin": {
+                                "id": "vsphere-cloud"
+                            },
                             "html": "This build step will power on the specified VM.\n     ",
                             "firstSentenceCommentText": "This build step will power on the specified VM."
                         }
@@ -11564,6 +11652,9 @@
                                 }
                             ],
                             "availableSince": "1.25",
+                            "plugin": {
+                                "id": "vsphere-cloud"
+                            },
                             "html": "This build step will revert the specified VM to the specified snapshot.\n     ",
                             "firstSentenceCommentText": "This build step will revert the specified VM to the specified snapshot."
                         }
@@ -14442,6 +14533,9 @@
                                     "defaultValue": "null"
                                 }
                             ],
+                            "plugin": {
+                                "id": "email-ext"
+                            },
                             "html": "Sends customizable email notifications.",
                             "firstSentenceCommentText": "Sends customizable email notifications.",
                             "contextClass": "javaposse.jobdsl.dsl.helpers.publisher.EmailContext"
@@ -14462,6 +14556,9 @@
                                     "defaultValue": "null"
                                 }
                             ],
+                            "plugin": {
+                                "id": "email-ext"
+                            },
                             "html": "Sends customizable email notifications.",
                             "firstSentenceCommentText": "Sends customizable email notifications.",
                             "contextClass": "javaposse.jobdsl.dsl.helpers.publisher.EmailContext"
@@ -14606,6 +14703,9 @@
                                 }
                             ],
                             "availableSince": "1.23",
+                            "plugin": {
+                                "id": "jenkins-flowdock-plugin"
+                            },
                             "html": "Sends build notification to Flowdock.\n\n For security reasons, do not use a hard-coded token. See\n <a href=\"https://github.com/jenkinsci/job-dsl-plugin/wiki/Handling-Credentials\">Handling Credentials</a> for\n details about handling credentials in DSL scripts.\n     ",
                             "firstSentenceCommentText": "Sends build notification to Flowdock.",
                             "contextClass": "javaposse.jobdsl.dsl.helpers.publisher.FlowdockPublisherContext"
@@ -14672,6 +14772,9 @@
                                 }
                             ],
                             "availableSince": "1.19",
+                            "plugin": {
+                                "id": "groovy-postbuild"
+                            },
                             "html": "Executes Groovy scripts after a build.\n     ",
                             "firstSentenceCommentText": "Executes Groovy scripts after a build."
                         },
@@ -15007,6 +15110,9 @@
                                     "type": "Closure"
                                 }
                             ],
+                            "plugin": {
+                                "id": "clone-workspace-scm"
+                            },
                             "html": "Archives files for Clone Workspace SCM source.",
                             "firstSentenceCommentText": "Archives files for Clone Workspace SCM source.",
                             "contextClass": "javaposse.jobdsl.dsl.helpers.publisher.CloneWorkspaceContext"
@@ -15026,6 +15132,9 @@
                                     "type": "Closure"
                                 }
                             ],
+                            "plugin": {
+                                "id": "clone-workspace-scm"
+                            },
                             "html": "Archives files for Clone Workspace SCM source.",
                             "firstSentenceCommentText": "Archives files for Clone Workspace SCM source.",
                             "contextClass": "javaposse.jobdsl.dsl.helpers.publisher.CloneWorkspaceContext"
@@ -15053,6 +15162,9 @@
                                     "type": "Closure"
                                 }
                             ],
+                            "plugin": {
+                                "id": "clone-workspace-scm"
+                            },
                             "html": "Archives files for Clone Workspace SCM source.",
                             "firstSentenceCommentText": "Archives files for Clone Workspace SCM source.",
                             "contextClass": "javaposse.jobdsl.dsl.helpers.publisher.CloneWorkspaceContext"
@@ -15454,6 +15566,9 @@
                                     "defaultValue": "null"
                                 }
                             ],
+                            "plugin": {
+                                "id": "violations"
+                            },
                             "html": "Generates reports from static code violations detectors.",
                             "firstSentenceCommentText": "Generates reports from static code violations detectors.",
                             "contextClass": "javaposse.jobdsl.dsl.helpers.publisher.ViolationsContext"
@@ -16198,6 +16313,9 @@
                                     "defaultValue": "null"
                                 }
                             ],
+                            "plugin": {
+                                "id": "email-ext"
+                            },
                             "html": "Sends customizable email notifications.",
                             "firstSentenceCommentText": "Sends customizable email notifications.",
                             "contextClass": "javaposse.jobdsl.dsl.helpers.publisher.EmailContext"
@@ -16218,6 +16336,9 @@
                                     "defaultValue": "null"
                                 }
                             ],
+                            "plugin": {
+                                "id": "email-ext"
+                            },
                             "html": "Sends customizable email notifications.",
                             "firstSentenceCommentText": "Sends customizable email notifications.",
                             "contextClass": "javaposse.jobdsl.dsl.helpers.publisher.EmailContext"
@@ -16411,6 +16532,9 @@
                                 }
                             ],
                             "availableSince": "1.19",
+                            "plugin": {
+                                "id": "groovy-postbuild"
+                            },
                             "html": "Executes Groovy scripts after a build.\n     ",
                             "firstSentenceCommentText": "Executes Groovy scripts after a build."
                         },
@@ -16746,6 +16870,9 @@
                                     "type": "Closure"
                                 }
                             ],
+                            "plugin": {
+                                "id": "clone-workspace-scm"
+                            },
                             "html": "Archives files for Clone Workspace SCM source.",
                             "firstSentenceCommentText": "Archives files for Clone Workspace SCM source.",
                             "contextClass": "javaposse.jobdsl.dsl.helpers.publisher.CloneWorkspaceContext"
@@ -16765,6 +16892,9 @@
                                     "type": "Closure"
                                 }
                             ],
+                            "plugin": {
+                                "id": "clone-workspace-scm"
+                            },
                             "html": "Archives files for Clone Workspace SCM source.",
                             "firstSentenceCommentText": "Archives files for Clone Workspace SCM source.",
                             "contextClass": "javaposse.jobdsl.dsl.helpers.publisher.CloneWorkspaceContext"
@@ -16792,6 +16922,9 @@
                                     "type": "Closure"
                                 }
                             ],
+                            "plugin": {
+                                "id": "clone-workspace-scm"
+                            },
                             "html": "Archives files for Clone Workspace SCM source.",
                             "firstSentenceCommentText": "Archives files for Clone Workspace SCM source.",
                             "contextClass": "javaposse.jobdsl.dsl.helpers.publisher.CloneWorkspaceContext"
@@ -17193,6 +17326,9 @@
                                     "defaultValue": "null"
                                 }
                             ],
+                            "plugin": {
+                                "id": "violations"
+                            },
                             "html": "Generates reports from static code violations detectors.",
                             "firstSentenceCommentText": "Generates reports from static code violations detectors.",
                             "contextClass": "javaposse.jobdsl.dsl.helpers.publisher.ViolationsContext"
@@ -19571,6 +19707,9 @@
                                     "defaultValue": "null"
                                 }
                             ],
+                            "plugin": {
+                                "id": "port-allocator"
+                            },
                             "html": "Allocate ports for build executions to prevent conflicts between build jobs competing for a single port number.",
                             "firstSentenceCommentText": "Allocate ports for build executions to prevent conflicts between build jobs competing for a single port number.",
                             "contextClass": "javaposse.jobdsl.dsl.helpers.wrapper.PortsContext"
@@ -19760,6 +19899,9 @@
                                 }
                             ],
                             "availableSince": "1.24",
+                            "plugin": {
+                                "id": "Exclusion"
+                            },
                             "html": "Configures exclusion plugin resources that are required for the\n javaposse.jobdsl.dsl.helpers.step.StepContext#criticalBlock(groovy.lang.Closure) step.\n     ",
                             "firstSentenceCommentText": "Configures exclusion plugin resources that are required for the\n javaposse.jobdsl.dsl.helpers.step.StepContext#criticalBlock(groovy.lang.Closure) step."
                         },
@@ -21025,6 +21167,9 @@
                                     "type": "Closure"
                                 }
                             ],
+                            "plugin": {
+                                "id": "view-job-filters"
+                            },
                             "html": "Adds a regular expression filter.",
                             "firstSentenceCommentText": "Adds a regular expression filter.",
                             "contextClass": "javaposse.jobdsl.dsl.views.jobfilter.RegexFilter"
@@ -21042,6 +21187,9 @@
                                     "type": "Closure"
                                 }
                             ],
+                            "plugin": {
+                                "id": "view-job-filters"
+                            },
                             "html": "Adds a job status filter.",
                             "firstSentenceCommentText": "Adds a job status filter.",
                             "contextClass": "javaposse.jobdsl.dsl.views.jobfilter.JobStatusesFilter"
@@ -24403,6 +24551,10 @@
                                     "type": "String..."
                                 }
                             ],
+                            "plugin": {
+                                "id": "shiningpanda",
+                                "minimumVersion": "0.21"
+                            },
                             "html": "Adds an axis that allows to build the project with multiple versions of Python.",
                             "firstSentenceCommentText": "Adds an axis that allows to build the project with multiple versions of Python."
                         },
@@ -25922,6 +26074,9 @@
                                     "defaultValue": "null"
                                 }
                             ],
+                            "plugin": {
+                                "id": "email-ext"
+                            },
                             "html": "Sends customizable email notifications.",
                             "firstSentenceCommentText": "Sends customizable email notifications.",
                             "contextClass": "javaposse.jobdsl.dsl.helpers.publisher.EmailContext"
@@ -25942,6 +26097,9 @@
                                     "defaultValue": "null"
                                 }
                             ],
+                            "plugin": {
+                                "id": "email-ext"
+                            },
                             "html": "Sends customizable email notifications.",
                             "firstSentenceCommentText": "Sends customizable email notifications.",
                             "contextClass": "javaposse.jobdsl.dsl.helpers.publisher.EmailContext"
@@ -26135,6 +26293,9 @@
                                 }
                             ],
                             "availableSince": "1.19",
+                            "plugin": {
+                                "id": "groovy-postbuild"
+                            },
                             "html": "Executes Groovy scripts after a build.\n     ",
                             "firstSentenceCommentText": "Executes Groovy scripts after a build."
                         },
@@ -26470,6 +26631,9 @@
                                     "type": "Closure"
                                 }
                             ],
+                            "plugin": {
+                                "id": "clone-workspace-scm"
+                            },
                             "html": "Archives files for Clone Workspace SCM source.",
                             "firstSentenceCommentText": "Archives files for Clone Workspace SCM source.",
                             "contextClass": "javaposse.jobdsl.dsl.helpers.publisher.CloneWorkspaceContext"
@@ -26489,6 +26653,9 @@
                                     "type": "Closure"
                                 }
                             ],
+                            "plugin": {
+                                "id": "clone-workspace-scm"
+                            },
                             "html": "Archives files for Clone Workspace SCM source.",
                             "firstSentenceCommentText": "Archives files for Clone Workspace SCM source.",
                             "contextClass": "javaposse.jobdsl.dsl.helpers.publisher.CloneWorkspaceContext"
@@ -26516,6 +26683,9 @@
                                     "type": "Closure"
                                 }
                             ],
+                            "plugin": {
+                                "id": "clone-workspace-scm"
+                            },
                             "html": "Archives files for Clone Workspace SCM source.",
                             "firstSentenceCommentText": "Archives files for Clone Workspace SCM source.",
                             "contextClass": "javaposse.jobdsl.dsl.helpers.publisher.CloneWorkspaceContext"
@@ -26917,6 +27087,9 @@
                                     "defaultValue": "null"
                                 }
                             ],
+                            "plugin": {
+                                "id": "violations"
+                            },
                             "html": "Generates reports from static code violations detectors.",
                             "firstSentenceCommentText": "Generates reports from static code violations detectors.",
                             "contextClass": "javaposse.jobdsl.dsl.helpers.publisher.ViolationsContext"
@@ -27364,6 +27537,9 @@
                                     "defaultValue": "null"
                                 }
                             ],
+                            "plugin": {
+                                "id": "port-allocator"
+                            },
                             "html": "Allocate ports for build executions to prevent conflicts between build jobs competing for a single port number.",
                             "firstSentenceCommentText": "Allocate ports for build executions to prevent conflicts between build jobs competing for a single port number.",
                             "contextClass": "javaposse.jobdsl.dsl.helpers.wrapper.PortsContext"
@@ -27553,6 +27729,9 @@
                                 }
                             ],
                             "availableSince": "1.24",
+                            "plugin": {
+                                "id": "Exclusion"
+                            },
                             "html": "Configures exclusion plugin resources that are required for the\n javaposse.jobdsl.dsl.helpers.step.StepContext#criticalBlock(groovy.lang.Closure) step.\n     ",
                             "firstSentenceCommentText": "Configures exclusion plugin resources that are required for the\n javaposse.jobdsl.dsl.helpers.step.StepContext#criticalBlock(groovy.lang.Closure) step."
                         },
@@ -29336,6 +29515,9 @@
                                     "defaultValue": "null"
                                 }
                             ],
+                            "plugin": {
+                                "id": "ant"
+                            },
                             "html": "Invokes an Ant build script.",
                             "firstSentenceCommentText": "Invokes an Ant build script.",
                             "contextClass": "javaposse.jobdsl.dsl.helpers.step.AntContext"
@@ -29352,6 +29534,9 @@
                                     "defaultValue": "null"
                                 }
                             ],
+                            "plugin": {
+                                "id": "ant"
+                            },
                             "html": "Invokes an Ant build script.",
                             "firstSentenceCommentText": "Invokes an Ant build script.",
                             "contextClass": "javaposse.jobdsl.dsl.helpers.step.AntContext"
@@ -29372,6 +29557,9 @@
                                     "defaultValue": "null"
                                 }
                             ],
+                            "plugin": {
+                                "id": "ant"
+                            },
                             "html": "Invokes an Ant build script.",
                             "firstSentenceCommentText": "Invokes an Ant build script.",
                             "contextClass": "javaposse.jobdsl.dsl.helpers.step.AntContext"
@@ -29510,6 +29698,10 @@
                                 }
                             ],
                             "deprecated": true,
+                            "plugin": {
+                                "id": "copyartifact",
+                                "minimumVersion": "1.26"
+                            },
                             "html": "Copies artifacts from another project.",
                             "firstSentenceCommentText": "Copies artifacts from another project.",
                             "contextClass": "javaposse.jobdsl.dsl.helpers.step.CopyArtifactSelectorContext"
@@ -29534,6 +29726,10 @@
                                 }
                             ],
                             "deprecated": true,
+                            "plugin": {
+                                "id": "copyartifact",
+                                "minimumVersion": "1.26"
+                            },
                             "html": "Copies artifacts from another project.",
                             "firstSentenceCommentText": "Copies artifacts from another project.",
                             "contextClass": "javaposse.jobdsl.dsl.helpers.step.CopyArtifactSelectorContext"
@@ -29563,6 +29759,10 @@
                                 }
                             ],
                             "deprecated": true,
+                            "plugin": {
+                                "id": "copyartifact",
+                                "minimumVersion": "1.26"
+                            },
                             "html": "Copies artifacts from another project.",
                             "firstSentenceCommentText": "Copies artifacts from another project.",
                             "contextClass": "javaposse.jobdsl.dsl.helpers.step.CopyArtifactSelectorContext"
@@ -29596,6 +29796,10 @@
                                 }
                             ],
                             "deprecated": true,
+                            "plugin": {
+                                "id": "copyartifact",
+                                "minimumVersion": "1.26"
+                            },
                             "html": "Copies artifacts from another project.",
                             "firstSentenceCommentText": "Copies artifacts from another project.",
                             "contextClass": "javaposse.jobdsl.dsl.helpers.step.CopyArtifactSelectorContext"
@@ -29815,6 +30019,9 @@
                                     "defaultValue": "null"
                                 }
                             ],
+                            "plugin": {
+                                "id": "gradle"
+                            },
                             "html": "Invokes a Gradle build script.\n\n The closure parameter expects a configure block for direct manipulation of the generated XML. The\n <TT>hudson.plugins.gradle.Gradle</TT> node is passed into the configure block.",
                             "firstSentenceCommentText": "Invokes a Gradle build script."
                         }
@@ -29831,6 +30038,9 @@
                                     "type": "Closure"
                                 }
                             ],
+                            "plugin": {
+                                "id": "grails"
+                            },
                             "html": "Builds a Grails project.",
                             "firstSentenceCommentText": "Builds a Grails project.",
                             "contextClass": "javaposse.jobdsl.dsl.helpers.step.GrailsContext"
@@ -29846,6 +30056,9 @@
                                     "type": "Closure"
                                 }
                             ],
+                            "plugin": {
+                                "id": "grails"
+                            },
                             "html": "Builds a Grails project.",
                             "firstSentenceCommentText": "Builds a Grails project.",
                             "contextClass": "javaposse.jobdsl.dsl.helpers.step.GrailsContext"
@@ -29893,6 +30106,9 @@
                                     "defaultValue": "null"
                                 }
                             ],
+                            "plugin": {
+                                "id": "groovy"
+                            },
                             "html": "Executes a Groovy script.",
                             "firstSentenceCommentText": "Executes a Groovy script.",
                             "contextClass": "javaposse.jobdsl.dsl.helpers.step.GroovyContext"
@@ -29913,6 +30129,9 @@
                                     "defaultValue": "null"
                                 }
                             ],
+                            "plugin": {
+                                "id": "groovy"
+                            },
                             "html": "Executes a Groovy script.",
                             "firstSentenceCommentText": "Executes a Groovy script.",
                             "contextClass": "javaposse.jobdsl.dsl.helpers.step.GroovyContext"
@@ -29935,6 +30154,9 @@
                                     "defaultValue": "null"
                                 }
                             ],
+                            "plugin": {
+                                "id": "groovy"
+                            },
                             "html": "Executes a Groovy script.",
                             "firstSentenceCommentText": "Executes a Groovy script.",
                             "contextClass": "javaposse.jobdsl.dsl.helpers.step.GroovyContext"
@@ -29955,6 +30177,9 @@
                                     "defaultValue": "null"
                                 }
                             ],
+                            "plugin": {
+                                "id": "groovy"
+                            },
                             "html": "Executes a Groovy script.",
                             "firstSentenceCommentText": "Executes a Groovy script.",
                             "contextClass": "javaposse.jobdsl.dsl.helpers.step.GroovyContext"
@@ -30024,6 +30249,9 @@
                                     "defaultValue": "null"
                                 }
                             ],
+                            "plugin": {
+                                "id": "maven-plugin"
+                            },
                             "html": "Invokes a Maven build.\n\n The closure parameter expects a configure block for direct manipulation of the generated XML. The\n <TT>hudson.tasks.Maven</TT> node is passed into the configure block.",
                             "firstSentenceCommentText": "Invokes a Maven build."
                         }
@@ -30208,6 +30436,9 @@
                                 }
                             ],
                             "availableSince": "1.25",
+                            "plugin": {
+                                "id": "rake"
+                            },
                             "html": "Invokes Rake.\n     ",
                             "firstSentenceCommentText": "Invokes Rake.",
                             "contextClass": "javaposse.jobdsl.dsl.helpers.step.RakeContext"
@@ -30383,6 +30614,9 @@
                                     "defaultValue": "null"
                                 }
                             ],
+                            "plugin": {
+                                "id": "groovy"
+                            },
                             "html": "Executes a system Groovy script.",
                             "firstSentenceCommentText": "Executes a system Groovy script.",
                             "contextClass": "javaposse.jobdsl.dsl.helpers.step.SystemGroovyContext"
@@ -30405,6 +30639,9 @@
                                     "defaultValue": "null"
                                 }
                             ],
+                            "plugin": {
+                                "id": "groovy"
+                            },
                             "html": "Executes a system Groovy script.",
                             "firstSentenceCommentText": "Executes a system Groovy script.",
                             "contextClass": "javaposse.jobdsl.dsl.helpers.step.SystemGroovyContext"
@@ -30427,6 +30664,9 @@
                                 }
                             ],
                             "availableSince": "1.25",
+                            "plugin": {
+                                "id": "vsphere-cloud"
+                            },
                             "html": "This build step will power off the specified VM.\n     ",
                             "firstSentenceCommentText": "This build step will power off the specified VM."
                         }
@@ -30448,6 +30688,9 @@
                                 }
                             ],
                             "availableSince": "1.25",
+                            "plugin": {
+                                "id": "vsphere-cloud"
+                            },
                             "html": "This build step will power on the specified VM.\n     ",
                             "firstSentenceCommentText": "This build step will power on the specified VM."
                         }
@@ -30473,6 +30716,9 @@
                                 }
                             ],
                             "availableSince": "1.25",
+                            "plugin": {
+                                "id": "vsphere-cloud"
+                            },
                             "html": "This build step will revert the specified VM to the specified snapshot.\n     ",
                             "firstSentenceCommentText": "This build step will revert the specified VM to the specified snapshot."
                         }
